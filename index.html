@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biblioteca Nuevo Recreo Industrial</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f1e8;
+      color: #292929;
+    }
+    header {
+      background: #263e35;
+      color: white;
+      padding: 30px 18px;
+      text-align: center;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 24px;
+    }
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    #libros {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .libro {
+      background: white;
+      padding: 14px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .libro img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Biblioteca Nuevo Recreo Industrial</h1>
+    <p>Catálogo de libros</p>
+  </header>
+  <main>
+    <input id="buscar" placeholder="Buscar por título o autor">
+    <div id="libros"></div>
+    <p id="estado">Preparando el catálogo compartido...</p>
+  </main>
+  <script>
+    document.getElementById("buscar").addEventListener("input", () => {
+      // Conectaremos aquí la búsqueda de libros.
+    });
+  </script>
+</body>
+</html>
