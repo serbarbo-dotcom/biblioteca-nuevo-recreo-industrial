@@ -123,6 +123,43 @@ async function buscarCubierta(titulo,autor,isbn=''){
 }));
     if(elegible)return `https://covers.openlibrary.org/b/id/${elegible.cover_i}-L.jpg`;
   }
+ // Buscar en Google Books si Open Library no encuentra portada
+try {
+  const busquedas = [
+    `intitle:${titulo} inauthor:${autor}`,
+    `intitle:${titulo}`
+  ];
+
+  for (const busqueda of busquedas) {
+    const url = 'https://www.googleapis.com/books/v1/volumes?q='
+      + encodeURIComponent(busqueda) + '&maxResults=20';
+
+    const respuesta = await fetch(url);
+    if (!respuesta.ok) continue;
+
+    const datos = await respuesta.json();
+
+    const libro = (datos.items || []).find(item => {
+      const info = item.volumeInfo || {};
+      const tituloCoincide = normalizar(info.title) === tituloN;
+      const autores = info.authors || [];
+      const autorCoincide = !autorN || autores.some(a =>
+        autorN.split(/\s+/).every(p => normalizar(a).includes(p))
+      );
+
+      return tituloCoincide && autorCoincide &&
+        (info.imageLinks?.thumbnail || info.imageLinks?.smallThumbnail);
+    });
+
+    if (libro) {
+      return (libro.volumeInfo.imageLinks.thumbnail ||
+        libro.volumeInfo.imageLinks.smallThumbnail)
+        .replace(/^http:/, 'https:');
+    }
+  }
+} catch (error) {
+  console.warn('Google Books:', error);
+}
   return '';
 }
 $('buscar-portada').onclick=async()=>{
