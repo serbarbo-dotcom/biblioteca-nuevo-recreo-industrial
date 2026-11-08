@@ -8,13 +8,13 @@
 </style>
 </head>
 <body>
-<header><h1>Biblioteca Nuevo Recreo Industrial</h1><p>CatÃ¡logo de libros</p></header>
+<header><h1>Biblioteca Nuevo Recreo Industrial</h1><p>Catálogo de libros</p></header>
 <main>
-<div class="toolbar"><input id="buscar" placeholder="Buscar por tÃ­tulo, autor o gÃ©nero" aria-label="Buscar libros"><button id="login">Entrar con Google</button><button id="logout" hidden>Salir</button></div>
-<p id="estado" role="status">Conectando con el catÃ¡logo...</p><p id="mensaje" role="alert"></p>
-<section id="admin" hidden><h2>AdministraciÃ³n del catÃ¡logo</h2><p class="small">Solo la cuenta autorizada puede guardar cambios.</p><button id="nuevo">AÃ±adir libro</button>
-<div class="import-panel"><h3>Importar catÃ¡logo de Excel</h3><p class="muted">Columnas admitidas: tÃ­tulo, autor, gÃ©nero, ubicaciÃ³n, disponible y portada. La primera fila debe contener los encabezados. Se evitarÃ¡n duplicados con el mismo tÃ­tulo y autor.</p><input id="excel" type="file" accept=".xlsx,.xls,.csv"><div id="preview" class="preview" aria-live="polite"></div><button id="importar" disabled>Importar libros revisados</button><p id="progreso" class="muted" role="status"></p></div>
-<div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">BÃºsqueda mediante Open Library. Comprueba las imÃ¡genes encontradas: pueden no coincidir con la ediciÃ³n de tu libro.</p><button id="portadas-masivas" class="secondary">Buscar portadas para libros sin imagen</button><p id="portadas-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>TÃ­tulo <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>GÃ©nero <input id="genero" maxlength="100"></label><label>UbicaciÃ³n <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><div class="cover-controls"><button type="button" class="secondary" id="buscar-portada">Buscar portada en Internet</button><a id="ver-portada" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver portada encontrada</a></div><p id="portada-estado" class="muted"></p><label><input id="disponible" type="checkbox" checked style="width:auto"> Disponible</label><div class="actions"><button type="submit" id="guardar">Guardar libro</button><button type="button" class="secondary" id="cancelar">Cancelar</button></div></form></section>
+<div class="toolbar"><input id="buscar" placeholder="Buscar por título, autor o género" aria-label="Buscar libros"><button id="login">Entrar con Google</button><button id="logout" hidden>Salir</button></div>
+<p id="estado" role="status">Conectando con el catálogo...</p><p id="mensaje" role="alert"></p>
+<section id="admin" hidden><h2>Administración del catálogo</h2><p class="small">Solo la cuenta autorizada puede guardar cambios.</p><button id="nuevo">Añadir libro</button>
+<div class="import-panel"><h3>Importar catálogo de Excel</h3><p class="muted">Columnas admitidas: título, autor, género, ubicación, disponible y portada. La primera fila debe contener los encabezados. Se evitarán duplicados con el mismo título y autor.</p><input id="excel" type="file" accept=".xlsx,.xls,.csv"><div id="preview" class="preview" aria-live="polite"></div><button id="importar" disabled>Importar libros revisados</button><p id="progreso" class="muted" role="status"></p></div>
+<div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">Búsqueda por título y autor en Open Library, en lotes de hasta 100 libros. Las portadas pueden corresponder a otra edición: revísalas.</p><button id="portadas-masivas" class="secondary">Buscar portadas (siguiente lote de 100)</button><p id="portadas-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>Título <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>Género <input id="genero" maxlength="100"></label><label>Ubicación <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><div class="cover-controls"><button type="button" class="secondary" id="buscar-portada">Buscar portada en Internet</button><a id="ver-portada" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver portada encontrada</a></div><p id="portada-estado" class="muted"></p><label><input id="disponible" type="checkbox" checked style="width:auto"> Disponible</label><div class="actions"><button type="submit" id="guardar">Guardar libro</button><button type="button" class="secondary" id="cancelar">Cancelar</button></div></form></section>
 <section id="libros" class="grid" aria-label="Libros"></section>
 </main>
 <script type="module">
@@ -25,49 +25,71 @@ const firebaseConfig={apiKey:'AIzaSyCRK5vXMta1EuXGC_vP0RU-tkoVzXKuKxk',authDomai
 const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),booksRef=collection(db,'libros');
 const $=id=>document.getElementById(id);let libros=[],isAdmin=false,pendientes=[];
+// Repara textos heredados con UTF-8 interpretado como Latin-1, sin alterar datos correctos.
+function repararTexto(valor){
+  if(typeof valor!=='string'||!/[ÃÂð][\x80-\xbf¡-ÿ]/.test(valor))return valor;
+  try{const bytes=Uint8Array.from([...valor].map(c=>c.charCodeAt(0)));if([...valor].some(c=>c.charCodeAt(0)>255))return valor;const t=new TextDecoder('utf-8',{fatal:true}).decode(bytes);return t.includes('�')?valor:t}catch{return valor}
+}
+
 const mensaje=(s='')=>$('mensaje').textContent=s;
-function render(){const term=$('buscar').value.trim().toLocaleLowerCase('es');const filtered=libros.filter(({data})=>[data.titulo,data.autor,data.genero].some(v=>String(v||'').toLocaleLowerCase('es').includes(term)));$('estado').textContent=`${filtered.length} libro(s) encontrado(s).`;$('libros').replaceChildren();for(const {id,data} of filtered){const card=document.createElement('article');card.className='libro';if(typeof data.portada==='string'&&/^https:\/\//i.test(data.portada)){const img=document.createElement('img');img.className='cover';img.alt=`Portada de ${data.titulo||'libro'}`;img.loading='lazy';img.referrerPolicy='no-referrer';img.src=data.portada;img.onerror=()=>{img.replaceWith(placeholder())};card.append(img)}else card.append(placeholder());const info=document.createElement('div');info.className='info';const h=document.createElement('h3');h.textContent=data.titulo||'Sin tÃ­tulo';info.append(h);for(const [label,value] of [['Autor',data.autor],['GÃ©nero',data.genero],['UbicaciÃ³n',data.ubicacion],['Estado',data.disponible===false?'Prestado':'Disponible']]){const p=document.createElement('p');p.textContent=`${label}: ${value||'â€”'}`;info.append(p)}if(isAdmin){const actions=document.createElement('div');actions.className='actions';const edit=document.createElement('button');edit.textContent='Editar';edit.onclick=()=>editar(id,data);const del=document.createElement('button');del.className='danger';del.textContent='Eliminar';del.onclick=async()=>{if(!confirm(`Â¿Eliminar "${data.titulo||'este libro'}"?`))return;try{await deleteDoc(doc(db,'libros',id));mensaje()}catch(e){mensaje(`No se pudo eliminar: ${e.message}`)}};actions.append(edit,del);info.append(actions)}card.append(info);$('libros').append(card)}}
-function placeholder(){const d=document.createElement('div');d.className='no-cover';d.textContent='ðŸ“š';d.setAttribute('aria-label','Sin portada');return d}
+function render(){const term=$('buscar').value.trim().toLocaleLowerCase('es');const filtered=libros.filter(({data})=>[data.titulo,data.autor,data.genero].some(v=>repararTexto(String(v||'')).toLocaleLowerCase('es').includes(term)));$('estado').textContent=`${filtered.length} libro(s) encontrado(s).`;$('libros').replaceChildren();for(const {id,data} of filtered){const card=document.createElement('article');card.className='libro';if(typeof data.portada==='string'&&/^https:\/\//i.test(data.portada)){const img=document.createElement('img');img.className='cover';img.alt=`Portada de ${repararTexto(data.titulo)||'libro'}`;img.loading='lazy';img.referrerPolicy='no-referrer';img.src=data.portada;img.onerror=()=>{img.replaceWith(placeholder())};card.append(img)}else card.append(placeholder());const info=document.createElement('div');info.className='info';const h=document.createElement('h3');h.textContent=repararTexto(data.titulo)||'Sin título';info.append(h);for(const [label,value] of [['Autor',data.autor],['Género',data.genero],['Ubicación',data.ubicacion],['Estado',data.disponible===false?'Prestado':'Disponible']]){const p=document.createElement('p');p.textContent=`${label}: ${repararTexto(value)||'—'}`;info.append(p)}if(isAdmin){const actions=document.createElement('div');actions.className='actions';const edit=document.createElement('button');edit.textContent='Editar';edit.onclick=()=>editar(id,data);const del=document.createElement('button');del.className='danger';del.textContent='Eliminar';del.onclick=async()=>{if(!confirm(`¿Eliminar "${data.titulo||'este libro'}"?`))return;try{await deleteDoc(doc(db,'libros',id));mensaje()}catch(e){mensaje(`No se pudo eliminar: ${e.message}`)}};actions.append(edit,del);info.append(actions)}card.append(info);$('libros').append(card)}}
+function placeholder(){const d=document.createElement('div');d.className='no-cover';d.textContent='📚';d.setAttribute('aria-label','Sin portada');return d}
 $('buscar').addEventListener('input',render);
-onSnapshot(booksRef,snap=>{libros=snap.docs.map(d=>({id:d.id,data:d.data()}));libros.sort((a,b)=>String(a.data.titulo||'').localeCompare(String(b.data.titulo||''),'es'));render();mensaje()},e=>{$('estado').textContent='No se pudo cargar el catÃ¡logo.';mensaje(`Error de Firestore: ${e.message}`)});
-const provider=new GoogleAuthProvider();$('login').onclick=async()=>{mensaje();try{await signInWithPopup(auth,provider)}catch(e){if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(e.code)){await signInWithRedirect(auth,provider)}else if(e.code==='auth/cancelled-popup-request'||e.code==='auth/popup-closed-by-user'){mensaje('Acceso cancelado. IntÃ©ntalo de nuevo desde el navegador.')}else mensaje(`Error de acceso: ${e.message}`)}};
+onSnapshot(booksRef,snap=>{libros=snap.docs.map(d=>({id:d.id,data:d.data()}));libros.sort((a,b)=>String(a.data.titulo||'').localeCompare(String(b.data.titulo||''),'es'));render();mensaje()},e=>{$('estado').textContent='No se pudo cargar el catálogo.';mensaje(`Error de Firestore: ${e.message}`)});
+const provider=new GoogleAuthProvider();$('login').onclick=async()=>{mensaje();try{await signInWithPopup(auth,provider)}catch(e){if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(e.code)){await signInWithRedirect(auth,provider)}else if(e.code==='auth/cancelled-popup-request'||e.code==='auth/popup-closed-by-user'){mensaje('Acceso cancelado. Inténtalo de nuevo desde el navegador.')}else mensaje(`Error de acceso: ${e.message}`)}};
 getRedirectResult(auth).catch(e=>mensaje(`Error de acceso: ${e.message}`));
-onAuthStateChanged(auth,user=>{isAdmin=!!user&&user.uid===ADMIN_UID;$('login').hidden=!!user;$('logout').hidden=!user;$('admin').hidden=!isAdmin;if(user&&!isAdmin)mensaje('Has iniciado sesiÃ³n, pero esta cuenta no tiene permisos de administrador.');else mensaje();render()});$('logout').onclick=()=>signOut(auth);
+onAuthStateChanged(auth,user=>{isAdmin=!!user&&user.uid===ADMIN_UID;$('login').hidden=!!user;$('logout').hidden=!user;$('admin').hidden=!isAdmin;if(user&&!isAdmin)mensaje('Has iniciado sesión, pero esta cuenta no tiene permisos de administrador.');else mensaje();render()});$('logout').onclick=()=>signOut(auth);
 function resetForm(){$('formulario').reset();$('docid').value='';$('disponible').checked=true;$('formulario').hidden=true}
 $('nuevo').onclick=()=>{resetForm();$('formulario').hidden=false;$('titulo').focus()};$('cancelar').onclick=resetForm;
 function editar(id,data){$('docid').value=id;for(const key of ['titulo','autor','genero','ubicacion','portada'])$(key).value=data[key]||'';$('disponible').checked=data.disponible!==false;$('formulario').hidden=false;$('formulario').scrollIntoView({behavior:'smooth'})}
-// Open Library ofrece cubiertas pÃºblicas sin requerir credenciales adicionales.
-async function buscarCubierta(titulo,autor){
-  const q=new URLSearchParams({title:titulo,author:autor||'',limit:'5',fields:'key,title,author_name,cover_i'});
-  const response=await fetch('https://openlibrary.org/search.json?'+q);
-  if(!response.ok)throw new Error('Open Library no responde');
-  const json=await response.json();
-  const encontrado=(json.docs||[]).find(x=>x.cover_i);
-  return encontrado?`https://covers.openlibrary.org/b/id/${encontrado.cover_i}-L.jpg`:'';
+// Búsqueda prudente: ISBN cuando exista, luego título/autor y título solo.
+// No garantiza coincidencia de edición: revisar antes de confirmar.
+const normalizar=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+async function consultarOpenLibrary(params){
+  const url='https://openlibrary.org/search.json?'+new URLSearchParams({...params,limit:'10',fields:'key,title,author_name,cover_i,isbn'});
+  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
+  try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('Open Library: '+r.status);return (await r.json()).docs||[]}
+  finally{clearTimeout(timeout)}
+}
+async function buscarCubierta(titulo,autor,isbn=''){
+  titulo=repararTexto(titulo).trim();autor=repararTexto(autor||'').trim();
+  if(!titulo)return '';
+  const tituloN=normalizar(titulo),autorN=normalizar(autor);
+  const consultas=[];
+  if(isbn&&/^[0-9Xx-]{10,17}$/.test(String(isbn)))consultas.push({isbn:String(isbn).replace(/-/g,'')});
+  consultas.push({title:titulo,author:autor});
+  if(autor)consultas.push({title:titulo});
+  for(const q of consultas){
+    const docs=await consultarOpenLibrary(q);
+    const matches=docs.filter(d=>d.cover_i&&normalizar(d.title)===tituloN);
+    const elegible=matches.find(d=>!autorN||(d.author_name||[]).some(a=>normalizar(a)===autorN||normalizar(a).includes(autorN)||autorN.includes(normalizar(a))));
+    if(elegible)return `https://covers.openlibrary.org/b/id/${elegible.cover_i}-L.jpg`;
+  }
+  return '';
 }
 $('buscar-portada').onclick=async()=>{
   const titulo=$('titulo').value.trim(),autor=$('autor').value.trim();
-  if(!titulo)return $('portada-estado').textContent='Escribe primero el tÃ­tulo.';
+  if(!titulo)return $('portada-estado').textContent='Escribe primero el título.';
   $('buscar-portada').disabled=true;$('portada-estado').textContent='Buscando...';
-  try{const url=await buscarCubierta(titulo,autor);if(url){$('portada').value=url;$('ver-portada').href=url;$('ver-portada').hidden=false;$('portada-estado').textContent='Portada propuesta. RevÃ­sala antes de guardar.'}else $('portada-estado').textContent='No se encontrÃ³ ninguna portada.'}
+  try{const url=await buscarCubierta(titulo,autor);if(url){$('portada').value=url;$('ver-portada').href=url;$('ver-portada').hidden=false;$('portada-estado').textContent='Portada propuesta. Revísala antes de guardar.'}else $('portada-estado').textContent='No se encontró ninguna portada.'}
   catch(e){$('portada-estado').textContent=e.message}finally{$('buscar-portada').disabled=false}
 };
 $('portadas-masivas').onclick=async()=>{
   if(!isAdmin)return;
-  const faltantes=libros.filter(x=>!x.data.portada&&x.data.titulo);
+  const faltantes=libros.filter(x=>!x.data.portada&&x.data.titulo).slice(0,100);
   if(!faltantes.length)return $('portadas-estado').textContent='Todos los libros tienen una URL de portada.';
-  if(!confirm(`Â¿Buscar y guardar automÃ¡ticamente portadas para ${faltantes.length} libros? Revisa despuÃ©s los resultados.`))return;
+  if(!confirm(`¿Buscar portadas para un lote de ${faltantes.length} libros sin imagen? Podrás repetirlo para el siguiente lote. Revisa las coincidencias.`))return;
   $('portadas-masivas').disabled=true;let encontradas=0,errores=0;
   for(let i=0;i<faltantes.length;i++){
     const item=faltantes[i];$('portadas-estado').textContent=`Buscando ${i+1} de ${faltantes.length}...`;
-    try{const url=await buscarCubierta(item.data.titulo,item.data.autor);if(url){await updateDoc(doc(db,'libros',item.id),{portada:url});encontradas++}}
+    try{const url=await buscarCubierta(item.data.titulo,item.data.autor,item.data.isbn);if(url){await updateDoc(doc(db,'libros',item.id),{portada:url});encontradas++}}
     catch(e){errores++}
-    await new Promise(r=>setTimeout(r,350));
+    await new Promise(r=>setTimeout(r,650));
   }
-  $('portadas-estado').textContent=`Terminada la bÃºsqueda: ${encontradas} portadas encontradas; ${errores} errores. Revisa que correspondan a tus libros.`;
+  $('portadas-estado').textContent=`Lote terminado: ${encontradas} portadas encontradas; ${errores} errores. Se procesaron ${faltantes.length} libros. Revisa las imágenes antes de continuar.`;
   $('portadas-masivas').disabled=false;
 };
-// La librerÃ­a se carga solo cuando el administrador selecciona un Excel.
+// La librería se carga solo cuando el administrador selecciona un Excel.
 let sheetPromise;
 function cargarExcel(){return sheetPromise??=(async()=>{
   const mod=await import('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/+esm');return mod;
@@ -92,7 +114,7 @@ $('excel').onchange=async()=>{
       if(seen.has(key)){repetidos++;continue}seen.add(key);pendientes.push(data);
     }
     const container=$('preview');container.replaceChildren();const p=document.createElement('p');p.textContent=`${pendientes.length} libros nuevos listos. ${repetidos} duplicados omitidos.`;container.append(p);
-    const table=document.createElement('table'),head=document.createElement('tr');for(const h of ['TÃ­tulo','Autor','GÃ©nero','UbicaciÃ³n']){const th=document.createElement('th');th.textContent=h;head.append(th)}table.append(head);
+    const table=document.createElement('table'),head=document.createElement('tr');for(const h of ['Título','Autor','Género','Ubicación']){const th=document.createElement('th');th.textContent=h;head.append(th)}table.append(head);
     for(const data of pendientes.slice(0,20)){const tr=document.createElement('tr');for(const k of ['titulo','autor','genero','ubicacion']){const td=document.createElement('td');td.textContent=data[k];tr.append(td)}table.append(tr)}container.append(table);
     if(pendientes.length>20){const small=document.createElement('p');small.textContent='Vista previa de los primeros 20 libros.';container.append(small)}
     $('importar').disabled=!pendientes.length||!isAdmin;
@@ -100,12 +122,12 @@ $('excel').onchange=async()=>{
 };
 $('importar').onclick=async()=>{
   if(!isAdmin||!pendientes.length)return;
-  if(!confirm(`Â¿Guardar ${pendientes.length} libros nuevos en Firestore?`))return;
+  if(!confirm(`¿Guardar ${pendientes.length} libros nuevos en Firestore?`))return;
   $('importar').disabled=true;let guardados=0;
   try{for(let i=0;i<pendientes.length;i+=400){const lote=writeBatch(db);for(const data of pendientes.slice(i,i+400))lote.set(doc(booksRef),data);await lote.commit();guardados+=Math.min(400,pendientes.length-i);$('progreso').textContent=`Guardados ${guardados} de ${pendientes.length}`}
-    pendientes=[];$('excel').value='';$('preview').textContent='ImportaciÃ³n completada.';
-  }catch(e){$('progreso').textContent=`Se guardaron ${guardados} libros antes del error: ${e.message}. Revisa el catÃ¡logo antes de reintentar.`}
+    pendientes=[];$('excel').value='';$('preview').textContent='Importación completada.';
+  }catch(e){$('progreso').textContent=`Se guardaron ${guardados} libros antes del error: ${e.message}. Revisa el catálogo antes de reintentar.`}
 };
-$('formulario').onsubmit=async e=>{e.preventDefault();if(!isAdmin)return mensaje('No tienes permisos de administrador.');const data={};for(const key of ['titulo','autor','genero','ubicacion','portada'])data[key]=$(key).value.trim();data.disponible=$('disponible').checked;if(data.portada&&!/^https:\/\//i.test(data.portada))return mensaje('La portada debe ser una URL https:// vÃ¡lida.');$('guardar').disabled=true;try{if($('docid').value)await updateDoc(doc(db,'libros',$('docid').value),data);else await addDoc(booksRef,data);resetForm();mensaje()}catch(err){mensaje(`No se pudo guardar: ${err.message}`)}finally{$('guardar').disabled=false}};
+$('formulario').onsubmit=async e=>{e.preventDefault();if(!isAdmin)return mensaje('No tienes permisos de administrador.');const data={};for(const key of ['titulo','autor','genero','ubicacion','portada'])data[key]=$(key).value.trim();data.disponible=$('disponible').checked;if(data.portada&&!/^https:\/\//i.test(data.portada))return mensaje('La portada debe ser una URL https:// válida.');$('guardar').disabled=true;try{if($('docid').value)await updateDoc(doc(db,'libros',$('docid').value),data);else await addDoc(booksRef,data);resetForm();mensaje()}catch(err){mensaje(`No se pudo guardar: ${err.message}`)}finally{$('guardar').disabled=false}};
 </script>
 </body></html>
