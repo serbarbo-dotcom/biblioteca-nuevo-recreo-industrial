@@ -20,12 +20,25 @@
 <div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">Búsqueda por título y autor en Open Library, en lotes de hasta 100 libros. Las portadas pueden corresponder a otra edición: revísalas.</p><button id="portadas-masivas" class="secondary">Buscar portadas (siguiente lote de 100)</button><p id="portadas-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>Título <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>Género <input id="genero" maxlength="100"></label><label>N.º de registro <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><div class="cover-controls"><button type="button" class="secondary" id="buscar-portada">Buscar portada en Internet</button><a id="ver-portada" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver portada encontrada</a></div><p id="portada-estado" class="muted"></p><div class="actions"><button type="submit" id="guardar">Guardar libro</button><button type="button" class="secondary" id="cancelar">Cancelar</button></div></form></section>
 <div class="view-controls"><label>Vista <select id="vista" aria-label="Tipo de vista"><option value="grid">Cuadrícula</option><option value="list">Filas</option></select></label><label>Libros por página <select id="por-pagina"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select></label></div><nav id="paginacion-superior" class="pagination" aria-label="Páginas del catálogo"></nav><section id="libros" class="grid" aria-label="Libros"></section><nav id="paginacion-inferior" class="pagination" aria-label="Páginas del catálogo"></nav>
 </section>
-<section id="tab-chat" class="panel-tab" hidden><h2>Chat de lectores</h2><div class="chat-box"><h3>Normas del chat</h3><p>Este chat está destinado exclusivamente a conversaciones sobre libros, autores, lecturas y literatura. Los mensajes ajenos a esta temática serán eliminados por el administrador. También se eliminarán los mensajes ofensivos, publicitarios o irrespetuosos.</p><p class="small">Cualquier visitante puede leer. Para escribir hay que iniciar sesión con Google y elegir un apodo permanente. El nombre y correo de Google no se muestran públicamente.</p></div><div class="chat-box"><p id="chat-estado" role="status">Cargando mensajes...</p><div id="chat-mensajes" class="chat-messages" aria-live="polite"></div><div id="chat-identidad"><p>Para participar, inicia sesión con Google desde el catálogo.</p></div><form id="chat-apodo-form" hidden><label>Elige tu apodo permanente (3 a 24 caracteres) <input id="chat-apodo" required minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_ -]{3,24}" autocomplete="nickname"></label><p class="small">No podrás cambiarlo después. Evita usar datos personales.</p><button type="submit">Guardar apodo</button></form><form id="chat-enviar-form" class="chat-compose" hidden><label for="chat-texto">Tu mensaje</label><textarea id="chat-texto" maxlength="500" required placeholder="Habla sobre libros y literatura..."></textarea><button id="chat-enviar" type="submit">Enviar mensaje</button></form><p id="chat-error" role="alert"></p></div></section>
+<section id="tab-chat" class="panel-tab" hidden><h2>Chat de lectores</h2><div class="chat-box"><div class="chat-box" id="chat-registro">
+  <h3>Registro de lectores</h3>
+  <p>Regístrate con tu correo electrónico para participar en el chat.</p>
+  <input id="registro-email" type="email"
+    placeholder="Correo electrónico" autocomplete="email">
+  <input id="registro-password" type="password"
+    placeholder="Contraseña (mínimo 6 caracteres)"
+    autocomplete="new-password">
+  <button type="button" id="registro-crear">Registrarse</button>
+  <button type="button" id="registro-entrar">Iniciar sesión</button>
+  <button type="button" id="registro-verificar">Reenviar verificación</button>
+  <p id="registro-estado" role="status"></p>
+  <p>Debes confirmar tu correo electrónico antes de escribir mensajes.</p>
+</div><h3>Normas del chat</h3><p>Este chat está destinado exclusivamente a conversaciones sobre libros, autores, lecturas y literatura. Los mensajes ajenos a esta temática serán eliminados por el administrador. También se eliminarán los mensajes ofensivos, publicitarios o irrespetuosos.</p><p class="small">Cualquier visitante puede leer. Para escribir hay que iniciar sesión con Google y elegir un apodo permanente. El nombre y correo de Google no se muestran públicamente.</p></div><div class="chat-box"><p id="chat-estado" role="status">Cargando mensajes...</p><div id="chat-mensajes" class="chat-messages" aria-live="polite"></div><div id="chat-identidad"><p>Para participar, inicia sesión con Google desde el catálogo.</p></div><form id="chat-apodo-form" hidden><label>Elige tu apodo permanente (3 a 24 caracteres) <input id="chat-apodo" required minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_ -]{3,24}" autocomplete="nickname"></label><p class="small">No podrás cambiarlo después. Evita usar datos personales.</p><button type="submit">Guardar apodo</button></form><form id="chat-enviar-form" class="chat-compose" hidden><label for="chat-texto">Tu mensaje</label><textarea id="chat-texto" maxlength="500" required placeholder="Habla sobre libros y literatura..."></textarea><button id="chat-enviar" type="submit">Enviar mensaje</button></form><p id="chat-error" role="alert"></p></div></section>
 <section id="tab-normas" class="panel-tab" hidden><div class="chat-box"><h2>Normas de la Biblioteca</h2><ol class="rules-list"><li><strong>Número de préstamos:</strong> cada socio podrá retirar un máximo de 2 libros al mes.</li><li><strong>Duración:</strong> el préstamo de cada libro es de 1 mes.</li><li><strong>Ampliación:</strong> si no se entrega durante ese mes, el préstamo podrá ampliarse otro mes, salvo que el libro esté reservado por otro socio. En ese caso, es obligatorio devolverlo al finalizar el primer mes.</li><li><strong>Horario de retirada y devolución:</strong> de 15:00 a 22:00 horas, de lunes a domingo.</li></ol></div></section>
 </main>
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,reload} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 import {getFirestore,collection,onSnapshot,addDoc,updateDoc,deleteDoc,doc,writeBatch,getDoc,setDoc,query,orderBy,limit,serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 const firebaseConfig={apiKey:'AIzaSyCRK5vXMta1EuXGC_vP0RU-tkoVzXKuKxk',authDomain:'biblioteca-recreo-industrial.firebaseapp.com',projectId:'biblioteca-recreo-industrial',storageBucket:'biblioteca-recreo-industrial.firebasestorage.app',messagingSenderId:'86528204885',appId:'1:86528204885:web:2312437f4b9f5be0d0b4dc',measurementId:'G-DQHJG5EFGY'};
 const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
@@ -192,7 +205,7 @@ const chatError=s=>$('chat-error').textContent=s||'';
 function chatControls(){
   $('chat-identidad').hidden=!!chatUser;
   $('chat-apodo-form').hidden=!chatUser||!!chatProfile;
-  $('chat-enviar-form').hidden=!chatUser||!chatProfile;
+  $('chat-enviar-form').hidden=!chatUser||!chatUser.emailVerified||!chatProfile;
 }
 async function chatAuthChanged(user){
   chatUser=user;chatProfile=null;chatControls();chatError('');
@@ -202,7 +215,7 @@ async function chatAuthChanged(user){
   catch(e){chatError('No se pudo cargar el apodo: '+e.message)}
 }
 $('chat-apodo-form').addEventListener('submit',async e=>{
-  e.preventDefault();if(!chatUser||chatProfile)return;
+  e.preventDefault();if(!chatUser||!chatUser.emailVerified||chatProfile)return;
   const nick=$('chat-apodo').value.trim();
   if(!/^[A-Za-zÀ-ÿ0-9_ -]{3,24}$/.test(nick))return chatError('Usa entre 3 y 24 letras, números, espacios, guiones o guiones bajos.');
   const button=e.currentTarget.querySelector('button');button.disabled=true;chatError('');
@@ -211,7 +224,7 @@ $('chat-apodo-form').addEventListener('submit',async e=>{
   catch(err){chatError('No se pudo guardar el apodo: '+err.message)}finally{button.disabled=false}
 });
 $('chat-enviar-form').addEventListener('submit',async e=>{
-  e.preventDefault();if(!chatUser||!chatProfile)return;
+  e.preventDefault();if(!chatUser||!chatUser.emailVerified||!chatProfile)return;
   const texto=$('chat-texto').value.trim();if(!texto||texto.length>500)return;
   if(Date.now()-chatLastSend<10000)return chatError('Espera unos segundos antes de enviar otro mensaje.');
   $('chat-enviar').disabled=true;chatError('');
@@ -232,8 +245,55 @@ onSnapshot(query(chatMessages,orderBy('creado','desc'),limit(100)),snapshot=>{
       try{await deleteDoc(doc(db,'chat_mensajes',item.id))}catch(e){chatError('No se pudo eliminar: '+e.message)}
     };article.append(del)}list.append(article);
   }
-},e=>{$('chat-estado').textContent='No se pudo cargar el chat. Comprueba las reglas de Firebase.';chatError(e.message)});
-onAuthStateChanged(auth,chatAuthChanged);
+},e=>{$('chat-estado').textContent='No se pudo cargar el chat. Comprueba las reglas de Firebase.';chatError(e.message)})
+  onAuthStateChanged(auth,chatAuthChanged);
+  document.addEventListener('visibilitychange', async () => {
+  if (!document.hidden && auth.currentUser) {
+    await reload(auth.currentUser);
+    await chatAuthChanged(auth.currentUser);
+  }
+});
+ const registroEstado = texto => {
+  $('registro-estado').textContent = texto;
+};
+
+$('registro-crear').onclick = async () => {
+  const email = $('registro-email').value.trim();
+  const password = $('registro-password').value;
+  try {
+    const resultado = await createUserWithEmailAndPassword(auth, email, password);
+    await sendEmailVerification(resultado.user);
+    registroEstado('Cuenta creada. Revisa tu correo y confirma tu dirección antes de escribir.');
+  } catch (error) {
+    registroEstado('Error al registrarse: ' + error.message);
+  }
+};
+
+$('registro-entrar').onclick = async () => {
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      $('registro-email').value.trim(),
+      $('registro-password').value
+    );
+    registroEstado('Sesión iniciada. Si ya verificaste tu correo, podrás participar.');
+  } catch (error) {
+    registroEstado('Error al iniciar sesión: ' + error.message);
+  }
+};
+
+$('registro-verificar').onclick = async () => {
+  try {
+    if (!auth.currentUser) {
+      registroEstado('Primero inicia sesión.');
+      return;
+    }
+    await sendEmailVerification(auth.currentUser);
+    registroEstado('Correo de verificación enviado. Revisa tu bandeja de entrada.');
+  } catch (error) {
+    registroEstado('Error: ' + error.message);
+  }
+}; 
 
 </script>
 </body></html>
