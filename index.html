@@ -111,11 +111,16 @@ async function buscarCubierta(titulo,autor,isbn=''){
   const consultas=[];
   if(isbn&&/^[0-9Xx-]{10,17}$/.test(String(isbn)))consultas.push({isbn:String(isbn).replace(/-/g,'')});
   consultas.push({title:titulo,author:autor});
+ if(autor.trim().includes(' '))consultas.push({title:titulo,author:autor.trim().split(/\s+/).reverse().join(' ')});
   if(autor)consultas.push({title:titulo});
   for(const q of consultas){
     const docs=await consultarOpenLibrary(q);
     const matches=docs.filter(d=>d.cover_i&&normalizar(d.title)===tituloN);
-    const elegible=matches.find(d=>!autorN||(d.author_name||[]).some(a=>normalizar(a)===autorN||normalizar(a).includes(autorN)||autorN.includes(normalizar(a))));
+    const elegible=matches.find(d=>!autorN||(d.author_name||[]).some(a=>{
+  const nombre=normalizar(a);
+  const palabras=autorN.split(/\s+/).filter(Boolean);
+  return nombre===autorN||nombre.includes(autorN)||autorN.includes(nombre)||palabras.every(p=>nombre.includes(p));
+}));
     if(elegible)return `https://covers.openlibrary.org/b/id/${elegible.cover_i}-L.jpg`;
   }
   return '';
