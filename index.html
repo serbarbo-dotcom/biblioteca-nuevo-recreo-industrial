@@ -4,12 +4,14 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Biblioteca Nuevo Recreo Industrial</title>
 <style>
-:root{font-family:Arial,sans-serif;color:#26332d;background:#f5f1e8}*{box-sizing:border-box}body{margin:0}header{background:#263e35;color:white;text-align:center;padding:34px 16px}h1{margin:0 0 12px;font-size:clamp(24px,4vw,38px)}header p{margin:0}main{max-width:1100px;margin:auto;padding:24px 16px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}input,select,button{font:inherit;padding:12px;border:1px solid #c7c9c4;border-radius:8px}input{min-width:0}#buscar{flex:1;min-width:210px}button{background:#263e35;color:#fff;cursor:pointer}button.secondary{background:#fff;color:#263e35}button.danger{background:#a42d2d}button:disabled{opacity:.6}#estado{margin:20px 0;color:#5c645e}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.libro{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px #0001}.cover{width:100%;aspect-ratio:2/3;object-fit:cover;background:#e2e7e2;display:block}.no-cover{aspect-ratio:2/3;display:grid;place-items:center;background:#dfe7e1;color:#56685d;font-size:48px}.info{padding:15px}.info h3{margin:0 0 9px}.info p{margin:6px 0;font-size:14px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.actions button{padding:8px;font-size:13px}#admin{margin:20px 0;padding:20px;background:#fff;border-radius:12px}#admin[hidden],#formulario[hidden]{display:none}#formulario{display:grid;gap:10px;margin-top:14px}#formulario label{display:grid;gap:5px}#formulario input{width:100%}.small{font-size:13px;color:#59635c}#mensaje{color:#a42d2d}a{color:#235e4d}.import-panel{margin-top:18px;padding:15px;border:1px solid #d9dfd9;border-radius:10px}.import-panel input{max-width:100%;width:100%}.import-panel button{margin-top:8px}.preview{max-height:220px;overflow:auto;margin-top:10px}.preview table{border-collapse:collapse;width:100%;font-size:13px}.preview td,.preview th{border-bottom:1px solid #ddd;padding:6px;text-align:left}.muted{color:#65756a;font-size:13px}.view-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}.view-controls label{display:flex;align-items:center;gap:6px}.view-controls select{background:white;padding:9px}.pagination{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:20px 0}.pagination button{padding:9px 14px}.grid.list-view{display:flex;flex-direction:column;gap:10px}.list-view .libro{display:flex;align-items:stretch;min-height:90px}.list-view .cover,.list-view .no-cover{width:74px;min-width:74px;height:110px;aspect-ratio:auto;object-fit:cover;font-size:25px}.list-view .info{flex:1;min-width:0;padding:12px}.list-view .info h3{font-size:16px}.list-view .info p{display:inline-block;margin:3px 14px 3px 0}@media(max-width:450px){.list-view .cover,.list-view .no-cover{width:58px;min-width:58px;height:90px}.list-view .info{padding:9px}}.cover-controls{display:flex;gap:8px;flex-wrap:wrap}.cover-controls button{font-size:13px;padding:9px}
+:root{font-family:Arial,sans-serif;color:#26332d;background:#f5f1e8}*{box-sizing:border-box}body{margin:0}header{background:#263e35;color:white;text-align:center;padding:34px 16px}h1{margin:0 0 12px;font-size:clamp(24px,4vw,38px)}header p{margin:0}main{max-width:1100px;margin:auto;padding:24px 16px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}input,select,button{font:inherit;padding:12px;border:1px solid #c7c9c4;border-radius:8px}input{min-width:0}#buscar{flex:1;min-width:210px}button{background:#263e35;color:#fff;cursor:pointer}button.secondary{background:#fff;color:#263e35}button.danger{background:#a42d2d}button:disabled{opacity:.6}#estado{margin:20px 0;color:#5c645e}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.libro{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px #0001}.cover{width:100%;aspect-ratio:2/3;object-fit:cover;background:#e2e7e2;display:block}.no-cover{aspect-ratio:2/3;display:grid;place-items:center;background:#dfe7e1;color:#56685d;font-size:48px}.info{padding:15px}.info h3{margin:0 0 9px}.info p{margin:6px 0;font-size:14px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.actions button{padding:8px;font-size:13px}#admin{margin:20px 0;padding:20px;background:#fff;border-radius:12px}#admin[hidden],#formulario[hidden]{display:none}#formulario{display:grid;gap:10px;margin-top:14px}#formulario label{display:grid;gap:5px}#formulario input{width:100%}.small{font-size:13px;color:#59635c}#mensaje{color:#a42d2d}a{color:#235e4d}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.tabs button[aria-selected="true"]{background:#167451;color:white}.panel-tab[hidden]{display:none!important}.chat-box{background:#fff;border-radius:12px;padding:18px;margin:12px 0}.chat-messages{display:grid;gap:10px;max-height:500px;overflow:auto;padding:12px 0}.chat-message{padding:12px;border-radius:10px;background:#f1f5f1;overflow-wrap:anywhere}.chat-meta{font-size:12px;color:#54665b;margin-bottom:5px}.chat-compose{display:grid;gap:9px}.chat-compose textarea{width:100%;min-height:75px;padding:12px;font:inherit;border:1px solid #c7c9c4;border-radius:8px}.rules-list{line-height:1.75}.import-panel{margin-top:18px;padding:15px;border:1px solid #d9dfd9;border-radius:10px}.import-panel input{max-width:100%;width:100%}.import-panel button{margin-top:8px}.preview{max-height:220px;overflow:auto;margin-top:10px}.preview table{border-collapse:collapse;width:100%;font-size:13px}.preview td,.preview th{border-bottom:1px solid #ddd;padding:6px;text-align:left}.muted{color:#65756a;font-size:13px}.view-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}.view-controls label{display:flex;align-items:center;gap:6px}.view-controls select{background:white;padding:9px}.pagination{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:20px 0}.pagination button{padding:9px 14px}.grid.list-view{display:flex;flex-direction:column;gap:10px}.list-view .libro{display:flex;align-items:stretch;min-height:90px}.list-view .cover,.list-view .no-cover{width:74px;min-width:74px;height:110px;aspect-ratio:auto;object-fit:cover;font-size:25px}.list-view .info{flex:1;min-width:0;padding:12px}.list-view .info h3{font-size:16px}.list-view .info p{display:inline-block;margin:3px 14px 3px 0}@media(max-width:450px){.list-view .cover,.list-view .no-cover{width:58px;min-width:58px;height:90px}.list-view .info{padding:9px}}.cover-controls{display:flex;gap:8px;flex-wrap:wrap}.cover-controls button{font-size:13px;padding:9px}
 </style>
 </head>
 <body>
 <header><h1>Biblioteca Nuevo Recreo Industrial</h1><p>Catálogo de libros</p></header>
 <main>
+<nav class="tabs" aria-label="Secciones"><button type="button" data-tab="catalogo" aria-selected="true">📚 Catálogo</button><button type="button" data-tab="chat" aria-selected="false">💬 Chat de lectores</button><button type="button" data-tab="normas" aria-selected="false">📋 Normas de la biblioteca</button></nav>
+<section id="tab-catalogo" class="panel-tab">
 <div class="toolbar"><input id="buscar" placeholder="Buscar por título, autor o género" aria-label="Buscar libros"><button id="login">Entrar con Google</button><button id="logout" hidden>Salir</button></div>
 <p id="estado" role="status">Conectando con el catálogo...</p><p id="mensaje" role="alert"></p>
 <section id="admin" hidden><h2>Administración del catálogo</h2><p class="small">Solo la cuenta autorizada puede guardar cambios.</p><button id="nuevo">Añadir libro</button>
@@ -17,11 +19,14 @@
 <div class="import-panel"><h3>Actualizar números de registro desde Excel</h3><p class="muted">Selecciona el Excel con las columnas titulo, autor y ubicacion. Se actualizarán solamente las coincidencias únicas y exactas de título y autor; las portadas se conservarán. Revisa el resumen antes de confirmar.</p><input id="registros-excel" type="file" accept=".xlsx,.xls"><p id="registros-preview" class="muted" role="status"></p><button id="registros-guardar" disabled>Actualizar números revisados</button><p id="registros-progreso" class="muted" role="status"></p></div>
 <div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">Búsqueda por título y autor en Open Library, en lotes de hasta 100 libros. Las portadas pueden corresponder a otra edición: revísalas.</p><button id="portadas-masivas" class="secondary">Buscar portadas (siguiente lote de 100)</button><p id="portadas-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>Título <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>Género <input id="genero" maxlength="100"></label><label>N.º de registro <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><div class="cover-controls"><button type="button" class="secondary" id="buscar-portada">Buscar portada en Internet</button><a id="ver-portada" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver portada encontrada</a></div><p id="portada-estado" class="muted"></p><div class="actions"><button type="submit" id="guardar">Guardar libro</button><button type="button" class="secondary" id="cancelar">Cancelar</button></div></form></section>
 <div class="view-controls"><label>Vista <select id="vista" aria-label="Tipo de vista"><option value="grid">Cuadrícula</option><option value="list">Filas</option></select></label><label>Libros por página <select id="por-pagina"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select></label></div><nav id="paginacion-superior" class="pagination" aria-label="Páginas del catálogo"></nav><section id="libros" class="grid" aria-label="Libros"></section><nav id="paginacion-inferior" class="pagination" aria-label="Páginas del catálogo"></nav>
+</section>
+<section id="tab-chat" class="panel-tab" hidden><h2>Chat de lectores</h2><div class="chat-box"><h3>Normas del chat</h3><p>Este chat está destinado exclusivamente a conversaciones sobre libros, autores, lecturas y literatura. Los mensajes ajenos a esta temática serán eliminados por el administrador. También se eliminarán los mensajes ofensivos, publicitarios o irrespetuosos.</p><p class="small">Cualquier visitante puede leer. Para escribir hay que iniciar sesión con Google y elegir un apodo permanente. El nombre y correo de Google no se muestran públicamente.</p></div><div class="chat-box"><p id="chat-estado" role="status">Cargando mensajes...</p><div id="chat-mensajes" class="chat-messages" aria-live="polite"></div><div id="chat-identidad"><p>Para participar, inicia sesión con Google desde el catálogo.</p></div><form id="chat-apodo-form" hidden><label>Elige tu apodo permanente (3 a 24 caracteres) <input id="chat-apodo" required minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_ -]{3,24}" autocomplete="nickname"></label><p class="small">No podrás cambiarlo después. Evita usar datos personales.</p><button type="submit">Guardar apodo</button></form><form id="chat-enviar-form" class="chat-compose" hidden><label for="chat-texto">Tu mensaje</label><textarea id="chat-texto" maxlength="500" required placeholder="Habla sobre libros y literatura..."></textarea><button id="chat-enviar" type="submit">Enviar mensaje</button></form><p id="chat-error" role="alert"></p></div></section>
+<section id="tab-normas" class="panel-tab" hidden><div class="chat-box"><h2>Normas de la Biblioteca</h2><ol class="rules-list"><li><strong>Número de préstamos:</strong> cada socio podrá retirar un máximo de 2 libros al mes.</li><li><strong>Duración:</strong> el préstamo de cada libro es de 1 mes.</li><li><strong>Ampliación:</strong> si no se entrega durante ese mes, el préstamo podrá ampliarse otro mes, salvo que el libro esté reservado por otro socio. En ese caso, es obligatorio devolverlo al finalizar el primer mes.</li><li><strong>Horario de retirada y devolución:</strong> de 15:00 a 22:00 horas, de lunes a domingo.</li></ol></div></section>
 </main>
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-import {getFirestore,collection,onSnapshot,addDoc,updateDoc,deleteDoc,doc,writeBatch} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+import {getFirestore,collection,onSnapshot,addDoc,updateDoc,deleteDoc,doc,writeBatch,getDoc,setDoc,query,orderBy,limit,serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 const firebaseConfig={apiKey:'AIzaSyCRK5vXMta1EuXGC_vP0RU-tkoVzXKuKxk',authDomain:'biblioteca-recreo-industrial.firebaseapp.com',projectId:'biblioteca-recreo-industrial',storageBucket:'biblioteca-recreo-industrial.firebasestorage.app',messagingSenderId:'86528204885',appId:'1:86528204885:web:2312437f4b9f5be0d0b4dc',measurementId:'G-DQHJG5EFGY'};
 const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),booksRef=collection(db,'libros');
@@ -174,5 +179,61 @@ $('registros-guardar').onclick=async()=>{
   }catch(e){$('registros-progreso').textContent=`Actualizados ${hechos} antes del error: ${e.message}. No repitas la actualización sin revisar los datos.`}
 };
 $('formulario').onsubmit=async e=>{e.preventDefault();if(!isAdmin)return mensaje('No tienes permisos de administrador.');const data={};for(const key of ['titulo','autor','genero','ubicacion','portada'])data[key]=$(key).value.trim();if(data.portada&&!/^https:\/\//i.test(data.portada))return mensaje('La portada debe ser una URL https:// válida.');$('guardar').disabled=true;try{if($('docid').value)await updateDoc(doc(db,'libros',$('docid').value),data);else await addDoc(booksRef,data);resetForm();mensaje()}catch(err){mensaje(`No se pudo guardar: ${err.message}`)}finally{$('guardar').disabled=false}};
+
+// Navegación: conserva el catálogo y su administración sin recargar la página.
+for(const btn of document.querySelectorAll('[data-tab]'))btn.addEventListener('click',()=>{
+  const target=btn.dataset.tab;
+  for(const name of ['catalogo','chat','normas'])$('tab-'+name).hidden=name!==target;
+  for(const item of document.querySelectorAll('[data-tab]'))item.setAttribute('aria-selected',String(item.dataset.tab===target));
+});
+const chatProfiles=collection(db,'chat_perfiles'),chatMessages=collection(db,'chat_mensajes');
+let chatUser=null,chatProfile=null,chatLastSend=0;
+const chatError=s=>$('chat-error').textContent=s||'';
+function chatControls(){
+  $('chat-identidad').hidden=!!chatUser;
+  $('chat-apodo-form').hidden=!chatUser||!!chatProfile;
+  $('chat-enviar-form').hidden=!chatUser||!chatProfile;
+}
+async function chatAuthChanged(user){
+  chatUser=user;chatProfile=null;chatControls();chatError('');
+  if(!user)return;
+  try{const snap=await getDoc(doc(chatProfiles,user.uid));if(auth.currentUser?.uid!==user.uid)return;
+    if(snap.exists())chatProfile=snap.data();chatControls();}
+  catch(e){chatError('No se pudo cargar el apodo: '+e.message)}
+}
+$('chat-apodo-form').addEventListener('submit',async e=>{
+  e.preventDefault();if(!chatUser||chatProfile)return;
+  const nick=$('chat-apodo').value.trim();
+  if(!/^[A-Za-zÀ-ÿ0-9_ -]{3,24}$/.test(nick))return chatError('Usa entre 3 y 24 letras, números, espacios, guiones o guiones bajos.');
+  const button=e.currentTarget.querySelector('button');button.disabled=true;chatError('');
+  try{await setDoc(doc(chatProfiles,chatUser.uid),{apodo:nick,creado:serverTimestamp()});
+    chatProfile={apodo:nick};chatControls();}
+  catch(err){chatError('No se pudo guardar el apodo: '+err.message)}finally{button.disabled=false}
+});
+$('chat-enviar-form').addEventListener('submit',async e=>{
+  e.preventDefault();if(!chatUser||!chatProfile)return;
+  const texto=$('chat-texto').value.trim();if(!texto||texto.length>500)return;
+  if(Date.now()-chatLastSend<10000)return chatError('Espera unos segundos antes de enviar otro mensaje.');
+  $('chat-enviar').disabled=true;chatError('');
+  try{await addDoc(chatMessages,{autorUid:chatUser.uid,apodo:chatProfile.apodo,texto,creado:serverTimestamp()});
+    chatLastSend=Date.now();$('chat-texto').value='';}
+  catch(err){chatError('No se pudo enviar: '+err.message)}finally{$('chat-enviar').disabled=false}
+});
+onSnapshot(query(chatMessages,orderBy('creado','desc'),limit(100)),snapshot=>{
+  $('chat-estado').textContent='Últimos '+snapshot.size+' mensajes · Solo conversaciones sobre libros';
+  const list=$('chat-mensajes');list.replaceChildren();
+  for(const item of [...snapshot.docs].reverse()){
+    const data=item.data(),article=document.createElement('article');article.className='chat-message';
+    const meta=document.createElement('div');meta.className='chat-meta';
+    const fecha=data.creado?.toDate?.();meta.textContent=(data.apodo||'Lector')+(fecha?' · '+fecha.toLocaleString('es-ES'):'');
+    const content=document.createElement('div');content.textContent=data.texto||'';article.append(meta,content);
+    if(isAdmin){const del=document.createElement('button');del.className='danger';del.style.marginTop='8px';del.textContent='Eliminar mensaje';del.onclick=async()=>{
+      if(!confirm('¿Eliminar este mensaje del chat público?'))return;
+      try{await deleteDoc(doc(db,'chat_mensajes',item.id))}catch(e){chatError('No se pudo eliminar: '+e.message)}
+    };article.append(del)}list.append(article);
+  }
+},e=>{$('chat-estado').textContent='No se pudo cargar el chat. Comprueba las reglas de Firebase.';chatError(e.message)});
+onAuthStateChanged(auth,chatAuthChanged);
+
 </script>
 </body></html>
