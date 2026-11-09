@@ -196,9 +196,9 @@ $('buscar-portada').onclick=async()=>{
 };
 $('portadas-masivas').onclick=async()=>{
   if(!isAdmin)return;
-  const faltantes=libros.filter(x=>!x.data.portada&&x.data.titulo).slice(0,100);
+  const faltantes=libros.filter(x=>!x.data.portada&&x.data.titulo);
   if(!faltantes.length)return $('portadas-estado').textContent='Todos los libros tienen una URL de portada.';
-  if(!confirm(`¿Buscar portadas para un lote de ${faltantes.length} libros sin imagen? Podrás repetirlo para el siguiente lote. Revisa las coincidencias.`))return;
+  if(!confirm(`¿Buscar portadas para todos los ${faltantes.length} libros sin imagen? La búsqueda puede tardar bastante. Revisa las portadas encontradas.`))return;
   $('portadas-masivas').disabled=true;let encontradas=0,errores=0;
   for(let i=0;i<faltantes.length;i++){
     const item=faltantes[i];$('portadas-estado').textContent=`Buscando ${i+1} de ${faltantes.length}...`;
