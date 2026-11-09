@@ -48,7 +48,7 @@ header {
 <section id="admin" hidden><h2>Administración del catálogo</h2><p class="small">Solo la cuenta autorizada puede guardar cambios.</p><button id="nuevo">Añadir libro</button>
 <div class="import-panel"><h3>Importar catálogo de Excel</h3><p class="muted">Columnas admitidas: título, autor, género, ubicación y portada. La primera fila debe contener los encabezados. Se evitarán duplicados con el mismo título y autor.</p><input id="excel" type="file" accept=".xlsx,.xls,.csv"><div id="preview" class="preview" aria-live="polite"></div><button id="importar" disabled>Importar libros revisados</button><p id="progreso" class="muted" role="status"></p></div>
 <div class="import-panel"><h3>Actualizar números de registro desde Excel</h3><p class="muted">Selecciona el Excel con las columnas titulo, autor y ubicacion. Se actualizarán solamente las coincidencias únicas y exactas de título y autor; las portadas se conservarán. Revisa el resumen antes de confirmar.</p><input id="registros-excel" type="file" accept=".xlsx,.xls"><p id="registros-preview" class="muted" role="status"></p><button id="registros-guardar" disabled>Actualizar números revisados</button><p id="registros-progreso" class="muted" role="status"></p></div>
-<div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">Búsqueda por título y autor en Open Library, en lotes de hasta 100 libros. Las portadas pueden corresponder a otra edición: revísalas.</p><button id="portadas-masivas" class="secondary">Buscar portadas de todos los libros</button><p id="portadas-estado" class="muted" role="status"></p><button type="button" id="resumenes-masivos" class="secondary">Buscar resúmenes (siguiente lote de 100)</button>
+<div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">Búsqueda inteligente en Google Books y Open Library, en lotes de hasta 100 libros. Las portadas pueden corresponder a otra edición: revísalas.</p><button id="portadas-masivas" class="secondary">Buscar portadas (siguiente lote de 100)</button><p id="portadas-estado" class="muted" role="status"></p><button type="button" id="resumenes-masivos" class="secondary">Buscar resúmenes (siguiente lote de 100)</button>
 <p id="resumenes-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>Título <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>Género <input id="genero" maxlength="100"></label><label>N.º de registro <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><label>Resumen del libro
 <textarea id="resumen" rows="4" maxlength="2000" placeholder="Escribe aquí un pequeño resumen del libro"></textarea>
 </label><div class="cover-controls"><button type="button" class="secondary" id="buscar-portada">Buscar portada en Internet</button> <button type="button" onclick="window.open('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(document.getElementById('titulo').value+' '+document.getElementById('autor').value+' portada libro'),'_blank')">Buscar en Google Imágenes</button><a id="ver-portada" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver portada encontrada</a></div><p id="portada-estado" class="muted"></p><div class="actions"><button type="submit" id="guardar">Guardar libro</button><button type="button" class="secondary" id="cancelar">Cancelar</button></div></form></section>
@@ -81,7 +81,7 @@ const $=id=>document.getElementById(id);let libros=[],isAdmin=false,pendientes=[
 // Repara textos heredados con UTF-8 interpretado como Latin-1, sin alterar datos correctos.
 function repararTexto(valor){
   if(typeof valor!=='string'||!/[ÃÂð][\x80-\xbf¡-ÿ]/.test(valor))return valor;
-  try{const bytes=Uint8Array.from([...valor].map(c=>c.charCodeAt(0)));if([...valor].some(c=>c.charCodeAt(0)>255))return valor;const t=new TextDecoder('utf-8',{fatal:true}).decode(bytes);return t.includes('�')?valor:t}catch{return valor}
+  try{const bytes=Uint8Array.from([...valor].map(c=>c.charCodeAt(0)));if([...valor].some(c=>c.charCodeAt(0)>255))return valor;const t=new TextDecoder('utf-8',{fatal:true}).decode(bytes);return t.includes('')?valor:t}catch{return valor}
 }
 
 const mensaje=(s='')=>$('mensaje').textContent=s;
@@ -106,184 +106,272 @@ onAuthStateChanged(auth,user=>{isAdmin=!!user&&user.uid===ADMIN_UID;$('login').h
 function resetForm(){$('formulario').reset();$('docid').value='';$('formulario').hidden=true}
 $('nuevo').onclick=()=>{resetForm();$('formulario').hidden=false;$('titulo').focus()};$('cancelar').onclick=resetForm;
 function editar(id,data){$('docid').value=id;for(const key of ['titulo','autor','genero','ubicacion','portada','resumen']) $(key).value=data[key]||'';$('formulario').hidden=false;$('formulario').scrollIntoView({behavior:'smooth'})}
-// Búsqueda prudente: ISBN cuando exista, luego título/autor y título solo.
-// No garantiza coincidencia de edición: revisar antes de confirmar.
-const normalizar=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
-async function consultarOpenLibrary(params){
-  const url='https://openlibrary.org/search.json?'+new URLSearchParams({...params,limit:'50',fields:'key,title,author_name,cover_i,isbn'});
-  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
-  try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('Open Library: '+r.status);return (await r.json()).docs||[]}
-  finally{clearTimeout(timeout)}
+
+// --- INICIO DEL BLOQUE MEJORADO DE PORTADAS Y RESÚMENES ---
+const normalizar = s => String(s || '')
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase()
+  .replace(/[^a-z0-9 ]/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+// Limpia paréntesis, subtítulos tras ':' y menciones a tomos/volúmenes
+function limpiarTitulo(t) {
+  return repararTexto(String(t || ''))
+    .split(/[:(;]/)[0]
+    .replace(/\b(tomo|vol|volumen|edicion|coleccion)\s+[0-9ivx]+\b/gi, '')
+    .replace(/["'«»]/g, '')
+    .trim();
 }
-async function buscarCubierta(titulo,autor,isbn=''){
-  titulo=repararTexto(titulo).trim();autor=repararTexto(autor||'').trim();
-  if(!titulo)return '';
-  const tituloN=normalizar(titulo),autorN=normalizar(autor);
-  const consultas=[];
-  if(isbn&&/^[0-9Xx-]{10,17}$/.test(String(isbn)))consultas.push({isbn:String(isbn).replace(/-/g,'')});
-  consultas.push({title:titulo,author:autor});
- if(autor.trim().includes(' '))consultas.push({title:titulo,author:autor.trim().split(/\s+/).reverse().join(' ')});
-  if(autor)consultas.push({title:titulo});
-  for(const q of consultas){
-    const docs=await consultarOpenLibrary(q);
-    const matches=docs.filter(d=>d.cover_i&&normalizar(d.title)===tituloN);
-    const elegible=matches.find(d=>!autorN||(d.author_name||[]).some(a=>{
-  const nombre=normalizar(a);
-  const palabras=autorN.split(/\s+/).filter(Boolean);
-  return nombre===autorN||nombre.includes(autorN)||autorN.includes(nombre)||palabras.every(p=>nombre.includes(p));
-}));
-    if(elegible)return `https://covers.openlibrary.org/b/id/${elegible.cover_i}-L.jpg`;
+
+// Convierte "Apellido, Nombre" -> "Nombre Apellido" y quita notas entre paréntesis
+function limpiarAutor(a) {
+  let limpio = repararTexto(String(a || '')).replace(/\([^)]*\)/g, '').trim();
+  if (limpio.includes(',')) {
+    const partes = limpio.split(',').map(p => p.trim()).filter(Boolean);
+    if (partes.length >= 2) limpio = `${partes[1]} ${partes[0]}`;
   }
- // Buscar en Google Books si Open Library no encuentra portada
-try {
-  const busquedas = [
-    `intitle:${titulo} inauthor:${autor}`,
-    `intitle:${titulo}`
+  return limpio.trim();
+}
+
+// Comprueba si dos títulos coinciden (exactos o uno contiene al otro)
+function titulosCoinciden(tCatalogo, tApi) {
+  const a = normalizar(limpiarTitulo(tCatalogo));
+  const b = normalizar(limpiarTitulo(tApi));
+  if (!a || !b) return false;
+  if (a === b) return true;
+  if (a.length >= 4 && b.length >= 4 && (a.startsWith(b) || b.startsWith(a))) return true;
+  return false;
+}
+
+// Comprueba si al menos el apellido principal del autor coincide
+function autoresCoinciden(autorCatalogo, listaAutoresApi) {
+  const autorLimpio = normalizar(limpiarAutor(autorCatalogo));
+  if (!autorLimpio) return true;
+  if (!listaAutoresApi || !listaAutoresApi.length) return false;
+
+  const palabrasClave = autorLimpio.split(' ').filter(p => p.length > 2);
+  if (!palabrasClave.length) return true;
+
+  return listaAutoresApi.some(aApi => {
+    const apiNorm = normalizar(aApi);
+    return palabrasClave.some(palabra => apiNorm.includes(palabra));
+  });
+}
+
+async function consultarOpenLibrary(params) {
+  const url = 'https://openlibrary.org/search.json?' + new URLSearchParams({
+    ...params,
+    limit: '15',
+    fields: 'key,title,author_name,cover_i,isbn'
+  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+  try {
+    const r = await fetch(url, { signal: controller.signal });
+    if (!r.ok) return [];
+    return (await r.json()).docs || [];
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function buscarCubierta(titulo, autor, isbn = '') {
+  const tLimpio = limpiarTitulo(titulo);
+  const aLimpio = limpiarAutor(autor);
+  if (!tLimpio) return '';
+
+  // 1. Si hay ISBN válido, comprobar primero en Google Books
+  const isbnLimpio = String(isbn || '').replace(/[^0-9X]/gi, '');
+  if (/^(?:[0-9]{10}|[0-9]{13})$/.test(isbnLimpio)) {
+    try {
+      const rIsbn = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbnLimpio}&maxResults=3`);
+      if (rIsbn.ok) {
+        const dIsbn = await rIsbn.json();
+        const imgIsbn = dIsbn.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
+        if (imgIsbn) return imgIsbn.replace(/^http:/i, 'https:').replace('&edge=curl', '');
+      }
+    } catch {}
+  }
+
+  // 2. Búsqueda principal en Google Books (Mejor catálogo en español)
+  const apellidoPrincipal = aLimpio.split(/\s+/).filter(p => p.length > 2).pop() || aLimpio;
+  const consultasGB = [
+    aLimpio ? `intitle:"${tLimpio}" inauthor:"${apellidoPrincipal}"` : `intitle:"${tLimpio}"`,
+    aLimpio ? `${tLimpio} ${aLimpio}` : tLimpio
   ];
 
-  for (const busqueda of busquedas) {
-    const url = 'https://www.googleapis.com/books/v1/volumes?q='
-      + encodeURIComponent(busqueda) + '&maxResults=20';
-
-    const respuesta = await fetch(url);
-    if (!respuesta.ok) continue;
-
-    const datos = await respuesta.json();
-
-    const libro = (datos.items || []).find(item => {
-      const info = item.volumeInfo || {};
-      const tituloCoincide = normalizar(info.title) === tituloN;
-      const autores = info.authors || [];
-      const autorCoincide = !autorN || autores.some(a =>
-        autorN.split(/\s+/).every(p => normalizar(a).includes(p))
-      );
-
-      return tituloCoincide && autorCoincide &&
-        (info.imageLinks?.thumbnail || info.imageLinks?.smallThumbnail);
-    });
-
-    if (libro) {
-      return (libro.volumeInfo.imageLinks.thumbnail ||
-        libro.volumeInfo.imageLinks.smallThumbnail)
-        .replace(/^http:/, 'https:');
-    }
-  }
-} catch (error) {
-  console.warn('Google Books:', error);
-}
-
-if (isbn) {
-  const numero = String(isbn).replace(/[^0-9X]/gi, '');
-  if (/^(?:[0-9]{10}|[0-9]{13})$/.test(numero)) {
-    const url = `https://covers.openlibrary.org/b/isbn/${numero}-L.jpg?default=false`;
+  for (const q of consultasGB) {
     try {
-      const respuesta = await fetch(url);
-      if (respuesta.ok) return url;
-    } catch (e) {
-      console.warn('Portada por ISBN:', e);
-    }
-  }
-}
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&maxResults=15`;
+      const res = await fetch(url);
+      if (!res.ok) continue;
+      const datos = await res.json();
+      const items = datos.items || [];
 
- return '';
-}
-$('buscar-portada').onclick=async()=>{
-  const titulo=$('titulo').value.trim(),autor=$('autor').value.trim();
-  if(!titulo)return $('portada-estado').textContent='Escribe primero el título.';
-  $('buscar-portada').disabled=true;$('portada-estado').textContent='Buscando...';
-  try{const url=await buscarCubierta(titulo,autor);if(url){$('portada').value=url;$('ver-portada').href=url;$('ver-portada').hidden=false;$('portada-estado').textContent='Portada propuesta. Revísala antes de guardar.'}else $('portada-estado').textContent='No se encontró ninguna portada.'}
-  catch(e){$('portada-estado').textContent=e.message}finally{$('buscar-portada').disabled=false}
-};
-$('portadas-masivas').onclick=async()=>{
-  if(!isAdmin)return;
-  const faltantes=libros.filter(x=>!x.data.portada&&x.data.titulo);
-  if(!faltantes.length)return $('portadas-estado').textContent='Todos los libros tienen una URL de portada.';
-  if(!confirm(`¿Buscar portadas para todos los ${faltantes.length} libros sin imagen? La búsqueda puede tardar bastante. Revisa las portadas encontradas.`))return;
-  $('portadas-masivas').disabled=true;let encontradas=0,errores=0;
-  for(let i=0;i<faltantes.length;i++){
-    const item=faltantes[i];$('portadas-estado').textContent=`Buscando ${i+1} de ${faltantes.length}...`;
-    try{const url=await buscarCubierta(item.data.titulo,item.data.autor,item.data.isbn);if(url){await updateDoc(doc(db,'libros',item.id),{portada:url});encontradas++}}
-    catch(e){errores++}
-    await new Promise(r=>setTimeout(r,650));
-  }
-  $('portadas-estado').textContent=`Lote terminado: ${encontradas} portadas encontradas; ${errores} errores. Se procesaron ${faltantes.length} libros. Revisa las imágenes antes de continuar.`;
-  $('portadas-masivas').disabled=false;
-};
-async function buscarResumen(titulo,autor){
-  const url='https://www.googleapis.com/books/v1/volumes?q='+
-    encodeURIComponent('intitle:'+titulo+' inauthor:'+autor)+
-    '&maxResults=10';
+      // Pasada A: Coincidencia de título limpio + autor
+      let encontrado = items.find(item => {
+        const info = item.volumeInfo || {};
+        const tieneFoto = info.imageLinks?.thumbnail || info.imageLinks?.smallThumbnail;
+        return tieneFoto && titulosCoinciden(tLimpio, info.title) && autoresCoinciden(aLimpio, info.authors);
+      });
 
-  const respuesta=await fetch(url);
-  if(!respuesta.ok)return '';
-
-  const datos=await respuesta.json();
-  const tituloBuscado=normalizar(titulo);
-  const autorBuscado=normalizar(autor);
-
-  for(const libro of datos.items||[]){
-    const info=libro.volumeInfo||{};
-    const autores=info.authors||[];
-
-    if(normalizar(info.title||'')!==tituloBuscado)continue;
-    if(autorBuscado&&!autores.some(a=>
-      normalizar(a).includes(autorBuscado)||
-      autorBuscado.includes(normalizar(a))
-    ))continue;
-
-    if(info.description){
-      return info.description.replace(/<[^>]*>/g,' ').trim().slice(0,2000);
-    }
-  }
-  return '';
-
-}$('resumenes-masivos').onclick=async()=>{
-  if(!isAdmin)return;
-
-  const faltantes=libros.filter(x=>
-    !x.data.resumen && x.data.titulo
-  ).slice(0,100);
-
-  const estado=$('resumenes-estado');
-  const boton=$('resumenes-masivos');
-
-  if(!faltantes.length){
-    estado.textContent='No quedan libros sin resumen.';
-    return;
-  }
-
-  if(!confirm('¿Buscar resúmenes para '+faltantes.length+' libros?'))return;
-
-  boton.disabled=true;
-  let encontrados=0,errores=0;
-
-  try{
-    for(let i=0;i<faltantes.length;i++){
-      const item=faltantes[i];
-      estado.textContent='Buscando '+(i+1)+' de '+faltantes.length;
-
-      try{
-        const resumen=await buscarResumen(
-          item.data.titulo,item.data.autor
-        );
-
-        if(resumen){
-          await updateDoc(doc(db,'libros',item.id),{resumen});
-          encontrados++;
-        }
-      }catch(e){
-        errores++;
+      // Pasada B: Si no hay autor en Google Books pero el título es idéntico
+      if (!encontrado) {
+        encontrado = items.find(item => {
+          const info = item.volumeInfo || {};
+          const tieneFoto = info.imageLinks?.thumbnail || info.imageLinks?.smallThumbnail;
+          return tieneFoto && normalizar(limpiarTitulo(info.title)) === normalizar(tLimpio);
+        });
       }
 
-      await new Promise(r=>setTimeout(r,700));
+      if (encontrado) {
+        const link = encontrado.volumeInfo.imageLinks.thumbnail || encontrado.volumeInfo.imageLinks.smallThumbnail;
+        return link.replace(/^http:/i, 'https:').replace('&edge=curl', '');
+      }
+    } catch (e) {
+      console.warn('Error en Google Books:', e);
     }
+  }
 
-    estado.textContent='Terminados: '+encontrados+
-      ' resúmenes encontrados. Errores: '+errores;
-  }finally{
-    boton.disabled=false;
+  // 3. Respaldo en Open Library si Google Books no tiene imagen
+  const consultasOL = [{ title: tLimpio, ...(aLimpio && { author: apellidoPrincipal }) }];
+  if (aLimpio) consultasOL.push({ title: tLimpio });
+
+  for (const q of consultasOL) {
+    const docs = await consultarOpenLibrary(q);
+    const elegible = docs.find(d =>
+      d.cover_i &&
+      titulosCoinciden(tLimpio, d.title) &&
+      autoresCoinciden(aLimpio, d.author_name)
+    );
+    if (elegible) {
+      return `https://covers.openlibrary.org/b/id/${elegible.cover_i}-L.jpg?default=false`;
+    }
+  }
+
+  return '';
+}
+
+$('buscar-portada').onclick = async () => {
+  const titulo = $('titulo').value.trim(), autor = $('autor').value.trim();
+  if (!titulo) return $('portada-estado').textContent = 'Escribe primero el título.';
+  $('buscar-portada').disabled = true;
+  $('portada-estado').textContent = 'Buscando en Google Books y Open Library...';
+  try {
+    const url = await buscarCubierta(titulo, autor);
+    if (url) {
+      $('portada').value = url;
+      $('ver-portada').href = url;
+      $('ver-portada').hidden = false;
+      $('portada-estado').textContent = 'Portada encontrada. Revísala antes de guardar.';
+    } else {
+      $('portada-estado').textContent = 'No se encontró portada automática. Prueba el botón de Google Imágenes.';
+    }
+  } catch (e) {
+    $('portada-estado').textContent = e.message;
+  } finally {
+    $('buscar-portada').disabled = false;
   }
 };
+
+$('portadas-masivas').onclick = async () => {
+  if (!isAdmin) return;
+  const todosFaltantes = libros.filter(x => !x.data.portada && x.data.titulo);
+  const faltantes = todosFaltantes.slice(0, 100);
+  if (!faltantes.length) return $('portadas-estado').textContent = 'Todos los libros tienen una URL de portada.';
+  if (!confirm(`Quedan ${todosFaltantes.length} libros sin portada.\n¿Buscar ahora un lote de ${faltantes.length} libros?`)) return;
+
+  $('portadas-masivas').disabled = true;
+  let encontradas = 0, errores = 0;
+  for (let i = 0; i < faltantes.length; i++) {
+    const item = faltantes[i];
+    $('portadas-estado').textContent = `Buscando ${i + 1} de ${faltantes.length} (${repararTexto(item.data.titulo).slice(0, 30)}...) — Encontradas: ${encontradas}`;
+    try {
+      const url = await buscarCubierta(item.data.titulo, item.data.autor, item.data.isbn);
+      if (url) {
+        await updateDoc(doc(db, 'libros', item.id), { portada: url });
+        encontradas++;
+      }
+    } catch (e) {
+      errores++;
+    }
+    await new Promise(r => setTimeout(r, 550));
+  }
+  $('portadas-estado').textContent = `Lote terminado: ${encontradas} portadas guardadas de ${faltantes.length} buscadas (${errores} errores).`;
+  $('portadas-masivas').disabled = false;
+};
+
+async function buscarResumen(titulo, autor) {
+  const tLimpio = limpiarTitulo(titulo);
+  const aLimpio = limpiarAutor(autor);
+  const apellido = aLimpio.split(/\s+/).filter(p => p.length > 2).pop() || aLimpio;
+
+  const consultas = [
+    aLimpio ? `intitle:"${tLimpio}" inauthor:"${apellido}"` : `intitle:"${tLimpio}"`,
+    `${tLimpio} ${aLimpio}`.trim()
+  ];
+
+  for (const q of consultas) {
+    try {
+      const url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(q) + '&maxResults=10';
+      const respuesta = await fetch(url);
+      if (!respuesta.ok) continue;
+
+      const datos = await respuesta.json();
+      for (const libro of datos.items || []) {
+        const info = libro.volumeInfo || {};
+        if (!titulosCoinciden(tLimpio, info.title)) continue;
+        if (!autoresCoinciden(aLimpio, info.authors)) continue;
+
+        if (info.description) {
+          return info.description.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 2000);
+        }
+      }
+    } catch {}
+  }
+  return '';
+}
+
+$('resumenes-masivos').onclick = async () => {
+  if (!isAdmin) return;
+  const faltantes = libros.filter(x => !x.data.resumen && x.data.titulo).slice(0, 100);
+  const estado = $('resumenes-estado');
+  const boton = $('resumenes-masivos');
+
+  if (!faltantes.length) {
+    estado.textContent = 'No quedan libros sin resumen.';
+    return;
+  }
+  if (!confirm('¿Buscar resúmenes para ' + faltantes.length + ' libros?')) return;
+
+  boton.disabled = true;
+  let encontrados = 0, errores = 0;
+  try {
+    for (let i = 0; i < faltantes.length; i++) {
+      const item = faltantes[i];
+      estado.textContent = `Buscando ${i + 1} de ${faltantes.length} — Encontrados: ${encontrados}`;
+      try {
+        const resumen = await buscarResumen(item.data.titulo, item.data.autor);
+        if (resumen) {
+          await updateDoc(doc(db, 'libros', item.id), { resumen });
+          encontrados++;
+        }
+      } catch (e) {
+        errores++;
+      }
+      await new Promise(r => setTimeout(r, 600));
+    }
+    estado.textContent = `Terminados: ${encontrados} resúmenes encontrados. Errores: ${errores}`;
+  } finally {
+    boton.disabled = false;
+  }
+};
+// --- FIN DEL BLOQUE MEJORADO ---
+
  // La librería se carga solo cuando el administrador selecciona un Excel.
 let sheetPromise;
 function cargarExcel(){return sheetPromise??=(async()=>{
@@ -397,7 +485,7 @@ $('chat-apodo-form').addEventListener('submit',async e=>{
   catch(err){chatError('No se pudo guardar el apodo: '+err.message)}finally{button.disabled=false}
 });
 $('chat-enviar-form').addEventListener('submit',async e=>{
-  e.preventDefault();if(!chatUser||!chatUser.emailVerified||!chatProfile)return;
+  e.preventDefault();if(!chatUser||!chatUser.emailVerified||chatProfile)return;
   const texto=$('chat-texto').value.trim();if(!texto||texto.length>500)return;
   if(Date.now()-chatLastSend<10000)return chatError('Espera unos segundos antes de enviar otro mensaje.');
   $('chat-enviar').disabled=true;chatError('');
