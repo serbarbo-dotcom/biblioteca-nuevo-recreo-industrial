@@ -48,7 +48,8 @@ header {
 <section id="admin" hidden><h2>Administración del catálogo</h2><p class="small">Solo la cuenta autorizada puede guardar cambios.</p><button id="nuevo">Añadir libro</button>
 <div class="import-panel"><h3>Importar catálogo de Excel</h3><p class="muted">Columnas admitidas: título, autor, género, ubicación y portada. La primera fila debe contener los encabezados. Se evitarán duplicados con el mismo título y autor.</p><input id="excel" type="file" accept=".xlsx,.xls,.csv"><div id="preview" class="preview" aria-live="polite"></div><button id="importar" disabled>Importar libros revisados</button><p id="progreso" class="muted" role="status"></p></div>
 <div class="import-panel"><h3>Actualizar números de registro desde Excel</h3><p class="muted">Selecciona el Excel con las columnas titulo, autor y ubicacion. Se actualizarán solamente las coincidencias únicas y exactas de título y autor; las portadas se conservarán. Revisa el resumen antes de confirmar.</p><input id="registros-excel" type="file" accept=".xlsx,.xls"><p id="registros-preview" class="muted" role="status"></p><button id="registros-guardar" disabled>Actualizar números revisados</button><p id="registros-progreso" class="muted" role="status"></p></div>
-<div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">Búsqueda por título y autor en Open Library, en lotes de hasta 100 libros. Las portadas pueden corresponder a otra edición: revísalas.</p><button id="portadas-masivas" class="secondary">Buscar portadas (siguiente lote de 100)</button><p id="portadas-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>Título <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>Género <input id="genero" maxlength="100"></label><label>N.º de registro <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><label>Resumen del libro
+<div class="import-panel"><h3>Portadas de Internet</h3><p class="muted">Búsqueda por título y autor en Open Library, en lotes de hasta 100 libros. Las portadas pueden corresponder a otra edición: revísalas.</p><button id="portadas-masivas" class="secondary">Buscar portadas (siguiente lote de 100)</button><p id="portadas-estado" class="muted" role="status"></p><button type="button" id="resumenes-masivos" class="secondary">Buscar resúmenes (siguiente lote de 100)</button>
+<p id="resumenes-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>Título <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>Género <input id="genero" maxlength="100"></label><label>N.º de registro <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><label>Resumen del libro
 <textarea id="resumen" rows="4" maxlength="2000" placeholder="Escribe aquí un pequeño resumen del libro"></textarea>
 </label><div class="cover-controls"><button type="button" class="secondary" id="buscar-portada">Buscar portada en Internet</button> <button type="button" onclick="window.open('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(document.getElementById('titulo').value+' '+document.getElementById('autor').value+' portada libro'),'_blank')">Buscar en Google Imágenes</button><a id="ver-portada" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver portada encontrada</a></div><p id="portada-estado" class="muted"></p><div class="actions"><button type="submit" id="guardar">Guardar libro</button><button type="button" class="secondary" id="cancelar">Cancelar</button></div></form></section>
 <div class="view-controls"><label>Vista <select id="vista" aria-label="Tipo de vista"><option value="grid">Cuadrícula</option><option value="list">Filas</option></select></label><label>Libros por página <select id="por-pagina"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select></label></div><nav id="paginacion-superior" class="pagination" aria-label="Páginas del catálogo"></nav><section id="libros" class="grid" aria-label="Libros"></section><nav id="paginacion-inferior" class="pagination" aria-label="Páginas del catálogo"></nav>
@@ -194,7 +195,82 @@ $('portadas-masivas').onclick=async()=>{
   $('portadas-estado').textContent=`Lote terminado: ${encontradas} portadas encontradas; ${errores} errores. Se procesaron ${faltantes.length} libros. Revisa las imágenes antes de continuar.`;
   $('portadas-masivas').disabled=false;
 };
-// La librería se carga solo cuando el administrador selecciona un Excel.
+async function buscarResumen(titulo,autor){
+  const url='https://www.googleapis.com/books/v1/volumes?q='+
+    encodeURIComponent('intitle:'+titulo+' inauthor:'+autor)+
+    '&maxResults=10';
+
+  const respuesta=await fetch(url);
+  if(!respuesta.ok)return '';
+
+  const datos=await respuesta.json();
+  const tituloBuscado=normalizar(titulo);
+  const autorBuscado=normalizar(autor);
+
+  for(const libro of datos.items||[]){
+    const info=libro.volumeInfo||{};
+    const autores=info.authors||[];
+
+    if(normalizar(info.title||'')!==tituloBuscado)continue;
+    if(autorBuscado&&!autores.some(a=>
+      normalizar(a).includes(autorBuscado)||
+      autorBuscado.includes(normalizar(a))
+    ))continue;
+
+    if(info.description){
+      return info.description.replace(/<[^>]*>/g,' ').trim().slice(0,2000);
+    }
+  }
+  return '';
+
+}$('resumenes-masivos').onclick=async()=>{
+  if(!isAdmin)return;
+
+  const faltantes=libros.filter(x=>
+    !x.data.resumen && x.data.titulo
+  ).slice(0,100);
+
+  const estado=$('resumenes-estado');
+  const boton=$('resumenes-masivos');
+
+  if(!faltantes.length){
+    estado.textContent='No quedan libros sin resumen.';
+    return;
+  }
+
+  if(!confirm('¿Buscar resúmenes para '+faltantes.length+' libros?'))return;
+
+  boton.disabled=true;
+  let encontrados=0,errores=0;
+
+  try{
+    for(let i=0;i<faltantes.length;i++){
+      const item=faltantes[i];
+      estado.textContent='Buscando '+(i+1)+' de '+faltantes.length;
+
+      try{
+        const resumen=await buscarResumen(
+          item.data.titulo,item.data.autor
+        );
+
+        if(resumen){
+          await updateDoc(doc(db,'libros',item.id),{resumen});
+          encontrados++;
+        }
+      }catch(e){
+        errores++;
+      }
+
+      await new Promise(r=>setTimeout(r,700));
+    }
+
+    estado.textContent='Terminados: '+encontrados+
+      ' resúmenes encontrados. Errores: '+errores;
+  }finally{
+    boton.disabled=false;
+  }
+};
+ // La librería se carga solo cuando el administrador selecciona un Excel.
 let sheetPromise;
 function cargarExcel(){return sheetPromise??=(async()=>{
   const mod=await import('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/+esm');return mod;
