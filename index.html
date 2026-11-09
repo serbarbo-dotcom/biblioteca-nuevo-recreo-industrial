@@ -171,7 +171,21 @@ try {
 } catch (error) {
   console.warn('Google Books:', error);
 }
-  return '';
+
+if (isbn) {
+  const numero = String(isbn).replace(/[^0-9X]/gi, '');
+  if (/^(?:[0-9]{10}|[0-9]{13})$/.test(numero)) {
+    const url = `https://covers.openlibrary.org/b/isbn/${numero}-L.jpg?default=false`;
+    try {
+      const respuesta = await fetch(url);
+      if (respuesta.ok) return url;
+    } catch (e) {
+      console.warn('Portada por ISBN:', e);
+    }
+  }
+}
+
+ return '';
 }
 $('buscar-portada').onclick=async()=>{
   const titulo=$('titulo').value.trim(),autor=$('autor').value.trim();
