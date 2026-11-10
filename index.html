@@ -10,7 +10,593 @@
 .toolbar,.actions,.cover-controls,.tabs,.view-controls,.sort-group,.pagination,.batch-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 input,select,button,textarea{font:inherit;padding:11px;border:1px solid #c7c9c4;border-radius:8px}input{min-width:0}#buscar{flex:1;min-width:210px}button{background:#263e35;color:#fff;cursor:pointer}button.secondary{background:#fff;color:#263e35}button.danger{background:#a42d2d}button:disabled{opacity:.55;cursor:not-allowed}#estado{margin:20px 0;color:#5c645e}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.libro{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px #0001}.cover{width:100%;aspect-ratio:2/3;object-fit:cover;background:#e2e7e2;display:block}.no-cover{aspect-ratio:2/3;display:grid;place-items:center;background:#dfe7e1;color:#56685d;font-size:48px}.info{padding:15px}.info h3{margin:0 0 9px}.info p{margin:6px 0;font-size:14px}.info details{margin-top:12px}.info summary{cursor:pointer;color:var(--azul);font-weight:bold}.actions button{padding:8px;font-size:13px}
-#admin{margin:20px 0;padding:20px;background:white;border-radius:12px}#admin[hidden],#formulario[hidden],[hidden]{display:none!important}#formulario{display:grid;gap:10px;margin-top:14px}#formulario label{display:grid;gap:5px}#formulario input,#formulario textarea{width:100%}.small,.muted{font-size:13px;color:#59635c}#mensaje{color:#a42d2d}a{color:#235e4d}
+#admin{margin:20px 0;padding:20px;background:white;border-radius:12px}#admin[hidden],#formulario[hidden],[hidden]{display:none!important}#formulario{display:grid;gap:10px;margin-top:14px}#formulario label{display:grid;gap:5px}#formulario input,#formulario textarea{width:100%}.small,.muted{font-size:13px;color:#59635c}#mensaje,#chat-error{color:#a42d2d}a{color:#235e4d}
 .tabs{margin:0 0 18px}.tabs button{background:var(--azul);color:white}.tabs button[aria-selected="true"]{background:var(--granate)}.chat-box{background:#fff;border-radius:12px;padding:18px;margin:12px 0}.chat-messages{display:grid;gap:10px;max-height:500px;overflow:auto;padding:12px 0}.chat-message{padding:12px;border-radius:10px;background:#f1f5f1;overflow-wrap:anywhere;border-left:4px solid var(--dorado)}.chat-meta{font-size:12px;color:#54665b;margin-bottom:5px}.chat-compose{display:grid;gap:9px}.chat-compose textarea{width:100%;min-height:75px}.rules-list{line-height:1.75}
 .import-panel{margin-top:18px;padding:15px;border:1px solid #d9dfd9;border-radius:10px}.import-panel input{max-width:100%;width:100%}.import-panel button{margin-top:8px}.preview{max-height:220px;overflow:auto;margin-top:10px}.preview table{border-collapse:collapse;width:100%;font-size:13px}.preview td,.preview th{border-bottom:1px solid #ddd;padding:6px;text-align:left}.view-controls{margin:14px 0;background:#fff;padding:12px;border-radius:10px;box-shadow:0 1px 6px #0001}.view-controls label{display:flex;align-items:center;gap:6px}.sort-btn{padding:9px 14px;font-size:14px;background:#fff;color:var(--azul);border:2px solid var(--azul);font-weight:600}.sort-btn[aria-pressed="true"]{background:var(--granate);color:white;border-color:var(--granate)}.pagination{justify-content:center;margin:20px 0}.pagination button{padding:9px 14px}
-.grid.list-view{display:flex;flex-direction:column;gap:10px}.list-view .libro{display:flex;align-items:stretch;min-height:90px}.list-view .cover,.list-view .no-cover{width:74px;min-width:74px;height:110px;aspect-ratio:auto;object-fit:cover;font-size:25px}.list-view .info{flex:1;min-width:0;padding:12px}.list-view .info h3{font-size:16px}.list-view .info p{display:inline-block;margin:3px 14px 3px 0}.cover-controls button{font-size:13
+.grid.list-view{display:flex;flex-direction:column;gap:10px}.list-view .libro{display:flex;align-items:stretch;min-height:90px}.list-view .cover,.list-view .no-cover{width:74px;min-width:74px;height:110px;aspect-ratio:auto;object-fit:cover;font-size:25px}.list-view .info{flex:1;min-width:0;padding:12px}.list-view .info h3{font-size:16px}.list-view .info p{display:inline-block;margin:3px 14px 3px 0}.cover-controls button{font-size:13px;padding:9px}
+@media(max-width:450px){.list-view .cover,.list-view .no-cover{width:58px;min-width:58px;height:90px}.list-view .info{padding:9px}}
+</style>
+</head>
+<body>
+<header><img src="IMG-20261108-WA0001.jpg" alt="Escudo del Nuevo Recreo Industrial" style="width:110px;height:auto;display:block;margin:0 auto 15px"><h1>Biblioteca Nuevo Recreo Industrial</h1><p>Catálogo de libros</p></header>
+<main>
+<nav class="tabs" aria-label="Secciones"><button type="button" data-tab="catalogo" aria-selected="true">📚 Catálogo</button><button type="button" data-tab="chat" aria-selected="false">💬 Chat de lectores</button><button type="button" data-tab="normas" aria-selected="false">📋 Normas de la biblioteca</button></nav>
+
+<section id="tab-catalog
+  o" class="panel-tab">
+<div class="toolbar">
+  <input id="buscar" placeholder="Buscar título, autor, género o n.º de registro" aria-label="Buscar libros">
+  <button id="login" type="button">Entrar con Google</button>
+  <button id="logout" type="button" hidden>Salir</button>
+</div>
+
+<p id="estado" role="status">Cargando catálogo...</p>
+<p id="mensaje" role="alert"></p>
+
+<section id="admin" hidden>
+  <h2>Administración del catálogo</h2>
+  <p class="small">Puedes añadir libros, editar datos, buscar portadas y resúmenes automáticamente.</p>
+
+  <div class="batch-actions">
+    <button id="nuevo" type="button">➕ Añadir libro</button>
+    <button id="buscar-todas-portadas" type="button" class="secondary">🖼️ Buscar portadas vacías</button>
+    <button id="buscar-todos-resumenes" type="button" class="secondary">📝 Buscar resúmenes vacíos</button>
+    <button id="exportar" type="button" class="secondary">⬇️ Exportar copia</button>
+    <button id="borrar-todo" type="button" class="danger">🗑️ Borrar todo</button>
+  </div>
+
+  <form id="formulario" hidden>
+    <input type="hidden" id="id-libro">
+
+    <label>Título
+      <input id="titulo" required autocomplete="off">
+    </label>
+
+    <label>Autor
+      <input id="autor" autocomplete="off">
+    </label>
+
+    <label>Género / materia
+      <input id="genero" autocomplete="off">
+    </label>
+
+    <label>N.º de registro
+      <input id="registro" autocomplete="off">
+    </label>
+
+    <label>ISBN
+      <input id="isbn" autocomplete="off" placeholder="Opcional, ayuda a encontrar portadas exactas">
+    </label>
+
+    <label>Ubicación / signatura
+      <input id="ubicacion" autocomplete="off">
+    </label>
+
+    <label>URL de portada
+      <input id="portada" autocomplete="off" placeholder="https://...">
+    </label>
+
+    <div class="cover-controls">
+      <button id="buscar-portada" type="button" class="secondary">Buscar portada</button>
+      <button id="buscar-resumen" type="button" class="secondary">Buscar resumen</button>
+      <button id="buscar-ambos" type="button" class="secondary">Buscar portada y resumen</button>
+    </div>
+
+    <label>Resumen
+      <textarea id="resumen" rows="5" placeholder="Resumen del libro"></textarea>
+    </label>
+
+    <div class="actions">
+      <button type="submit">Guardar</button>
+      <button id="cancelar" type="button" class="secondary">Cancelar</button>
+    </div>
+  </form>
+
+  <div class="import-panel">
+    <h3>Importar libros</h3>
+    <p class="small">Puedes importar un archivo JSON exportado desde esta misma página.</p>
+    <input id="importar" type="file" accept=".json,application/json">
+    <div id="preview" class="preview"></div>
+  </div>
+</section>
+
+<div class="view-controls">
+  <label>Vista
+    <select id="vista">
+      <option value="grid">Cuadrícula</option>
+      <option value="list">Lista</option>
+    </select>
+  </label>
+
+  <label>Por página
+    <select id="por-pagina">
+      <option value="12">12</option>
+      <option value="24" selected>24</option>
+      <option value="48">48</option>
+      <option value="96">96</option>
+    </select>
+  </label>
+
+  <div class="sort-group" aria-label="Ordenar">
+    <button class="sort-btn" type="button" data-sort="titulo" aria-pressed="true">Título</button>
+    <button class="sort-btn" type="button" data-sort="autor" aria-pressed="false">Autor</button>
+    <button class="sort-btn" type="button" data-sort="registro" aria-pressed="false">Registro</button>
+  </div>
+</div>
+
+<div id="lista" class="grid"></div>
+
+<div class="pagination">
+  <button id="prev" type="button" class="secondary">Anterior</button>
+  <span id="pagina-info" class="muted">Página 1</span>
+  <button id="next" type="button" class="secondary">Siguiente</button>
+</div>
+</section>
+<section id="tab-chat" class="panel-tab" hidden>
+  <div class="chat-box">
+    <h2>Chat de lectores</h2>
+    <p class="small">Espacio para recomendaciones, comentarios y avisos de lectura.</p>
+
+    <div id="chat-messages" class="chat-messages"></div>
+
+    <div class="chat-compose">
+      <input id="chat-nombre" placeholder="Tu nombre">
+      <textarea id="chat-texto" placeholder="Escribe tu mensaje"></textarea>
+      <button id="chat-enviar" type="button">Enviar mensaje</button>
+      <p id="chat-error"></p>
+    </div>
+  </div>
+</section>
+
+<section id="tab-normas" class="panel-tab" hidden>
+  <div class="chat-box">
+    <h2>Normas de la biblioteca</h2>
+    <ul class="rules-list">
+      <li>Cuida los libros y devuélvelos en buen estado.</li>
+      <li>Respeta los plazos de préstamo establecidos.</li>
+      <li>Comunica cualquier deterioro o pérdida.</li>
+      <li>Mantén un ambiente tranquilo y respetuoso.</li>
+      <li>Las recomendaciones de lectura son bienvenidas.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+
+<script>
+/* ==========================================================
+   CONFIGURACIÓN
+   ========================================================== */
+
+/*
+  Si ya tenías Firebase, pega aquí tu configuración real.
+  Si no pones Firebase, la página funciona con localStorage del navegador.
+*/
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
+};
+
+/*
+  Emails autorizados para administrar.
+  Si lo dejas vacío
+  ## PARTE 3/4
+
+Pega esto **justo después** de la parte 2:
+
+```html
+  cualquiera que entre con Google será administrador.
+*/
+const ADMIN_EMAILS = [];
+
+/* ==========================================================
+   VARIABLES
+   ========================================================== */
+const $ = id => document.getElementById(id);
+
+const els = {
+  buscar:$('buscar'), login:$('login'), logout:$('logout'), estado:$('estado'), mensaje:$('mensaje'),
+  admin:$('admin'), nuevo:$('nuevo'), formulario:$('formulario'), idLibro:$('id-libro'),
+  titulo:$('titulo'), autor:$('autor'), genero:$('genero'), registro:$('registro'), isbn:$('isbn'),
+  ubicacion:$('ubicacion'), portada:$('portada'), resumen:$('resumen'),
+  buscarPortada:$('buscar-portada'), buscarResumen:$('buscar-resumen'), buscarAmbos:$('buscar-ambos'),
+  cancelar:$('cancelar'), lista:$('lista'), vista:$('vista'), porPagina:$('por-pagina'),
+  prev:$('prev'), next:$('next'), paginaInfo:$('pagina-info'),
+  buscarTodasPortadas:$('buscar-todas-portadas'), buscarTodosResumenes:$('buscar-todos-resumenes'),
+  exportar:$('exportar'), borrarTodo:$('borrar-todo'), importar:$('importar'), preview:$('preview'),
+  chatMessages:$('chat-messages'), chatNombre:$('chat-nombre'), chatTexto:$('chat-texto'),
+  chatEnviar:$('chat-enviar'), chatError:$('chat-error')
+};
+
+let db = null;
+let auth = null;
+let usandoFirebase = false;
+let usuario = null;
+let esAdmin = false;
+let libros = [];
+let mensajes = [];
+let pagina = 1;
+let orden = 'titulo';
+let googleBloqueadoHasta = 0;
+
+/* ==========================================================
+   FIREBASE OPCIONAL
+   ========================================================== */
+try{
+  if(firebaseConfig.apiKey && firebaseConfig.projectId){
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore();
+    usandoFirebase = true;
+  }
+}catch(e){
+  console.warn('Firebase no iniciado. Se usará localStorage.', e);
+  usandoFirebase = false;
+}
+
+/* ==========================================================
+   UTILIDADES
+   ========================================================== */
+function uid(){
+  return Date.now().toString(36)+Math.random().toString(36).slice(2,9);
+}
+
+function escapeHTML(s=''){
+  return String(s).replace(/[&<>"']/g,m=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[m]));
+}
+
+function normalizar(s=''){
+  return String(s)
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^\p{L}\p{N}\s]/gu,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function limpiarTitulo(t=''){
+  return String(t)
+    .replace(/\([^)]*\)/g,' ')
+    .replace(/\[[^\]]*\]/g,' ')
+    .replace(/\b(edicion|edición|volumen|tomo|libro)\b.*$/i,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function limpiarAutor(a=''){
+  return String(a)
+    .replace(/\([^)]*\)/g,' ')
+    .replace(/\b(coord\.?|ed\.?|editor|trad\.?|traduccion|traducción)\b/gi,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function palabrasImportantes(s=''){
+  return normalizar(s).split(' ').filter(w=>w.length>2&&!['los','las','del','con','para','una','uno','por','sus','the','and'].includes(w));
+}
+
+function titulosCoinciden(base,encontrado){
+  const b = palabrasImportantes(base);
+  const e = palabrasImportantes(encontrado);
+  if(!b.length || !e.length)return false;
+
+  const nb = normalizar(base);
+  const ne = normalizar(encontrado);
+
+  if(nb===ne)return true;
+  if(ne.includes(nb) || nb.includes(ne))return true;
+
+  const aciertos = b.filter(w=>e.includes(w)).length;
+  return aciertos >= Math.max(1, Math.ceil(b.length*0.65));
+}
+
+function autoresCoinciden(base,encontrados){
+  if(!base)return true;
+  const b = palabrasImportantes(base);
+  if(!b.length)return true;
+
+  const arr = Array.isArray(encontrados) ? encontrados : [encontrados].filter(Boolean);
+  if(!arr.length)return false;
+
+  return arr.some(a=>{
+    const e = palabrasImportantes(a);
+    if(!e.length)return false;
+    if(normalizar(a).includes(normalizar(base)) || normalizar(base).includes(normalizar(a)))return true;
+    const aciertos = b.filter(w=>e.includes(w)).length;
+    return aciertos >= Math.max(1, Math.ceil(b.length*0.5));
+  });
+}
+
+function limpiarDescripcion(s=''){
+  return String(s||'')
+    .replace(/<[^>]+>/g,' ')
+    .replace(/&nbsp;/g,' ')
+    .replace(/&amp;/g,'&')
+    .replace(/&quot;/g,'"')
+    .replace(/&#039;/g,"'")
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+async function pedirJSON(url,timeout=12000){
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(),timeout);
+  try{
+    const r = await fetch(url,{signal:controller.signal});
+    if(!r.ok){
+      if(url.includes('googleapis') && (r.status===403 || r.status===429)){
+        googleBloqueadoHasta = Date.now()+5*60*1000;
+      }
+      throw new Error('HTTP '+r.status);
+    }
+    return await r.json();
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+function dormir(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function libroVacio(){
+  return {
+    id:'',
+    titulo:'',
+    autor:'',
+    genero:'',
+    registro:'',
+    isbn:'',
+    ubicacion:'',
+    portada:'',
+    resumen:'',
+    creado:Date.now(),
+    actualizado:Date.now()
+  };
+}
+
+function libroDesdeForm(){
+  return {
+    id: els.idLibro.value || uid(),
+    titulo: els.titulo.value.trim(),
+    autor: els.autor.value.trim(),
+    genero: els.genero.value.trim(),
+    registro: els.registro.value.trim(),
+    isbn: els.isbn.value.trim(),
+    ubicacion: els.ubicacion.value.trim(),
+    portada: els.portada.value.trim(),
+    resumen: els.resumen.value.trim(),
+    creado: Number(els.idLibro.dataset.creado || Date.now()),
+    actualizado: Date.now()
+  };
+}
+
+function ponerForm(l){
+  els.idLibro.value = l.id || '';
+  els.idLibro.dataset.creado = l.creado || Date.now();
+  els.titulo.value = l.titulo || '';
+  els.autor.value
+  ## PARTE 4/4
+
+Pega esto **justo después** de la parte 3. Esta es la última parte y cierra el archivo completo:
+
+```html
+ = l.autor || '';
+  els.genero.value = l.genero || '';
+  els.registro.value = l.registro || '';
+  els.isbn.value = l.isbn || '';
+  els.ubicacion.value = l.ubicacion || '';
+  els.portada.value = l.portada || '';
+  els.resumen.value = l.resumen || '';
+}
+
+/* ==========================================================
+   BÚSQUEDA MEJORADA DE PORTADAS Y RESÚMENES
+   Fuentes: Apple Books, Google Books, Open Library,
+   Internet Archive, Gutendex/Project Gutenberg, Wikipedia
+   ========================================================== */
+async function buscarMetadatos(titulo,autor,isbn='',tipo='portada'){
+  const t = limpiarTitulo(titulo);
+  const a = limpiarAutor(autor);
+  const i = String(isbn||'').replace(/[^\dXx]/g,'');
+
+  if(!t && !i)return '';
+
+  const candidatos = [];
+  const queries = [
+    i ? `isbn:${i}` : '',
+    `${t} ${a}`.trim(),
+    t
+  ].filter(Boolean);
+
+  function autoresArray(x){
+    if(Array.isArray(x))return x.filter(Boolean).map(String);
+    if(typeof x==='string' && x.trim())return [x.trim()];
+    return [];
+  }
+
+  function limpiarUrl(u){
+    return String(u||'')
+      .replace(/^http:/i,'https:')
+      .replace(/&edge=curl/g,'');
+  }
+
+  function scoreCoincidencia(tt,aa,extra=0){
+    const autores = autoresArray(aa);
+    let score = extra;
+
+    if(i && String(tt||'').toLowerCase().includes(i.toLowerCase()))score += 80;
+
+    if(t){
+      if(titulosCoinciden(t,tt))score += 70;
+      else return 0;
+    }
+
+    if(a){
+      if(autoresCoinciden(a,autores))score += 25;
+      else score -= 18;
+    }
+
+    if(normalizar(limpiarTitulo(t)) && normalizar(limpiarTitulo(t))===normalizar(limpiarTitulo(tt)))score += 20;
+
+    if(a && autores.some(x=>normalizar(limpiarAutor(x))===normalizar(a)))score += 10;
+
+    return score;
+  }
+
+  function addCandidato(valor,score,fuente,tituloEncontrado='',autores=[]){
+    if(!valor || !score)return;
+
+    if(tipo==='portada'){
+      valor = limpiarUrl(valor);
+      if(!/^https:\/\//i.test(valor))return;
+    }else{
+      valor = limpiarDescripcion(valor);
+      if(valor.length < 35)return;
+    }
+
+    candidatos.push({
+      valor,
+      score,
+      fuente,
+      tituloEncontrado,
+      autores: autoresArray(autores)
+    });
+  }
+
+  function mejor(){
+    candidatos.sort((x,y)=>y.score-x.score);
+    console.log(`Candidatos ${tipo}:`, candidatos.map(c=>({
+      fuente:c.fuente,
+      score:c.score,
+      titulo:c.tituloEncontrado,
+      autores:c.autores,
+      valor:String(c.valor).slice(0,90)
+    })));
+    return candidatos[0]?.valor || '';
+  }
+
+  /* 1. Apple Books */
+  for(const q of queries){
+    try{
+      const d = await pedirJSON(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=ebook&country=es&limit=30`);
+      for(const item of d?.results || []){
+        const autores = autoresArray(item.artistName);
+        const score = scoreCoincidencia(item.trackName,autores,18);
+        if(!score)continue;
+
+        if(tipo==='portada'){
+          const img = item.artworkUrl100;
+          if(img)addCandidato(img.replace('100x100bb','600x600bb'),score,'Apple Books',item.trackName,autores);
+        }else{
+          addCandidato(item.description,score,'Apple Books',item.trackName,autores);
+        }
+      }
+    }catch(e){
+      console.warn('Apple Books:',e);
+    }
+  }
+
+  /* 2. Google Books */
+  if(Date.now() > googleBloqueadoHasta){
+    const googleQueries = [
+      i ? `isbn:${i}` : '',
+      `intitle:${t}${a?' inauthor:'+a:''}`,
+      `"${t}" ${a}`.trim(),
+      `${t} ${a}`.trim()
+    ].filter(Boolean);
+
+    for(const q of googleQueries){
+      try{
+        const d = await pedirJSON(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&maxResults=40&printType=books`);
+        for(const item of d?.items || []){
+          const v = item.volumeInfo || {};
+          const autores = autoresArray(v.authors);
+          const score = scoreCoincidencia(v.title,autores,22);
+          if(!score)continue;
+
+          if(tipo==='portada'){
+            const img =
+              v.imageLinks?.extraLarge ||
+              v.imageLinks?.large ||
+              v.imageLinks?.medium ||
+              v.imageLinks?.small ||
+              v.imageLinks?.thumbnail ||
+              v.imageLinks?.smallThumbnail;
+
+            if(img)addCandidato(img,score,'Google Books',v.title,autores);
+          }else{
+            addCandidato(v.description,score,'Google Books',v.title,autores);
+          }
+        }
+      }catch(e){
+        console.warn('Google Books:',e);
+      }
+    }
+  }
+
+  /* 3. Open Library */
+  for(const q of queries){
+    try{
+      const url = i
+        ? `https://openlibrary.org/search.json?isbn=${encodeURIComponent(i)}&limit=50&fields=key,title,author_name,cover_i,first_sentence,isbn`
+        : `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=50&fields=key,title,author_name,cover_i,first_sentence,isbn`;
+
+      const d = await pedirJSON(url);
+
+      for(const item of d?.docs || []){
+        const autores = autoresArray(item.author_name);
+        const score = scoreCoincidencia(item.title,autores,14);
+        if(!score)continue;
+
+        if(tipo==='portada' && item.cover_i){
+          addCandidato(`https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg?default=false`,score,'Open Library',item.title,autores);
+        }
+
+        if(tipo==='resumen'){
+          if(item.first_sentence){
+            const sentence = Array.isArray(item.first_sentence) ? item.first_sentence.join(' ') : item.first_sentence;
+            addCandidato(sentence,score,'Open Library',item.title,autores);
+          }
+
+          if(/^\/works\/OL\d+W$/.test(item.key || '')){
+            try{
+              const work = await pedirJSON(`https://openlibrary.org${item.key}.json`);
+              const description = typeof work?.description === 'string' ? work.description : work?.description?.value;
+              addCandidato(description,score+8,'Open Library Work',item.title,autores);
+            }catch(e){
+              console.warn('Open Library descripción:',e);
+            }
+          }
+        }
+      }
+    }catch(e){
+      console.warn('Open Library:',e);
+    }
+  }
+
+  /* 4. Internet Archive */
+  for(const q of queries){
+    try{
+      const params = new URLSearchParams();
+      params.set('q', i ? `isbn:${i} AND mediatype:texts` : `title:(${q}) AND mediatype:texts`);
+      params.append('fl[]','identifier');
+      params.append('fl[]','title');
+      params.append('fl[]','creator');
+      params.append('fl[]','description');
+      params.set('rows','30');
+      params.set('page','1');
+      params.set('output','json');
+
+      const d = await pedirJSON(`https://archive.org/advancedsearch.php?${params.toString()}`);
+
+      for(const item of d?.response?.docs || []){
+        const autores = autoresArray(item.creator);
+        const score = scoreCoincidencia
