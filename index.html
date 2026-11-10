@@ -23,7 +23,8 @@ input,select,button,textarea{font:inherit;padding:11px;border:1px solid #c7c9c4;
 <nav class="tabs" aria-label="Secciones"><button type="button" data-tab="catalogo" aria-selected="true">📚 Catálogo</button><button type="button" data-tab="chat" aria-selected="false">💬 Chat de lectores</button><button type="button" data-tab="normas" aria-selected="false">📋 Normas de la biblioteca</button></nav>
 
 <section id="tab-catalog
-  o" class="panel-tab">
+```html
+o" class="panel-tab">
 <div class="toolbar">
   <input id="buscar" placeholder="Buscar título, autor, género o n.º de registro" aria-label="Buscar libros">
   <button id="login" type="button">Entrar con Google</button>
@@ -132,6 +133,7 @@ input,select,button,textarea{font:inherit;padding:11px;border:1px solid #c7c9c4;
   <button id="next" type="button" class="secondary">Siguiente</button>
 </div>
 </section>
+
 <section id="tab-chat" class="panel-tab" hidden>
   <div class="chat-box">
     <h2>Chat de lectores</h2>
@@ -184,12 +186,6 @@ const firebaseConfig = {
   appId: ""
 };
 
-/*
-  Emails autorizados para administrar.
-  Si lo dejas vacío
-  ## PARTE 3/4
-
-Pega esto **justo después** de la parte 2:
 
 ```html
   cualquiera que entre con Google será administrador.
