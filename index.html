@@ -3,33 +3,89 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Biblioteca Nuevo Recreo Industrial</title>
- <style>
- /* Colores oficiales Nuevo Recreo Industrial */
+<style>
+/* Colores oficiales Nuevo Recreo Industrial */
 :root {
   --azul-sociedad: #18277c;
   --granate-sociedad: #a71351;
   --dorado-sociedad: #b59a50;
+  font-family: Arial, sans-serif;
+  color: #26332d;
+  background: #f5f1e8;
 }
-
-header {
+*{box-sizing:border-box}
+body{margin:0}
+header{
   background: var(--azul-sociedad) !important;
   color: white !important;
   border-bottom: 5px solid var(--dorado-sociedad);
+  text-align:center;
+  padding:34px 16px;
 }
-
-.tabs button {
-  background: var(--azul-sociedad);
-  color: white;
-}
-
-.tabs button[aria-selected="true"] {
-  background: var(--granate-sociedad);
-}
-
-.chat-message {
-  border-left: 4px solid var(--dorado-sociedad);
-}
-:root{font-family:Arial,sans-serif;color:#26332d;background:#f5f1e8}*{box-sizing:border-box}body{margin:0}header{background:#263e35;color:white;text-align:center;padding:34px 16px}h1{margin:0 0 12px;font-size:clamp(24px,4vw,38px)}header p{margin:0}main{max-width:1100px;margin:auto;padding:24px 16px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}input,select,button{font:inherit;padding:12px;border:1px solid #c7c9c4;border-radius:8px}input{min-width:0}#buscar{flex:1;min-width:210px}button{background:#263e35;color:#fff;cursor:pointer}button.secondary{background:#fff;color:#263e35}button.danger{background:#a42d2d}button:disabled{opacity:.6}#estado{margin:20px 0;color:#5c645e}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.libro{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px #0001}.cover{width:100%;aspect-ratio:2/3;object-fit:cover;background:#e2e7e2;display:block}.no-cover{aspect-ratio:2/3;display:grid;place-items:center;background:#dfe7e1;color:#56685d;font-size:48px}.info{padding:15px}.info h3{margin:0 0 9px}.info p{margin:6px 0;font-size:14px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.actions button{padding:8px;font-size:13px}#admin{margin:20px 0;padding:20px;background:#fff;border-radius:12px}#admin[hidden],#formulario[hidden]{display:none}#formulario{display:grid;gap:10px;margin-top:14px}#formulario label{display:grid;gap:5px}#formulario input{width:100%}.small{font-size:13px;color:#59635c}#mensaje{color:#a42d2d}a{color:#235e4d}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.tabs button[aria-selected="true"]{background:#167451;color:white}.panel-tab[hidden]{display:none!important}.chat-box{background:#fff;border-radius:12px;padding:18px;margin:12px 0}.chat-messages{display:grid;gap:10px;max-height:500px;overflow:auto;padding:12px 0}.chat-message{padding:12px;border-radius:10px;background:#f1f5f1;overflow-wrap:anywhere}.chat-meta{font-size:12px;color:#54665b;margin-bottom:5px}.chat-compose{display:grid;gap:9px}.chat-compose textarea{width:100%;min-height:75px;padding:12px;font:inherit;border:1px solid #c7c9c4;border-radius:8px}.rules-list{line-height:1.75}.import-panel{margin-top:18px;padding:15px;border:1px solid #d9dfd9;border-radius:10px}.import-panel input{max-width:100%;width:100%}.import-panel button{margin-top:8px}.preview{max-height:220px;overflow:auto;margin-top:10px}.preview table{border-collapse:collapse;width:100%;font-size:13px}.preview td,.preview th{border-bottom:1px solid #ddd;padding:6px;text-align:left}.muted{color:#65756a;font-size:13px}.view-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:14px 0}.view-controls label{display:flex;align-items:center;gap:6px}.view-controls select{background:white;padding:9px}.sort-group{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.sort-btn{padding:8px 12px;font-size:14px;background:#fff;color:var(--azul-sociedad);border:1px solid var(--azul-sociedad)}.sort-btn[aria-pressed="true"]{background:var(--granate-sociedad);color:#fff;border-color:var(--granate-sociedad);font-weight:bold}.pagination{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:20px 0}.pagination button{padding:9px 14px}.grid.list-view{display:flex;flex-direction:column;gap:10px}.list-view .libro{display:flex;align-items:stretch;min-height:90px}.list-view .cover,.list-view .no-cover{width:74px;min-width:74px;height:110px;aspect-ratio:auto;object-fit:cover;font-size:25px}.list-view .info{flex:1;min-width:0;padding:12px}.list-view .info h3{font-size:16px}.list-view .info p{display:inline-block;margin:3px 14px 3px 0}@media(max-width:450px){.list-view .cover,.list-view .no-cover{width:58px;min-width:58px;height:90px}.list-view .info{padding:9px}}.cover-controls{display:flex;gap:8px;flex-wrap:wrap}.cover-controls button{font-size:13px;padding:9px}
+h1{margin:0 0 12px;font-size:clamp(24px,4vw,38px)}
+header p{margin:0}
+main{max-width:1100px;margin:auto;padding:24px 16px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input,select,button{font:inherit;padding:12px;border:1px solid #c7c9c4;border-radius:8px}
+input{min-width:0}
+#buscar{flex:1;min-width:210px}
+button{background:#263e35;color:#fff;cursor:pointer}
+button.secondary{background:#fff;color:#263e35}
+button.danger{background:#a42d2d}
+button:disabled{opacity:.6}
+#estado{margin:20px 0;color:#5c645e}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}
+.libro{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px #0001}
+.cover{width:100%;aspect-ratio:2/3;object-fit:cover;background:#e2e7e2;display:block}
+.no-cover{aspect-ratio:2/3;display:grid;place-items:center;background:#dfe7e1;color:#56685d;font-size:48px}
+.info{padding:15px}
+.info h3{margin:0 0 9px}
+.info p{margin:6px 0;font-size:14px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.actions button{padding:8px;font-size:13px}
+#admin{margin:20px 0;padding:20px;background:#fff;border-radius:12px}
+#admin[hidden],#formulario[hidden]{display:none}
+#formulario{display:grid;gap:10px;margin-top:14px}
+#formulario label{display:grid;gap:5px}
+#formulario input{width:100%}
+.small{font-size:13px;color:#59635c}
+#mensaje{color:#a42d2d}
+a{color:#235e4d}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.tabs button{background:var(--azul-sociedad);color:white}
+.tabs button[aria-selected="true"]{background:var(--granate-sociedad);color:white}
+.panel-tab[hidden]{display:none!important}
+.chat-box{background:#fff;border-radius:12px;padding:18px;margin:12px 0}
+.chat-messages{display:grid;gap:10px;max-height:500px;overflow:auto;padding:12px 0}
+.chat-message{padding:12px;border-radius:10px;background:#f1f5f1;overflow-wrap:anywhere;border-left:4px solid var(--dorado-sociedad)}
+.chat-meta{font-size:12px;color:#54665b;margin-bottom:5px}
+.chat-compose{display:grid;gap:9px}
+.chat-compose textarea{width:100%;min-height:75px;padding:12px;font:inherit;border:1px solid #c7c9c4;border-radius:8px}
+.rules-list{line-height:1.75}
+.import-panel{margin-top:18px;padding:15px;border:1px solid #d9dfd9;border-radius:10px}
+.import-panel input{max-width:100%;width:100%}
+.import-panel button{margin-top:8px}
+.preview{max-height:220px;overflow:auto;margin-top:10px}
+.preview table{border-collapse:collapse;width:100%;font-size:13px}
+.preview td,.preview th{border-bottom:1px solid #ddd;padding:6px;text-align:left}
+.muted{color:#65756a;font-size:13px}
+.view-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:14px 0;background:#fff;padding:12px;border-radius:10px;box-shadow:0 1px 6px #0001}
+.view-controls label{display:flex;align-items:center;gap:6px}
+.view-controls select{background:white;padding:9px}
+.sort-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sort-btn{padding:9px 14px;font-size:14px;background:#fff;color:var(--azul-sociedad);border:2px solid var(--azul-sociedad);border-radius:8px;font-weight:600}
+.sort-btn[aria-pressed="true"]{background:var(--granate-sociedad);color:#fff;border-color:var(--granate-sociedad)}
+.pagination{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.pagination button{padding:9px 14px}
+.grid.list-view{display:flex;flex-direction:column;gap:10px}
+.list-view .libro{display:flex;align-items:stretch;min-height:90px}
+.list-view .cover,.list-view .no-cover{width:74px;min-width:74px;height:110px;aspect-ratio:auto;object-fit:cover;font-size:25px}
+.list-view .info{flex:1;min-width:0;padding:12px}
+.list-view .info h3{font-size:16px}
+.list-view .info p{display:inline-block;margin:3px 14px 3px 0}
+@media(max-width:450px){.list-view .cover,.list-view .no-cover{width:58px;min-width:58px;height:90px}.list-view .info{padding:9px}}
+.cover-controls{display:flex;gap:8px;flex-wrap:wrap}
+.cover-controls button{font-size:13px;padding:9px}
 </style>
 </head>
 <body>
@@ -52,16 +108,18 @@ header {
 <p id="resumenes-estado" class="muted" role="status"></p></div><form id="formulario" hidden><input type="hidden" id="docid"><label>Título <input id="titulo" required maxlength="200"></label><label>Autor <input id="autor" required maxlength="200"></label><label>Género <input id="genero" maxlength="100"></label><label>N.º de registro <input id="ubicacion" maxlength="200"></label><label>URL de la portada (https://) <input id="portada" type="url" placeholder="https://ejemplo.com/portada.jpg"></label><label>Resumen del libro
 <textarea id="resumen" rows="4" maxlength="2000" placeholder="Escribe aquí un pequeño resumen del libro"></textarea>
 </label><div class="cover-controls"><button type="button" class="secondary" id="buscar-portada">Buscar portada en Internet</button> <button type="button" onclick="window.open('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(document.getElementById('titulo').value+' '+document.getElementById('autor').value+' portada libro'),'_blank')">Buscar en Google Imágenes</button><a id="ver-portada" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver portada encontrada</a></div><p id="portada-estado" class="muted"></p><div class="actions"><button type="submit" id="guardar">Guardar libro</button><button type="button" class="secondary" id="cancelar">Cancelar</button></div></form></section>
-<div class="view-controls">
+
+<div class="view-controls" id="barra-controles">
   <label>Vista <select id="vista" aria-label="Tipo de vista"><option value="grid">Cuadrícula</option><option value="list">Filas</option></select></label>
   <label>Libros por página <select id="por-pagina"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select></label>
-  <div class="sort-group" role="group" aria-label="Organizar libros por">
-    <span>Organizar por:</span>
+  <div class="sort-group" id="grupo-orden" role="group" aria-label="Organizar libros por">
+    <strong>Organizar por:</strong>
     <button type="button" class="sort-btn" data-sort="titulo" data-label="Título" aria-pressed="true">Título ↑</button>
     <button type="button" class="sort-btn" data-sort="autor" data-label="Nombre y apellidos" aria-pressed="false">Nombre y apellidos</button>
     <button type="button" class="sort-btn" data-sort="registro" data-label="N.º de registro" aria-pressed="false">N.º de registro</button>
   </div>
 </div>
+
 <nav id="paginacion-superior" class="pagination" aria-label="Páginas del catálogo"></nav><section id="libros" class="grid" aria-label="Libros"></section><nav id="paginacion-inferior" class="pagination" aria-label="Páginas del catálogo"></nav>
 </section>
 <section id="tab-chat" class="panel-tab" hidden><h2>Chat de lectores</h2><div class="chat-box"><div class="chat-box" id="chat-registro">
@@ -88,7 +146,7 @@ const firebaseConfig={apiKey:'AIzaSyCRK5vXMta1EuXGC_vP0RU-tkoVzXKuKxk',authDomai
 const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),booksRef=collection(db,'libros');
 const $=id=>document.getElementById(id);let libros=[],isAdmin=false,pendientes=[],paginaActual=1,ordenActual='titulo',ordenAsc=true;
-// Repara textos heredados con UTF-8 interpretado como Latin-1, sin alterar datos correctos.
+
 function repararTexto(valor){
   if(typeof valor!=='string'||!/[ÃÂð][\x80-\xbf¡-ÿ]/.test(valor))return valor;
   try{const bytes=Uint8Array.from([...valor].map(c=>c.charCodeAt(0)));if([...valor].some(c=>c.charCodeAt(0)>255))return valor;const t=new TextDecoder('utf-8',{fatal:true}).decode(bytes);return t.includes('')?valor:t}catch{return valor}
@@ -96,12 +154,53 @@ function repararTexto(valor){
 
 const mensaje=(s='')=>$('mensaje').textContent=s;
 
+// Garantiza que los botones de orden existan en la barra aunque el HTML de arriba no se hubiera reemplazado
+function asegurarBotonesOrden(){
+  const vc=document.querySelector('.view-controls');
+  if(vc&&!document.querySelector('.sort-btn')){
+    const div=document.createElement('div');
+    div.className='sort-group';
+    div.style.cssText='display:flex;gap:8px;align-items:center;flex-wrap:wrap;';
+    div.innerHTML=`<strong>Organizar por:</strong>
+      <button type="button" class="sort-btn" data-sort="titulo" data-label="Título" aria-pressed="true">Título ↑</button>
+      <button type="button" class="sort-btn" data-sort="autor" data-label="Nombre y apellidos" aria-pressed="false">Nombre y apellidos</button>
+      <button type="button" class="sort-btn" data-sort="registro" data-label="N.º de registro" aria-pressed="false">N.º de registro</button>`;
+    vc.append(div);
+  }
+  for(const btn of document.querySelectorAll('.sort-btn')){
+    btn.onclick=()=>{
+      if(ordenActual===btn.dataset.sort){
+        ordenAsc=!ordenAsc;
+      }else{
+        ordenActual=btn.dataset.sort;
+        ordenAsc=true;
+      }
+      for(const b of document.querySelectorAll('.sort-btn')){
+        const activo=b===btn;
+        b.setAttribute('aria-pressed',String(activo));
+        b.textContent=b.dataset.label+(activo?(ordenAsc?' ↑':' ↓'):'');
+      }
+      ordenarCatalogo();
+      paginaActual=1;
+      render();
+    };
+  }
+}
+asegurarBotonesOrden();
+
+function extraerNumeroRegistro(val){
+  const s=repararTexto(String(val||'')).trim();
+  if(!s)return null;
+  const m=s.match(/\d+/);
+  return m?Number(m[0]):null;
+}
+
 function ordenarCatalogo(){
   const dir=ordenAsc?1:-1;
   libros.sort((a,b)=>{
     if(ordenActual==='autor'){
-      const autA=repararTexto(String(a.data.autor||'')).trim();
-      const autB=repararTexto(String(b.data.autor||'')).trim();
+      const autA=repararTexto(String(a.data.autor||'')).replace(/^["'«»\s]+/,'').trim();
+      const autB=repararTexto(String(b.data.autor||'')).replace(/^["'«»\s]+/,'').trim();
       if(!autA&&autB)return 1;
       if(autA&&!autB)return -1;
       const cmp=autA.localeCompare(autB,'es',{sensitivity:'base'});
@@ -111,31 +210,17 @@ function ordenarCatalogo(){
       const regB=repararTexto(String(b.data.ubicacion||'')).trim();
       if(!regA&&regB)return 1;
       if(regA&&!regB)return -1;
+      const numA=extraerNumeroRegistro(regA);
+      const numB=extraerNumeroRegistro(regB);
+      if(numA!==null&&numB!==null&&numA!==numB){
+        return (numA-numB)*dir;
+      }
       const cmp=regA.localeCompare(regB,'es',{numeric:true,sensitivity:'base'});
       if(cmp!==0)return cmp*dir;
     }
-    const titA=repararTexto(String(a.data.titulo||'')).trim();
-    const titB=repararTexto(String(b.data.titulo||'')).trim();
+    const titA=repararTexto(String(a.data.titulo||'')).replace(/^["'«»¿¡\s]+/,'').trim();
+    const titB=repararTexto(String(b.data.titulo||'')).replace(/^["'«»¿¡\s]+/,'').trim();
     return titA.localeCompare(titB,'es',{numeric:true,sensitivity:'base'})*dir;
-  });
-}
-
-for(const btn of document.querySelectorAll('.sort-btn')){
-  btn.addEventListener('click',()=>{
-    if(ordenActual===btn.dataset.sort){
-      ordenAsc=!ordenAsc;
-    }else{
-      ordenActual=btn.dataset.sort;
-      ordenAsc=true;
-    }
-    for(const b of document.querySelectorAll('.sort-btn')){
-      const activo=b===btn;
-      b.setAttribute('aria-pressed',String(activo));
-      b.textContent=b.dataset.label+(activo?(ordenAsc?' ↑':' ↓'):'');
-    }
-    ordenarCatalogo();
-    paginaActual=1;
-    render();
   });
 }
 
@@ -252,7 +337,6 @@ async function buscarCubierta(titulo, autor, isbn = '') {
   const palabrasAutor = aLimpio.split(/\s+/).filter(p => p.length > 2);
   const apellido = palabrasAutor[0] || aLimpio;
 
-  // 1. Apple Books / iTunes API
   try {
     const term = `${tLimpio} ${apellido}`.trim();
     const urlApple = `https://itunes.apple.com/search?term=${encodeURIComponent(term)}&media=ebook&country=es&limit=10`;
@@ -272,7 +356,6 @@ async function buscarCubierta(titulo, autor, isbn = '') {
     console.warn('Apple Books:', e);
   }
 
-  // 2. Google Books API
   if (Date.now() > googleBloqueadoHasta) {
     const consultasGB = [
       `${tLimpio} ${aLimpio}`.trim(),
@@ -307,7 +390,6 @@ async function buscarCubierta(titulo, autor, isbn = '') {
     }
   }
 
-  // 3. Open Library Search API
   try {
     const qOL = `${tLimpio} ${apellido}`.trim();
     const rOL = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(qOL)}&limit=10&fields=title,author_name,cover_i`);
@@ -483,7 +565,6 @@ $('resumenes-masivos').onclick = async () => {
 };
 // --- FIN DEL BLOQUE MEJORADO V2 ---
 
- // La librería se carga solo cuando el administrador selecciona un Excel.
 let sheetPromise;
 function cargarExcel(){return sheetPromise??=(async()=>{
   const mod=await import('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/+esm');return mod;
@@ -522,7 +603,7 @@ $('importar').onclick=async()=>{
     pendientes=[];$('excel').value='';$('preview').textContent='Importación completada.';
   }catch(e){$('progreso').textContent=`Se guardaron ${guardados} libros antes del error: ${e.message}. Revisa el catálogo antes de reintentar.`}
 };
-// Actualización segura de números de registro: no crea ni borra libros ni modifica portadas.
+
 let cambiosRegistro=[];
 $('registros-excel').onchange=async()=>{
   cambiosRegistro=[];$('registros-guardar').disabled=true;
@@ -563,9 +644,8 @@ $('registros-guardar').onclick=async()=>{
     cambiosRegistro=[];$('registros-excel').value='';$('registros-preview').textContent='Actualización completada. Las portadas se han conservado.';
   }catch(e){$('registros-progreso').textContent=`Actualizados ${hechos} antes del error: ${e.message}. No repitas la actualización sin revisar los datos.`}
 };
-$('formulario').onsubmit=async e=>{e.preventDefault();if(!isAdmin)return mensaje('No tienes permisos de administrador.');const data={};for(const key of   ['titulo','autor','genero','ubicacion','portada','resumen']) data[key]=$(key).value.trim();if(data.portada&&!/^https:\/\//i.test(data.portada))return mensaje('La portada debe ser una URL https:// válida.');$('guardar').disabled=true;try{if($('docid').value)await updateDoc(doc(db,'libros',$('docid').value),data);else await addDoc(booksRef,data);resetForm();mensaje()}catch(err){mensaje(`No se pudo guardar: ${err.message}`)}finally{$('guardar').disabled=false}};
+$('formulario').onsubmit=async e=>{e.preventDefault();if(!isAdmin)return mensaje('No tienes permisos de administrador.');const data={};for(const key of ['titulo','autor','genero','ubicacion','portada','resumen']) data[key]=$(key).value.trim();if(data.portada&&!/^https:\/\//i.test(data.portada))return mensaje('La portada debe ser una URL https:// válida.');$('guardar').disabled=true;try{if($('docid').value)await updateDoc(doc(db,'libros',$('docid').value),data);else await addDoc(booksRef,data);resetForm();mensaje()}catch(err){mensaje(`No se pudo guardar: ${err.message}`)}finally{$('guardar').disabled=false}};
 
-// Navegación: conserva el catálogo y su administración sin recargar la página.
 for(const btn of document.querySelectorAll('[data-tab]'))btn.addEventListener('click',()=>{
   const target=btn.dataset.tab;
   for(const name of ['catalogo','chat','normas'])$('tab-'+name).hidden=name!==target;
@@ -617,15 +697,17 @@ onSnapshot(query(chatMessages,orderBy('creado','desc'),limit(100)),snapshot=>{
       try{await deleteDoc(doc(db,'chat_mensajes',item.id))}catch(e){chatError('No se pudo eliminar: '+e.message)}
     };article.append(del)}list.append(article);
   }
-},e=>{$('chat-estado').textContent='No se pudo cargar el chat. Comprueba las reglas de Firebase.';chatError(e.message)})
-  onAuthStateChanged(auth,chatAuthChanged);
-  document.addEventListener('visibilitychange', async () => {
+},e=>{$('chat-estado').textContent='No se pudo cargar el chat. Comprueba las reglas de Firebase.';chatError(e.message)});
+
+onAuthStateChanged(auth,chatAuthChanged);
+document.addEventListener('visibilitychange', async () => {
   if (!document.hidden && auth.currentUser) {
     await reload(auth.currentUser);
     await chatAuthChanged(auth.currentUser);
   }
 });
- const registroEstado = texto => {
+
+const registroEstado = texto => {
   $('registro-estado').textContent = texto;
 };
 
@@ -665,7 +747,7 @@ $('registro-verificar').onclick = async () => {
   } catch (error) {
     registroEstado('Error: ' + error.message);
   }
-}; 
-
+};
 </script>
-</body></html>
+</body>
+</html>
