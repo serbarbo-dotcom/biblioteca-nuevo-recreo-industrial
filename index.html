@@ -57,9 +57,9 @@ header {
   <label>Libros por página <select id="por-pagina"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="200">200</option></select></label>
   <div class="sort-group" role="group" aria-label="Organizar libros por">
     <span>Organizar por:</span>
-    <button type="button" class="sort-btn" data-sort="titulo" aria-pressed="true">Título</button>
-    <button type="button" class="sort-btn" data-sort="autor" aria-pressed="false">Nombre y apellidos</button>
-    <button type="button" class="sort-btn" data-sort="registro" aria-pressed="false">N.º de registro</button>
+    <button type="button" class="sort-btn" data-sort="titulo" data-label="Título" aria-pressed="true">Título ↑</button>
+    <button type="button" class="sort-btn" data-sort="autor" data-label="Nombre y apellidos" aria-pressed="false">Nombre y apellidos</button>
+    <button type="button" class="sort-btn" data-sort="registro" data-label="N.º de registro" aria-pressed="false">N.º de registro</button>
   </div>
 </div>
 <nav id="paginacion-superior" class="pagination" aria-label="Páginas del catálogo"></nav><section id="libros" class="grid" aria-label="Libros"></section><nav id="paginacion-inferior" class="pagination" aria-label="Páginas del catálogo"></nav>
@@ -87,7 +87,7 @@ import {getFirestore,collection,onSnapshot,addDoc,updateDoc,deleteDoc,doc,writeB
 const firebaseConfig={apiKey:'AIzaSyCRK5vXMta1EuXGC_vP0RU-tkoVzXKuKxk',authDomain:'biblioteca-recreo-industrial.firebaseapp.com',projectId:'biblioteca-recreo-industrial',storageBucket:'biblioteca-recreo-industrial.firebasestorage.app',messagingSenderId:'86528204885',appId:'1:86528204885:web:2312437f4b9f5be0d0b4dc',measurementId:'G-DQHJG5EFGY'};
 const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),booksRef=collection(db,'libros');
-const $=id=>document.getElementById(id);let libros=[],isAdmin=false,pendientes=[],paginaActual=1,ordenActual='titulo';
+const $=id=>document.getElementById(id);let libros=[],isAdmin=false,pendientes=[],paginaActual=1,ordenActual='titulo',ordenAsc=true;
 // Repara textos heredados con UTF-8 interpretado como Latin-1, sin alterar datos correctos.
 function repararTexto(valor){
   if(typeof valor!=='string'||!/[ÃÂð][\x80-\xbf¡-ÿ]/.test(valor))return valor;
@@ -97,6 +97,7 @@ function repararTexto(valor){
 const mensaje=(s='')=>$('mensaje').textContent=s;
 
 function ordenarCatalogo(){
+  const dir=ordenAsc?1:-1;
   libros.sort((a,b)=>{
     if(ordenActual==='autor'){
       const autA=repararTexto(String(a.data.autor||'')).trim();
@@ -104,24 +105,33 @@ function ordenarCatalogo(){
       if(!autA&&autB)return 1;
       if(autA&&!autB)return -1;
       const cmp=autA.localeCompare(autB,'es',{sensitivity:'base'});
-      if(cmp!==0)return cmp;
+      if(cmp!==0)return cmp*dir;
     }else if(ordenActual==='registro'){
       const regA=repararTexto(String(a.data.ubicacion||'')).trim();
       const regB=repararTexto(String(b.data.ubicacion||'')).trim();
       if(!regA&&regB)return 1;
       if(regA&&!regB)return -1;
       const cmp=regA.localeCompare(regB,'es',{numeric:true,sensitivity:'base'});
-      if(cmp!==0)return cmp;
+      if(cmp!==0)return cmp*dir;
     }
-    return repararTexto(String(a.data.titulo||'')).localeCompare(repararTexto(String(b.data.titulo||'')),'es',{numeric:true,sensitivity:'base'});
+    const titA=repararTexto(String(a.data.titulo||'')).trim();
+    const titB=repararTexto(String(b.data.titulo||'')).trim();
+    return titA.localeCompare(titB,'es',{numeric:true,sensitivity:'base'})*dir;
   });
 }
 
 for(const btn of document.querySelectorAll('.sort-btn')){
   btn.addEventListener('click',()=>{
-    ordenActual=btn.dataset.sort;
+    if(ordenActual===btn.dataset.sort){
+      ordenAsc=!ordenAsc;
+    }else{
+      ordenActual=btn.dataset.sort;
+      ordenAsc=true;
+    }
     for(const b of document.querySelectorAll('.sort-btn')){
-      b.setAttribute('aria-pressed',String(b===btn));
+      const activo=b===btn;
+      b.setAttribute('aria-pressed',String(activo));
+      b.textContent=b.dataset.label+(activo?(ordenAsc?' ↑':' ↓'):'');
     }
     ordenarCatalogo();
     paginaActual=1;
