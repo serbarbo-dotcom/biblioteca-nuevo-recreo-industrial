@@ -389,7 +389,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
       <div class="hero-titles">
         <div class="hero-eyebrow">FONDO BIBLIOGRÁFICO SOCIAL • LEÓN</div>
         <h1>Catálogo de la Biblioteca</h1>
-      
+        <p>Explora el fondo documental con generación automática de portadas en miniatura, búsqueda instantánea por registro, autor o título y consulta bibliográfica.</p>
       </div>
     </div>
 
@@ -794,7 +794,11 @@ function render(){
 
     const footRow=document.createElement('div');
     footRow.className='card-footer-row';
-    footRow.innerHTML=`<span>#${repararTexto(data.ubicacion)||'—'}</span><span>Ficha ›</span>`;
+    const spanReg=document.createElement('span');
+    spanReg.textContent=`#${repararTexto(data.ubicacion)||'—'}`;
+    const spanFicha=document.createElement('span');
+    spanFicha.textContent='Ficha ›';
+    footRow.append(spanReg,spanFicha);
     info.append(footRow);
 
     if(isAdmin){
@@ -842,7 +846,7 @@ function limpiarAutor(a){let s=texto(repararTexto(a)).replace(/\([^)]*\)/g,'').r
 function palabras(s){return normalizar(s).split(' ').filter(p=>p.length>1&&!STOPWORDS.has(p))}
 function titulosCoinciden(a,b){const x=normalizar(limpiarTitulo(a)),y=normalizar(limpiarTitulo(b));if(!x||!y)return false;if(x===y)return true;const pa=palabras(x),pb=palabras(y);if(!pa.length||!pb.length)return false;const inter=pa.filter(p=>pb.includes(p)).length;return inter/Math.max(pa.length,pb.length)>=0.8 && inter>=Math.min(2,pa.length,pb.length)}
 function autoresCoinciden(a,lista){const limpio=limpiarAutor(a);if(!limpio)return true;if(!Array.isArray(lista)||!lista.length)return false;const p=palabras(limpio);if(!p.length)return true;return lista.some(autor=>{const q=palabras(autor);if(normalizar(limpio)===normalizar(autor))return true;const comunes=p.filter(x=>q.includes(x));return comunes.length>=Math.min(2,p.length) && comunes.some(x=>x.length>=4)})}
-function limpiarDescripcion(s){const d=document.createElement('div');d.innerHTML=String(s||'');return (d.textContent||'').replace(/\s+/g,' ').trim().slice(0,2000)}
+function limpiarDescripcion(s){const doc=new DOMParser().parseFromString(String(s||''),'text/html');return (doc.body.textContent||'').replace(/\s+/g,' ').trim().slice(0,2000)}
 let googleBloqueadoHasta=0;
 async function pedirJSON(url){const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12000);try{const r=await fetch(url,{signal:controller.signal});if(r.status===429){googleBloqueadoHasta=Date.now()+120000;return null}if(!r.ok)return null;return await r.json()}finally{clearTimeout(timer)}}
 async function buscarMetadatos(titulo,autor,isbn='',tipo='portada'){
