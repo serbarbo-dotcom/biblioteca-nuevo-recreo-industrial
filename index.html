@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#18277c">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://itunes.apple.com https://openlibrary.org; frame-src https://*.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'self'; form-action 'self';">
 <title>Biblioteca Nuevo Recreo Industrial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -375,8 +377,8 @@ button:disabled{opacity:.55;cursor:not-allowed}
   <div class="hero-frame">
     <div class="hero-top-row">
       <div class="crest-box" title="Nuevo Recreo Industrial de León">
-        <img src="IMG-20261108-WA0001.jpg" alt="Escudo del Nuevo Recreo Industrial" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <svg viewBox="0 0 200 210" style="display:none;width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
+        <img id="escudo-img" src="IMG-20261108-WA0001.jpg" alt="Escudo del Nuevo Recreo Industrial">
+        <svg id="escudo-svg" viewBox="0 0 200 210" style="display:none;width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
           <path d="M35 62 L22 36 L44 43 L56 24 L75 39 L100 18 L125 39 L144 24 L156 43 L178 36 L165 62 C135 46 65 46 35 62 Z" fill="#b59a50"/>
           <circle cx="62" cy="48" r="5" fill="#fff"/>
           <circle cx="100" cy="43" r="5.5" fill="#fff"/>
@@ -585,7 +587,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 </main>
 
 <!-- Modal de Ficha Bibliográfica -->
-<div id="ficha-modal" class="modal-backdrop" hidden onclick="if(event.target===this)this.hidden=true">
+<div id="ficha-modal" class="modal-backdrop" hidden>
   <div class="modal-card">
     <div class="modal-body" id="ficha-contenido"></div>
   </div>
@@ -600,6 +602,9 @@ const firebaseConfig={apiKey:'AIzaSyCRK5vXMta1EuXGC_vP0RU-tkoVzXKuKxk',authDomai
 const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),booksRef=collection(db,'libros');
 const $=id=>document.getElementById(id);
+$('escudo-img')?.addEventListener('error',()=>{if($('escudo-img'))$('escudo-img').style.display='none';if($('escudo-svg'))$('escudo-svg').style.display='block'});
+$('ficha-modal')?.addEventListener('click',e=>{if(e.target===$('ficha-modal'))$('ficha-modal').hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('ficha-modal')&&!$('ficha-modal').hidden)$('ficha-modal').hidden=true});
 let libros=[],isAdmin=false,pendientes=[],paginaActual=1,ordenActual='registro',ordenAsc=false,cambiosRegistro=[],letraActual='TODAS';
 const mensaje=(s='')=>$('mensaje').textContent=s;
 
@@ -679,6 +684,8 @@ async function abrirFicha(id,data,idx){
   if(typeof data.portada==='string'&&/^https:\/\//i.test(data.portada)){
     const img=document.createElement('img');
     img.className='cover';
+    img.alt=`Portada de ${repararTexto(data.titulo)||'libro'}`;
+    img.referrerPolicy='no-referrer';
     img.src=data.portada;
     img.onerror=()=>img.remove();
     coverCol.append(img);
@@ -721,7 +728,7 @@ async function abrirFicha(id,data,idx){
   const gResumen=document.createElement('a');
   gResumen.href=`https://www.google.com/search?q=${encodeURIComponent('resumen sinopsis libro "'+(repararTexto(data.titulo)||'')+'" '+(repararTexto(data.autor)||''))}`;
   gResumen.target='_blank';
-  gResumen.rel='noopener';
+  gResumen.rel='noopener noreferrer';
   gResumen.style.cssText='text-decoration:none;background:var(--azul);color:#fff;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600';
   gResumen.textContent='📖 Ver resumen completo en Internet';
 
@@ -832,7 +839,7 @@ $('eliminar-sin-registro').onclick=async()=>{if(!isAdmin)return;const items=sinR
 
 onSnapshot(booksRef,snap=>{libros=snap.docs.map(d=>({id:d.id,data:d.data()}));ordenarCatalogo();render();actualizarSinRegistro()},e=>{$('estado').textContent='No se pudo cargar el catálogo.';mensaje(`Error de Firestore: ${e.message}`)});
 
-const provider=new GoogleAuthProvider();$('login').onclick=async()=>{mensaje();try{await signInWithPopup(auth,provider)}catch(e){if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(e.code))await signInWithRedirect(auth,provider);else if(['auth/cancelled-popup-request','auth/popup-closed-by-user'].includes(e.code))mensaje('Acceso cancelado.');else mensaje(`Error de acceso: ${e.message}`)}};getRedirectResult(auth).catch(e=>mensaje(`Error de acceso: ${e.message}`));
+const provider=new GoogleAuthProvider();$('login').onclick=async()=>{mensaje();try{await signInWithPopup(auth,provider)}catch(e){if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(e.code))await signInWithRedirect(auth,provider);else if(['auth/cancelled-popup-request','auth/popup-closed-by-user'].includes(e.code))mensaje('Acceso cancelado.');else{console.warn('Auth error:',e);mensaje('No se pudo iniciar sesión con Google.')}}};getRedirectResult(auth).catch(e=>{console.warn('Redirect error:',e);mensaje('No se pudo completar el inicio de sesión.')});
 onAuthStateChanged(auth,user=>{isAdmin=!!user&&user.uid===ADMIN_UID;$('login').hidden=!!user;$('logout').hidden=!user;$('admin').hidden=!isAdmin;if(user&&!isAdmin)mensaje('Has iniciado sesión, pero esta cuenta no tiene permisos de administrador.');else mensaje();render();actualizarSinRegistro();renderChatMessages();if(isAdmin)cargarIntentadosNube()});$('logout').onclick=()=>signOut(auth);
 
 function resetForm(){$('formulario').reset();$('docid').value='';$('formulario').hidden=true;$('ver-portada').hidden=true;$('portada-estado').textContent=''}
@@ -862,25 +869,28 @@ async function buscarMetadatos(titulo,autor,isbn='',tipo='portada'){
 }
 const buscarCubierta=(t,a,isbn='')=>buscarMetadatos(t,a,isbn,'portada');
 const buscarResumen=(t,a)=>buscarMetadatos(t,a,'','resumen');
-$('buscar-portada').onclick=async()=>{const t=$('titulo').value.trim(),a=$('autor').value.trim();if(!t)return $('portada-estado').textContent='Escribe primero el título.';$('buscar-portada').disabled=true;$('portada-estado').textContent='Buscando portada...';try{const url=await buscarCubierta(t,a);if(url){$('portada').value=url;$('ver-portada').href=url;$('ver-portada').hidden=false;$('portada-estado').textContent='Portada encontrada. Revísala antes de guardar.'}else $('portada-estado').textContent='No se encontró. Prueba Google Imágenes.'}catch(e){$('portada-estado').textContent='Error: '+e.message}finally{$('buscar-portada').disabled=false}};
-$('google-imagenes').onclick=()=>window.open('https://www.google.com/search?tbm=isch&q='+encodeURIComponent($('titulo').value+' '+$('autor').value+' portada libro'),'_blank','noopener');
+$('buscar-portada').onclick=async()=>{const t=$('titulo').value.trim(),a=$('autor').value.trim();if(!t)return $('portada-estado').textContent='Escribe primero el título.';$('buscar-portada').disabled=true;$('portada-estado').textContent='Buscando portada...';try{const url=await buscarCubierta(t,a);if(url&&/^https:\/\//i.test(url)){$('portada').value=url;$('ver-portada').href=url;$('ver-portada').hidden=false;$('portada-estado').textContent='Portada encontrada. Revísala antes de guardar.'}else $('portada-estado').textContent='No se encontró. Prueba Google Imágenes.'}catch(e){console.warn('Error al buscar portada:',e);$('portada-estado').textContent='No se pudo completar la búsqueda en este momento.'}finally{$('buscar-portada').disabled=false}};
+$('google-imagenes').onclick=()=>window.open('https://www.google.com/search?tbm=isch&q='+encodeURIComponent($('titulo').value+' '+$('autor').value+' portada libro'),'_blank','noopener,noreferrer');
 
 function leerIntentos(clave){try{const a=JSON.parse(localStorage.getItem(clave)||'[]');return new Set(Array.isArray(a)?a:[])}catch{return new Set()}}
 const portadasIntentadas=leerIntentos('nri_portadas_intentadas'),resumenesIntentados=leerIntentos('nri_resumenes_intentados');
 const intentadosRef=doc(db,'config','busquedas');
 let nubeDisponible=true;
 let guardadoNube=Promise.resolve();
+const idValido=id=>typeof id==='string'&&id.length>0&&id.length<=64;
 async function cargarIntentadosNube(){
   if(!isAdmin||!nubeDisponible)return;
   try{const snap=await getDoc(intentadosRef);if(snap.exists()){
-    for(const id of snap.data().portadas||[])portadasIntentadas.add(id);
-    for(const id of snap.data().resumenes||[])resumenesIntentados.add(id);
+    for(const id of (snap.data().portadas||[]).filter(idValido))portadasIntentadas.add(id);
+    for(const id of (snap.data().resumenes||[]).filter(idValido))resumenesIntentados.add(id);
   }}catch(e){nubeDisponible=false;console.warn('Historial en nube no disponible:',e)}
 }
 function guardarIntentados(){
-  try{localStorage.setItem('nri_portadas_intentadas',JSON.stringify([...portadasIntentadas]));localStorage.setItem('nri_resumenes_intentados',JSON.stringify([...resumenesIntentados]))}catch{}
+  const listaPortadas=[...portadasIntentadas].filter(idValido).slice(-5000);
+  const listaResumenes=[...resumenesIntentados].filter(idValido).slice(-5000);
+  try{localStorage.setItem('nri_portadas_intentadas',JSON.stringify(listaPortadas));localStorage.setItem('nri_resumenes_intentados',JSON.stringify(listaResumenes))}catch{}
   if(isAdmin&&nubeDisponible){
-    const datos={portadas:[...portadasIntentadas],resumenes:[...resumenesIntentados]};
+    const datos={portadas:listaPortadas,resumenes:listaResumenes};
     guardadoNube=guardadoNube.catch(()=>{}).then(()=>setDoc(intentadosRef,datos)).catch(e=>{nubeDisponible=false;console.warn('No se pudo guardar historial en la nube:',e)});
   }
   return guardadoNube;
@@ -894,9 +904,9 @@ $('portadas-masivas').onclick=()=>busquedaMasiva('portada');$('resumenes-masivos
 
 let sheetPromise;function cargarExcel(){return sheetPromise??=import('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/+esm')}
 function disponible(x){if(typeof x==='boolean')return x;return !['no','false','0','prestado','ocupado','indisponible'].includes(texto(x).toLowerCase())}
-$('excel').onchange=async()=>{pendientes=[];$('importar').disabled=true;$('preview').textContent='Leyendo archivo...';$('progreso').textContent='';const file=$('excel').files?.[0];if(!file)return;if(file.size>8*1024*1024)return $('preview').textContent='El archivo supera los 8 MB.';try{const XLSX=await cargarExcel(),book=XLSX.read(await file.arrayBuffer(),{type:'array'}),rows=XLSX.utils.sheet_to_json(book.Sheets[book.SheetNames[0]],{defval:''}),seen=new Set(libros.map(x=>normalizarClave(x.data.titulo)+'|'+normalizarClave(x.data.autor)));let repetidos=0;for(const row of rows){const n={};for(const [k,v] of Object.entries(row))n[normalizarClave(k)]=v;const data={titulo:texto(n.titulo||n.title),autor:texto(n.autor||n.author),genero:texto(n.genero||n.categoria),ubicacion:texto(n.ubicacion||n.localizacion||n.numeroregistro||n.registro),portada:texto(n.portada||n.imagen||n.urlportada),resumen:texto(n.resumen||n.sinopsis),disponible:disponible(n.disponible??n.estado)};if(!data.titulo)continue;if(data.portada&&!/^https:\/\//i.test(data.portada))data.portada='';const key=normalizarClave(data.titulo)+'|'+normalizarClave(data.autor);if(seen.has(key)){repetidos++;continue}seen.add(key);pendientes.push(data)}const container=$('preview');container.replaceChildren();const p=document.createElement('p');p.textContent=`${pendientes.length} libros nuevos listos. ${repetidos} duplicados omitidos.`;container.append(p);$('importar').disabled=!pendientes.length||!isAdmin}catch(e){$('preview').textContent='No se pudo leer el Excel: '+e.message}};
+$('excel').onchange=async()=>{pendientes=[];$('importar').disabled=true;$('preview').textContent='Leyendo archivo...';$('progreso').textContent='';const file=$('excel').files?.[0];if(!file)return;if(file.size>8*1024*1024)return $('preview').textContent='El archivo supera los 8 MB.';try{const XLSX=await cargarExcel(),book=XLSX.read(await file.arrayBuffer(),{type:'array'}),rows=XLSX.utils.sheet_to_json(book.Sheets[book.SheetNames[0]],{defval:''}),seen=new Set(libros.map(x=>normalizarClave(x.data.titulo)+'|'+normalizarClave(x.data.autor)));let repetidos=0;for(const row of rows){const n={};for(const [k,v] of Object.entries(row))n[normalizarClave(k)]=v;const data={titulo:texto(n.titulo||n.title).slice(0,200),autor:texto(n.autor||n.author).slice(0,200),genero:texto(n.genero||n.categoria).slice(0,100),ubicacion:texto(n.ubicacion||n.localizacion||n.numeroregistro||n.registro).slice(0,200),portada:texto(n.portada||n.imagen||n.urlportada).slice(0,500),resumen:texto(n.resumen||n.sinopsis).slice(0,2000),disponible:disponible(n.disponible??n.estado)};if(!data.titulo)continue;if(data.portada&&!/^https:\/\//i.test(data.portada))data.portada='';const key=normalizarClave(data.titulo)+'|'+normalizarClave(data.autor);if(seen.has(key)){repetidos++;continue}seen.add(key);pendientes.push(data)}const container=$('preview');container.replaceChildren();const p=document.createElement('p');p.textContent=`${pendientes.length} libros nuevos listos. ${repetidos} duplicados omitidos.`;container.append(p);$('importar').disabled=!pendientes.length||!isAdmin}catch(e){$('preview').textContent='No se pudo leer el Excel: '+e.message}};
 $('importar').onclick=async()=>{if(!isAdmin||!pendientes.length)return;if(!confirm(`¿Guardar ${pendientes.length} libros nuevos en Firebase?`))return;$('importar').disabled=true;let guardados=0;try{for(let i=0;i<pendientes.length;i+=400){const batch=writeBatch(db);for(const data of pendientes.slice(i,i+400))batch.set(doc(booksRef),data);await batch.commit();guardados+=Math.min(400,pendientes.length-i);$('progreso').textContent=`Guardados ${guardados} de ${pendientes.length}`}pendientes=[];$('excel').value='';$('preview').textContent='Importación completada.'}catch(e){$('progreso').textContent=`Se guardaron ${guardados} libros antes del error: ${e.message}`}};
-$('registros-excel').onchange=async()=>{cambiosRegistro=[];$('registros-guardar').disabled=true;$('registros-preview').textContent='Leyendo registros...';$('registros-progreso').textContent='';const file=$('registros-excel').files?.[0];if(!file)return;try{const XLSX=await cargarExcel(),wb=XLSX.read(await file.arrayBuffer(),{type:'array'}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});const key=(a,b)=>normalizarClave(repararTexto(texto(a)))+'|'+normalizarClave(repararTexto(texto(b)));const byBook=new Map();for(const book of libros){const k=key(book.data.titulo,book.data.autor);if(!byBook.has(k))byBook.set(k,[]);byBook.get(k).push(book)}const byExcel=new Map();for(const row of rows){const n={};for(const [k,v] of Object.entries(row))n[normalizarClave(k)]=v;const titulo=texto(n.titulo||n.title),autor=texto(n.autor||n.author),numero=texto(n.ubicacion??n.numeroregistro??n.registro);if(!titulo||!autor||!numero)continue;const k=key(titulo,autor);if(!byExcel.has(k))byExcel.set(k,[]);byExcel.get(k).push(numero)}for(const [k,numeros] of byExcel){const found=byBook.get(k)||[];if(found.length===1&&numeros.length===1&&texto(found[0].data.ubicacion)!==numeros[0])cambiosRegistro.push({id:found[0].id,titulo:found[0].data.titulo,numero:numeros[0]})}$('registros-preview').textContent=`${cambiosRegistro.length} números para actualizar.`;$('registros-guardar').disabled=!isAdmin||!cambiosRegistro.length}catch(e){$('registros-preview').textContent='No se pudo leer el Excel: '+e.message}};
+$('registros-excel').onchange=async()=>{cambiosRegistro=[];$('registros-guardar').disabled=true;$('registros-preview').textContent='Leyendo registros...';$('registros-progreso').textContent='';const file=$('registros-excel').files?.[0];if(!file)return;try{const XLSX=await cargarExcel(),wb=XLSX.read(await file.arrayBuffer(),{type:'array'}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});const key=(a,b)=>normalizarClave(repararTexto(texto(a)))+'|'+normalizarClave(repararTexto(texto(b)));const byBook=new Map();for(const book of libros){const k=key(book.data.titulo,book.data.autor);if(!byBook.has(k))byBook.set(k,[]);byBook.get(k).push(book)}const byExcel=new Map();for(const row of rows){const n={};for(const [k,v] of Object.entries(row))n[normalizarClave(k)]=v;const titulo=texto(n.titulo||n.title).slice(0,200),autor=texto(n.autor||n.author).slice(0,200),numero=texto(n.ubicacion??n.numeroregistro??n.registro).slice(0,200);if(!titulo||!autor||!numero)continue;const k=key(titulo,autor);if(!byExcel.has(k))byExcel.set(k,[]);byExcel.get(k).push(numero)}for(const [k,numeros] of byExcel){const found=byBook.get(k)||[];if(found.length===1&&numeros.length===1&&texto(found[0].data.ubicacion)!==numeros[0])cambiosRegistro.push({id:found[0].id,titulo:found[0].data.titulo,numero:numeros[0]})}$('registros-preview').textContent=`${cambiosRegistro.length} números para actualizar.`;$('registros-guardar').disabled=!isAdmin||!cambiosRegistro.length}catch(e){$('registros-preview').textContent='No se pudo leer el Excel: '+e.message}};
 $('registros-guardar').onclick=async()=>{if(!isAdmin||!cambiosRegistro.length)return;if(!confirm(`¿Actualizar ${cambiosRegistro.length} números de registro?`))return;$('registros-guardar').disabled=true;let hechos=0;try{for(let i=0;i<cambiosRegistro.length;i+=400){const batch=writeBatch(db),parte=cambiosRegistro.slice(i,i+400);for(const c of parte)batch.update(doc(db,'libros',c.id),{ubicacion:c.numero});await batch.commit();hechos+=parte.length;$('registros-progreso').textContent=`Actualizados ${hechos} de ${cambiosRegistro.length}`}cambiosRegistro=[];$('registros-excel').value='';$('registros-preview').textContent='Actualización completada.'}catch(e){$('registros-progreso').textContent=`Actualizados ${hechos} antes del error: ${e.message}`}};
 
 for(const btn of document.querySelectorAll('[data-tab]'))btn.addEventListener('click',()=>{const target=btn.dataset.tab;for(const name of ['catalogo','chat','normas'])$('tab-'+name).hidden=name!==target;for(const b of document.querySelectorAll('[data-tab]'))b.setAttribute('aria-selected',String(b.dataset.tab===target))});
@@ -909,9 +919,9 @@ function renderChatMessages(){$('chat-estado').textContent=`Últimos ${ultimosMe
 onSnapshot(query(chatMessages,orderBy('creado','desc'),limit(100)),snapshot=>{ultimosMensajes=snapshot.docs;renderChatMessages()},e=>{$('chat-estado').textContent='No se pudo cargar el chat.';chatError(e.message)});
 onAuthStateChanged(auth,chatAuthChanged);document.addEventListener('visibilitychange',async()=>{if(!document.hidden&&auth.currentUser){try{await reload(auth.currentUser);await chatAuthChanged(auth.currentUser)}catch(e){chatError(e.message)}}});
 const registroEstado=t=>$('registro-estado').textContent=t;
-$('registro-crear').onclick=async()=>{const email=$('registro-email').value.trim(),password=$('registro-password').value;try{const r=await createUserWithEmailAndPassword(auth,email,password);await sendEmailVerification(r.user);registroEstado('Cuenta creada. Revisa tu correo y confirma tu dirección antes de escribir.')}catch(e){registroEstado('Error al registrarse: '+e.message)}};
-$('registro-entrar').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('registro-email').value.trim(),$('registro-password').value);registroEstado('Sesión iniciada.')}catch(e){registroEstado('Error al iniciar sesión: '+e.message)}};
-$('registro-verificar').onclick=async()=>{try{if(!auth.currentUser)return registroEstado('Primero inicia sesión.');await sendEmailVerification(auth.currentUser);registroEstado('Correo de verificación enviado.')}catch(e){registroEstado('Error: '+e.message)}};
+$('registro-crear').onclick=async()=>{const email=$('registro-email').value.trim(),password=$('registro-password').value;try{const r=await createUserWithEmailAndPassword(auth,email,password);await sendEmailVerification(r.user);registroEstado('Cuenta creada. Revisa tu correo y confirma tu dirección antes de escribir.')}catch(e){console.warn('Registro error:',e);registroEstado('No se pudo crear la cuenta. Revisa el formato del correo y que la contraseña tenga al menos 6 caracteres.')}};
+$('registro-entrar').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('registro-email').value.trim(),$('registro-password').value);registroEstado('Sesión iniciada.')}catch(e){console.warn('Login error:',e);registroEstado('Correo o contraseña incorrectos.')}};
+$('registro-verificar').onclick=async()=>{try{if(!auth.currentUser)return registroEstado('Primero inicia sesión.');await sendEmailVerification(auth.currentUser);registroEstado('Correo de verificación enviado.')}catch(e){console.warn('Verificación error:',e);registroEstado('No se pudo enviar el correo. Espera unos minutos e inténtalo de nuevo.')}};
 </script>
 </body>
 </html>
