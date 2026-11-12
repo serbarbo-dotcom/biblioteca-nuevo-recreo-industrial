@@ -1,17 +1,3 @@
-El problema se ve claramente en la parte superior de tu captura: el código de la etiqueta <meta http-equiv="Content-Security-Policy" ...> se está imprimiendo y mostrando en texto plano arriba del todo en la pantalla del navegador.
-Esto ocurre porque al copiar el código completo desde el chat, por un pequeño fallo de formato o de comillas, parte de la etiqueta HTML se quedó fuera del bloque correspondiente o se desconfiguró al pegarla.
-Para solucionarlo al instante de forma limpia, aquí tienes el bloque exacto con la etiqueta corregida. Sigue estos pasos:
- 1. Editar el archivo en GitHub
-   1 min
-   Entra en tu repositorio en GitHub, abre el archivo index.html y pulsa el icono del lápiz (Edit).
- 2. Sustituir por el código corregido
-   2 min
-   Borra todo el contenido actual y pega el código completo que te dejo al final de esta respuesta (que ya lleva la etiqueta CSP limpia y bien estructurada para que no se imprima en pantalla).
- 3. Guardar y comprobar
-   1 min
-   Pulsa Commit changes, espera 1 minuto y recarga tu página de GitHub Pages ([https://serbarbo-dotcom.github.io/biblioteca-nuevo-recreo-industrial/](https://serbarbo-dotcom.github.io/biblioteca-nuevo-recreo-industrial/)) usando una pestaña de incógnito.
-   Verification: El texto largo de la directiva de seguridad desaparecerá por completo de la parte superior y la cabecera azul de la biblioteca quedará limpia y perfectamente alineada.
-Aquí tienes el archivo index.html íntegro y revisado para copiar y pegar:
 <!doctype html>
 <html lang="es">
 <head>
