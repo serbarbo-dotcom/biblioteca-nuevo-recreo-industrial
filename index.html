@@ -1,10 +1,34 @@
+El problema se ve claramente en la parte superior de tu captura: el código de la etiqueta <meta http-equiv="Content-Security-Policy" ...> se está imprimiendo y mostrando en texto plano arriba del todo en la pantalla del navegador.
+Esto ocurre porque al copiar el código completo desde el chat, por un pequeño fallo de formato o de comillas, parte de la etiqueta HTML se quedó fuera del bloque correspondiente o se desconfiguró al pegarla.
+Para solucionarlo al instante de forma limpia, aquí tienes el bloque exacto con la etiqueta corregida. Sigue estos pasos:
+ 1. Editar el archivo en GitHub
+   1 min
+   Entra en tu repositorio en GitHub, abre el archivo index.html y pulsa el icono del lápiz (Edit).
+ 2. Sustituir por el código corregido
+   2 min
+   Borra todo el contenido actual y pega el código completo que te dejo al final de esta respuesta (que ya lleva la etiqueta CSP limpia y bien estructurada para que no se imprima en pantalla).
+ 3. Guardar y comprobar
+   1 min
+   Pulsa Commit changes, espera 1 minuto y recarga tu página de GitHub Pages ([https://serbarbo-dotcom.github.io/biblioteca-nuevo-recreo-industrial/](https://serbarbo-dotcom.github.io/biblioteca-nuevo-recreo-industrial/)) usando una pestaña de incógnito.
+   Verification: El texto largo de la directiva de seguridad desaparecerá por completo de la parte superior y la cabecera azul de la biblioteca quedará limpia y perfectamente alineada.
+Aquí tienes el archivo index.html íntegro y revisado para copiar y pegar:
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#18277c">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://accounts.google.com https://cdn.jsdelivr.net; connect-src 'self' https://*.googleapis.com https://apis.google.com https://accounts.google.com https://*.firebaseio.com wss://*.firebaseio.com https://itunes.apple.com https://openlibrary.org; frame-src https://*.firebaseapp.com https://accounts.google.com https://apis.google.com; object-src 'none'; base-uri 'self'; form-action 'self';"> https://*.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://accounts.google.com https://cdn.jsdelivr.net; connect-src 'self' https://*.googleapis.com https://apis.google.com https://accounts.google.com https://*.firebaseio.com wss://*.firebaseio.com https://itunes.apple.com https://openlibrary.org; frame-src https://*.firebaseapp.com https://accounts.google.com https://apis.google.com; manifest-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self';">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Biblioteca NRI">
+<meta name="apple-mobile-web-app-title" content="Biblioteca NRI">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" type="image/jpeg" sizes="192x192" href="IMG-20261108-WA0001.jpg">
+<link rel="icon" type="image/jpeg" sizes="512x512" href="IMG-20261108-WA0001.jpg">
+<link rel="apple-touch-icon" sizes="180x180" href="IMG-20261108-WA0001.jpg">
+<link rel="manifest" id="pwa-manifest" href='data:application/manifest+json,{"name":"Biblioteca%20Nuevo%20Recreo%20Industrial","short_name":"Biblioteca%20NRI","start_url":".","display":"standalone","background_color":"%230f194e","theme_color":"%2318277c","icons":[{"src":"IMG-20261108-WA0001.jpg","sizes":"192x192","type":"image/jpeg","purpose":"any%20maskable"},{"src":"IMG-20261108-WA0001.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any%20maskable"}]}'>
 <title>Biblioteca Nuevo Recreo Industrial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -603,6 +627,25 @@ const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),booksRef=collection(db,'libros');
 const $=id=>document.getElementById(id);
 $('escudo-img')?.addEventListener('error',()=>{if($('escudo-img'))$('escudo-img').style.display='none';if($('escudo-svg'))$('escudo-svg').style.display='block'});
+try{
+  const iconUrl=new URL('IMG-20261108-WA0001.jpg',location.href).href;
+  const manifestObj={
+    name:'Biblioteca Nuevo Recreo Industrial',
+    short_name:'Biblioteca NRI',
+    description:'Catálogo de libros de la Biblioteca del Nuevo Recreo Industrial de León',
+    start_url:location.origin+location.pathname,
+    scope:location.origin+location.pathname,
+    display:'standalone',
+    background_color:'#0f194e',
+    theme_color:'#18277c',
+    icons:[
+      {src:iconUrl,sizes:'192x192',type:'image/jpeg',purpose:'any'},
+      {src:iconUrl,sizes:'512x512',type:'image/jpeg',purpose:'any'}
+    ]
+  };
+  const blob=new Blob([JSON.stringify(manifestObj)],{type:'application/manifest+json'});
+  if($('pwa-manifest'))$('pwa-manifest').href=URL.createObjectURL(blob);
+}catch{}
 $('ficha-modal')?.addEventListener('click',e=>{if(e.target===$('ficha-modal'))$('ficha-modal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('ficha-modal')&&!$('ficha-modal').hidden)$('ficha-modal').hidden=true});
 let libros=[],isAdmin=false,pendientes=[],paginaActual=1,ordenActual='registro',ordenAsc=false,cambiosRegistro=[],letraActual='TODAS';
@@ -925,3 +968,4 @@ $('registro-verificar').onclick=async()=>{try{if(!auth.currentUser)return regist
 </script>
 </body>
 </html>
+
