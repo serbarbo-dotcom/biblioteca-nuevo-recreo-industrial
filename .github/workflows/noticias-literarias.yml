@@ -1,0 +1,40 @@
+
+name: Actualizar noticias literarias
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 7,17 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: noticias-literarias
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Buscar noticias literarias
+        run: python scripts/actualizar_noticias.py
+
+      - name: Guardar noticias actualizadas
+        run: |
+          if ! git diff --quiet -- noticias-auto.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add noticias-auto.json
+            git commit -m "Actualizar noticias literarias"
+            git push
+          fi
+  
