@@ -1,12 +1,6 @@
 {
-  "actualizado": "2026-11-15T14:42+00:00",
+  "actualizado": "2026-11-15T21:44+00:00",
   "noticias": [
-    {
-      "titulo": "Luis Mateo Díez: dos libros y 40 años de 'La fuente de la edad' - Diario de León",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNRmRxU0YtaE02SDYzay1qejRuQ25TOUhsN1ZvU2ZLUmRkZ3pDWVRZTVZOQy12dHp6cWRfVXVVODRTQnZTVEFoWFVNSFRRaWFNMWVidkl1TEZBcTM5ZllwNnV6NWQ0cFRZNXMtY1hPVWEzeG5VLU5haTBiMHlqT2FkcEp6cmstNVhqNEhWR2JDT3VweDhhanloSzhqNkVsbkJqVVBIVjFmTTZzaTNkeVVtZkFtS0JQQdIBuwFBVV95cUxObHU0Nkl0RnhNWEEtdFRwYTk5cnN1anNmNnE1VDNYUDRhNWZ4VlZzNlhSZnF5ZW5kSEFjYXJlaGo2Z1pma3prbEV2NVhGMDZqdUdMRElMZk8zeWdrV3FvTVM0dmR0cjNodmFFbENseHFSRVg3ZkpqTVNDZ1F3c1g2YVFTT0V4RUt0bHNmQkUxT0ttSWxFaFFVcEtnZzhhMi1MWUdSVnk2THQ2bW9fX0JqVTRtTm5COEhNZUdn?oc=5",
-      "fuente": "Diario de León",
-      "fecha": "2026-11-15"
-    },
     {
       "titulo": "Gioconda Belli, la voz nicaragüense exiliada en Madrid que sigue sumando premios - Culturamas",
       "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOem9ITU55X2FtZGpwSUxtRWk1UTI0cndWUjFDUUJiaHZZa2o1U2ZIYnhiN2ZVMVFwSk1mTm9heVRUekdsVEVIVnQxVHJfMEE5SXdnWnZ6ZzhzYkRpTlRKcXJCWGpFM0pqX2JEUG5vUFktSVcyMm9JdXVuU0wxYmU4anppQ25Da20wSGJUMG0tcmR3QXJMY1d1Y2N0UXpfbGlpS1pQWnhXNFdpXzRMQWd3QUE0V1dtTkt5?oc=5",
@@ -56,12 +50,6 @@
       "fecha": "2026-11-12"
     },
     {
-      "titulo": "Rubén Mayoral, el desconocido ingeniero de minas con 14 premios literarios y una novela: \"Bajo tierra no hay demagogia\" - El Español",
-      "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxObnJvaVpQSWRmRUpodzRHanR1ZzhfSDFnelZDOWJsejhLUGNrcWw4bUJFUlpselAtV1ozOVA1Y0VrR3FTRzY0X1JMejdNNTlfQUNpYzE2c3N2QndqSmtSSWx3NzlVNmtKcVZCTEhMTnFBVER0NFNfbzRibXJfMlBUd2F0aVhfRXY1OW1LZ2FBRmltY0x1TWZOYmVabWZYLUU3aUEyRGwwX1FGYjJaeEtZNXp5VW5NWEJJUlhCLV9mTE84a0lZZFpTSnNVaFlSR0pFNk5SN3VaUjZiZlN5UGRJdU5iZGtyU0Vrc1VBUTNyMy3SAfYBQVVfeXFMTWN1TDBCUDZQQk54TFhwb3lNd0Z3YlcwNWYxNmFHb1RyeFYtVDZac3Z3NVJLWlh3bEsxZEdGWkRpcDVtZFd0VWcyTjlZWmNJWnhUYjhLUU50VFhJb0tvaTZ3WWxJMWktY2tXNHJ5NzhERVZCRGZENFc0Tms2bHdUUUJnTmF5Y3JvWmktamNiZG9Va002WVJicTVzUm5WeDZNQVExT0pzS0cyd09lSEJreXBxLUROTHFTX2dHZUpqenpSOFdLbWtoMkdyWjlockd5Rml0NWRmOXphSkVsSlhFdnlTa0RKNHhpRHhxcGZMZ3BuYWhObFJR?oc=5",
-      "fuente": "El Español",
-      "fecha": "2026-11-10"
-    },
-    {
       "titulo": "Tres libros de cuentos para iniciarse en el mundo literario de Cristina Fernández Cubas, Premio Cervantes 2026 - El Debate",
       "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQdTBZbjVVZTgzVVh0WnpDcVVaNDhVc19wa0kyM2MzdGVDbzZBLVFIT0U2T0NJR2Z3R0RTYVFhd202RGlVSkdPOHZDMkswYlRfNVhHaGpKY2FscUZiUWJ3YkpHNkphVnNfTjM0OFhraXc4THBFYjVPMTRtNTN5N2N2VEtrTdIBiAFBVV95cUxQaGF3c2J0bHFUM2thNVBhXzRpX3VBOTY1T25IZGZZOC10OFUzOHg5TjhGZEU1QWtjWUdJT0xiYnlud3dvMGJnMXlqYlNxQVd1ckxxdlhOdncyVWc2S0VFZ2owclFnU1FtbUt3RjFqVVZhRkdUZWYyemZ0ck43ZF9Jb0dnWG1rMmNF?oc=5",
       "fuente": "El Debate",
@@ -80,6 +68,30 @@
       "fecha": "2026-11-07"
     },
     {
+      "titulo": "Francia crea un premio literario para obras escritas con inteligencia artificial - La República",
+      "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOdmlHbUg2TUR0SEJsdWwxMngtMkh4UFZIM19oeVhXSHp0T05LQ3pQUm5KaVFBVElLRUV6TFROQTZvWGFaT1lJbmluaUQ1Z2JsY0Y1Ulc1M3lpOXU3X3NwbWVGbU1ZaHRaWDgyX1c2Nm5tamhVX0ltaTd3NjlObEdxNjVYOWliR2NzcFZWSEZjbk9mMnkyT2JBcTZBazhWOUFVbFRVZjFzRTJJMnFzUGJaZ0VOUkVWX1BMQzBvOFYwTTRBMFlZU0ptMXdPLWl0aU9UQTNSYThBU08wbTBqdi1iM3VRNWNjeERxOTRVb0t2eEhwSm81V1FoZW9oNGM0QQ?oc=5",
+      "fuente": "La República",
+      "fecha": "2026-11-06"
+    },
+    {
+      "titulo": "La escritora colombiana Margarita García Robayo gana el Premio Herralde de novela - RTVE.es",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPZGhOT2NMbElSNDhhU05GaTFKWUtSLUdIWlRoZ2gwbnVxZ1M3WTV4Q1F5QmhmM19WMXh2WHVaVzd4YkF2b0k1VlBsXzZCelVtckc0ZHpJZTVLNmxZMDlSbmFBNjd6RjFINDduZjNXQU1YSjZMVjdFSWR4dnkyVTB1YmNWVktaTkN5VTNVYmRPQzRZWnlxYzdfeXhUaVZMSXNTM0x4ZXJNTlExT2lDaUZEVGRJcUJoS1ppLUxrNzZMOVdsMTQ?oc=5",
+      "fuente": "RTVE.es",
+      "fecha": "2026-11-05"
+    },
+    {
+      "titulo": "Ferias del Libro de Andalucía - Junta de Andalucía",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOUFRLYVVpSm56cUFreXAzdWZvSXhQcWtwNVowM09yVEdoQmRxVktpTkQyNHhKV3VwbzNDRkdYUThyS0xJYnpJVktLQndqQ2JHa1F5NVFDUEt4U1I0RHlzMXZ4b1l4ajN6MHlMQ3dHd3Zpem5aNlZ6aVNvaWV6ckhZZkFBYURJYnlKR1RoQWJ3?oc=5",
+      "fuente": "Junta de Andalucía",
+      "fecha": "2026-11-03"
+    },
+    {
+      "titulo": "Las presentaciones canceladas en la Feria del Libro de Sevilla 2026 por la tragedia ferroviaria - ABC",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNWi12U3p5bDZQVnVQX3dDRmRQY3dCODZ2UHV2c2NDd1VCODE0Ujc2T2VDenVsZUxZU2hVZUl5ZzRqUDNtRVp1UHpaQ3dGa1M0T2x4U0NZOVpMT1U0QmRXVHZHZlliV1U0VExVcGlKODdBck9GMzk3RGUtb3pMM0w3bjBCV3lyc2g4czA2V3JvQWdTVUFfTDFNaTFfXy1QRE9UZGxidnZqeVNTdmZ0X0ZYbDVxU1hTbXFNb3fSAb8BQVVfeXFMUEthdHdseUZOeTJBVkNnd1JXQlNhTmxwSnhTRi1WdUNmaDRDbXplamxGQ1RWU2lRZVlxVXVtT3JhbWp5OVNaLWJNQnluT0NMNmFyWjJhWlpVOTQ1RU5wQ3hTNHVlcllUNy1VYkozb2ZJUVAyZmdOOC1XTS1GcDNSYV9LREtnQjVuWGU3RU4zTmR2ZHNQMmlQZ2p5RkFvOGpZQTZnRUhwdGYxcnRCRElma25nYTV0dFNuT25jM0NPVWs?oc=5",
+      "fuente": "ABC",
+      "fecha": "2026-10-30"
+    },
+    {
       "titulo": "Nace en Francia un premio literario para libros coescritos con IA - EL PAÍS",
       "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQenpUR2p5eXNBNHdYZ2JzRW5ydGxJX0xmd3pEbXJqTklzVDFTSnFNbEVJemNoZll5ZGIwenMxN2JreVVFLTVqX3o4MjhSTU1KZHpFSVdRTzlMTXdiTkdPejNaY0RremZkaS1YYlp6YU9ZanZxdTdvMnc2X3NlaXVzcEtpU0lQc0Y1bkpuUlRKcDhsSkdBaGoySEhVdWZONzBseFdTS3BhR1haek5q0gHAAUFVX3lxTFA0QWZyM0RjS3BLTkd0SXU1cWlXMEpfSVhqMGJwYXJlTmp0azBYdWhNeE9QQ1E5dERCM0pZU1REOF9ILVlwdGU1TXBSNk81eUI2ajF5WlJlMS1UVEtwOFVWT2N3enpIeEJmeHlCZllqcW9rakhqNzMtbjdQdUpOMVdWZUFiUm05TXo1QWNpdVFDOW1ZN2F6VGdhTWxPSW5iZjBLUDdyd2p5Ymp5V2hxakgwb3pyZGNfblpOLWZLOXpUbw?oc=5",
       "fuente": "EL PAÍS",
@@ -96,18 +108,6 @@
       "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQeTV4UmVkTEVfVWctd0dYdmxJR0FOTDBRZFEzTjZaOWM5bE5CbzZPT1dHZWVmN2FjWE1oNFhlcVl0SVBVaXFOSG9kaU51Z2VVVVdCYm1BX1hINE9yeFNtMm1lUm5STkRSeG8xTjFScWxNcFdiTmVRV09mdTFIZkppQzdSNm55OVdOTjV0djFYSjNTTU5HR3FoaGFRVTFHd0ZDYnRIR2xzZVhZcG03RUYtbzVadWxmRDlPeFlveEFZdFh0Mm1xNXhhUTdkZURYTktCaVFlNnlOMDRqNEwyQzFXdE9vT1ZpYlRVRWdYdWdYd1PSAYQCQVVfeXFMUG52MTM2WS1oNEpzRFdZUnl1cld0WVdFRDVDRk9oclhUWjVjbTg0eHJYQ3ljT1dKYU5OZnRaazV6ZlBBWlJPN1B3RmRsM2RsMW5Gc21SVllFNFd5cDZLNDNPamhfbmk5eUxxRi1GSDVfeVZ0MFZROTZienUyV09COVFRckdIMnIxYi1WaFJLYW53UFc2Z2lxbXJJVGpDcDJ2OHJ5WEVpNWgzbzB2aVJOU1RXdmk4eXg0NTFzZG9RUXNDdFBDc1ZvQXVrODVialNLS0o5MlVfeTVUbk9rV2w3Xzk1QmtQSDQ4SEFGWEVZYzYzYUZ4Umw4RlRnanllazl3ZHlMVzY?oc=5",
       "fuente": "EL PAÍS",
       "fecha": "2026-10-23"
-    },
-    {
-      "titulo": "La programación completa de la Feria del Libro de Córdoba 2026: autores, firma de libros y presentaciones - El Día de Córdoba",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPdjNwRDZUeE1Ja0NpQ2JBcG9pQTQwNzFUSTV2cXlqRU5nRTJPMFZMZXZKOWhfSGluZFl1cmJteXE5cTJvLWZsYmNzQ25IZ1A0R0U5VWhkNi1sYUhmS1U5R21hWl9oNGl2QzlHdUlDbXJMYmwwbDFqSDlwZFhVby12ZU9kN2V4VHNQQTExdzU2WFlVcnpydndySWFjT0pTdw?oc=5",
-      "fuente": "El Día de Córdoba",
-      "fecha": "2026-10-20"
-    },
-    {
-      "titulo": "Feria del Libro de Huelva 2026: programa, autores y fechas - Agenda de Huelva",
-      "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5zZWlaMlgwdnc0TWNwNEZRXzZPSlFVT21FUDE0MHRTNG9MMGMxWjU4d2NvRmRYcU1JajFrZUdydlVBMmR2OThabGJwRzJLam5DSlRndkN5WXFRNTZBMHdadnBoaWw?oc=5",
-      "fuente": "Agenda de Huelva",
-      "fecha": "2026-10-19"
     }
   ]
 }
