@@ -1,0 +1,19 @@
+{
+  "name": "Biblioteca Nuevo Recreo Industrial 2.0",
+  "short_name": "Biblioteca NRI",
+  "id": "./biblioteca-v2.html",
+  "start_url": "./biblioteca-v2.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f3ed",
+  "theme_color": "#18277c",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "./icon-v2.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
