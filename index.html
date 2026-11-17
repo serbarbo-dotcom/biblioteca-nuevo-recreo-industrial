@@ -168,16 +168,24 @@ async function v3EnrichBibliography(author,info,local){
 }
 
 
-async function v3Biography(author,target,version){
- const name=limpiarAutor(author);if(!name)return;
- const params=new URLSearchParams({action:'query',format:'json',formatversion:'2',origin:'*',redirects:'1',titles:name,prop:'extracts|pageimages|pageprops|description|info',exintro:'1',explaintext:'1',exsentences:'8',pithumbsize:'180',inprop:'url'});
- try{const data=await pedirJSON('https://es.wikipedia.org/w/api.php?'+params);const p=data?.query?.pages?.[0];if(version!==v3DetailVersion)return;
- if(!p||p.missing||p.pageprops?.disambiguation!==undefined||!p.extract||!/(escritor|escritora|novelista|poeta|autor|autora|literatur|periodista|ensayista|dramaturg)/i.test((p.description||'')+' '+p.extract)){target.textContent='No se ha localizado una biografía en español suficientemente fiable.';return}
- target.replaceChildren();if(p.thumbnail?.source){const img=document.createElement('img');img.src=p.thumbnail.source;img.alt='Imagen del autor según Wikipedia';img.referrerPolicy='no-referrer';img.className='v3-author-photo';target.append(img)}
- const bio=document.createElement('p');bio.textContent=p.extract;target.append(bio);const a=document.createElement('a');a.href=p.fullurl||'https://es.wikipedia.org/?curid='+p.pageid;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Biografía: Wikipedia · CC BY-SA';target.append(a);
- }catch(e){if(version===v3DetailVersion)target.textContent='Biografía temporalmente no disponible.'}
-}
 
+const v3BioCache=new Map();
+async function v3Biography(author,target,version){
+ const name=limpiarAutor(author),key=v3AuthorKey(author);if(!key){target.textContent='Autor no identificado.';return}
+ async function lookup(){
+ const base='https://es.wikipedia.org/w/api.php?';
+ const params={action:'query',format:'json',formatversion:'2',origin:'*',redirects:'1',prop:'extracts|pageimages|pageprops|pageterms|info',wbptterms:'description',exintro:'1',explaintext:'1',exlimit:'max',pithumbsize:'180',inprop:'url'};
+ const valid=p=>!p.missing&&p.pageprops?.disambiguation===undefined&&v3AuthorKey(p.title.replace(/\s*\([^)]*\)$/,''))===key&&p.extract&&/(escritor|escritora|novelista|poeta|autor|autora|literatur|periodista|ensayista|dramaturg)/i.test((p.terms?.description||[]).join(' ')+' '+p.extract);
+ for(const query of [{titles:name},{generator:'search',gsrsearch:name+' escritor',gsrnamespace:'0',gsrlimit:'5'}]){
+ try{const data=await pedirJSON(base+new URLSearchParams({...params,...query}));const p=(data?.query?.pages||[]).find(valid);if(p)return {bio:p.extract,photo:p.thumbnail?.source,url:p.fullurl||'https://es.wikipedia.org/?curid='+p.pageid,source:'Wikipedia en español · CC BY-SA'}}catch{}
+ }
+ try{const d=await pedirJSON('https://openlibrary.org/search/authors.json?q='+encodeURIComponent(name));const a=(d?.docs||[]).find(x=>v3AuthorKey(x.name)===key);if(a&&/^OL\d+A$/.test(a.key)){const url='https://openlibrary.org/authors/'+a.key;const p=await pedirJSON(url+'.json');const bio=typeof p?.bio==='string'?p.bio:p?.bio?.value;if(bio)return {bio,url,source:'Open Library · texto original'}}}catch{}
+ return null
+ }
+ const info=v3BioCache.get(key)||await lookup();if(info)v3BioCache.set(key,info);if(version!==v3DetailVersion)return;
+ target.replaceChildren();if(info){if(info.photo){const img=document.createElement('img');img.src=info.photo;img.alt='Imagen del autor según la fuente';img.className='v3-author-photo';img.referrerPolicy='no-referrer';target.append(img)}const p=document.createElement('p');p.textContent=info.bio;target.append(p);const a=document.createElement('a');a.href=info.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=info.source;target.append(a)}else{const p=document.createElement('p');p.textContent='No se encontró una biografía fiable en las fuentes automáticas.';target.append(p)}
+ const link=document.createElement('a');link.href='https://www.google.com/search?q='+encodeURIComponent(name+' escritor biografía editorial');link.target='_blank';link.rel='noopener noreferrer';link.textContent='Consultar más información del autor';const wrap=document.createElement('p');wrap.append(link);target.append(wrap)
+}
 function v3AuthorSections(modal,d){
  const version=++v3DetailVersion,key=v3AuthorKey(d.autor),section=document.createElement('section');section.className='v3-author-section';modal.append(section);
  const heading=t=>{const h=document.createElement('h3');h.textContent=t;section.append(h)};
