@@ -112,7 +112,7 @@ body{background:#f7f7f7}header{background:#980065!important;border-bottom:0;text
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,reload} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-import {getFirestore,collection,onSnapshot,addDoc,updateDoc,deleteDoc,doc,writeBatch,getDoc,setDoc,query,orderBy,limit,serverTimestamp,where,runTransaction} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+import {getDocs,getFirestore,collection,onSnapshot,addDoc,updateDoc,deleteDoc,doc,writeBatch,getDoc,setDoc,query,orderBy,limit,serverTimestamp,where,runTransaction} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 const firebaseConfig={apiKey:'AIzaSyCRK5vXMta1EuXGC_vP0RU-tkoVzXKuKxk',authDomain:'biblioteca-recreo-industrial.firebaseapp.com',projectId:'biblioteca-recreo-industrial',storageBucket:'biblioteca-recreo-industrial.firebasestorage.app',messagingSenderId:'86528204885',appId:'1:86528204885:web:2312437f4b9f5be0d0b4dc',measurementId:'G-DQHJG5EFGY'};
 const ADMIN_UID='Oa6t2E7kF8ejFMbX7di6yQ2uFgF3';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),booksRef=collection(db,'libros');
