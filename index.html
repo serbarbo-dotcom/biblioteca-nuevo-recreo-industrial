@@ -38,7 +38,7 @@ input,select,textarea{background:#fff;border:1px solid #cdd3db;transition:border
 /* Noticias literarias */
 .noticias-auto-title{margin:32px 0 8px;color:var(--azul)}.noticia-auto-badge{display:inline-block;background:#f7e9ef;color:#8c1548;padding:4px 9px;border-radius:99px;font-size:12px;font-weight:700}.noticia-auto-card{min-height:190px}.noticia-auto-card .noticia-content{gap:12px}
 .noticias-hero{padding:30px;border-radius:19px;background:linear-gradient(115deg,#17266c,#33479b);color:#fff;margin-bottom:23px;box-shadow:var(--sombra)}.noticias-hero h2{font-size:clamp(24px,3vw,34px);line-height:1.22;margin:9px 0}.noticias-hero p{color:#e6e9f9;margin:0}.noticias-kicker{color:#efda9a;font-weight:800;letter-spacing:.14em;font-size:12px}.noticias-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}.noticia-card{background:white;border:1px solid #e6e7ed;border-radius:17px;overflow:hidden;box-shadow:var(--sombra);display:flex;flex-direction:column}.noticia-visual{height:170px;background:linear-gradient(135deg,#dfe5f8,#f4e7ee);display:grid;place-items:center;font-size:55px;overflow:hidden}.noticia-visual img{width:100%;height:100%;object-fit:cover}.noticia-content{padding:20px;display:flex;flex-direction:column;flex:1;gap:9px}.noticia-category{color:var(--granate);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.06em}.noticia-content h3{margin:0;color:var(--azul);font-size:20px;line-height:1.3}.noticia-content p{margin:0;color:#4e5967;white-space:pre-wrap;overflow-wrap:anywhere}.noticia-date{font-size:12px;color:#667085}.noticia-link{font-weight:700;margin-top:auto;align-self:start}.noticia-form{display:grid;gap:12px}.noticia-form label{display:grid;gap:5px}.noticia-form input,.noticia-form textarea,.noticia-form select{width:100%}
-.ficha-autor-nueva{border-top:1px solid #ddd;margin-top:12px;padding-top:8px;overflow-wrap:anywhere}.retrato-autor{width:100px;max-width:45%;height:auto;float:left;margin:0 10px 8px 0;border-radius:6px}.obras-autor-nueva{clear:both;display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}.obras-autor-nueva button{display:flex;flex-direction:column;align-items:center;gap:5px;white-space:normal;overflow-wrap:anywhere}.obras-autor-nueva img{width:55px;height:80px;object-fit:contain}.ficha-autor-nueva h4{clear:both;margin:12px 0 8px}</style>
+.ficha-autor-nueva{border-top:1px solid #ddd;margin-top:12px;padding-top:8px;overflow-wrap:anywhere}.retrato-autor{width:100px;max-width:45%;height:auto;float:left;margin:0 10px 8px 0;border-radius:6px}.obras-autor-nueva{clear:both;display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}.obras-autor-nueva button{display:flex;flex-direction:column;align-items:center;gap:5px;white-space:normal;overflow-wrap:anywhere}.obras-autor-nueva img{width:55px;height:80px;object-fit:contain}.ficha-autor-nueva h4{clear:both;margin:12px 0 8px}.obra-externa{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px;text-align:center;border:1px solid #ddd;border-radius:6px;overflow-wrap:anywhere}.obra-externa small{color:#555}</style>
 </head>
 <body>
 <header><img src="IMG-20261108-WA0001.jpg" alt="Escudo del Nuevo Recreo Industrial" style="width:110px;height:auto;display:block;margin:0 auto 15px"><h1>Biblioteca Nuevo Recreo Industrial</h1><p>Catálogo de libros</p></header>
@@ -117,6 +117,28 @@ async function datosAutorFicha(nombre){
  return {bio,imagen:p.thumbnail?.source,url:p.fullurl};
  })();fichasAutorCache.set(clave,tarea);try{return await tarea}catch(e){fichasAutorCache.delete(clave);throw e}
 }
+
+async function obrasPublicadasAutor(nombre,bloque){
+ try{
+ const url='https://www.googleapis.com/books/v1/volumes?'+new URLSearchParams({q:'inauthor:"'+nombre.replace(/"/g,'')+'"',langRestrict:'es',printType:'books',maxResults:'40'});
+ const r=await fetch(url,{signal:AbortSignal.timeout(12000)});if(!r.ok)return;
+ const datos=await r.json(),obras=new Map();
+ for(const item of datos.items||[]){const v=item.volumeInfo||{};if(v.language!=='es'||!v.title||!v.authors?.some(a=>claveAutorFicha(a)===claveAutorFicha(nombre)))continue;
+ const year=String(v.publishedDate||'').match(/^\d{4}/)?.[0];if(!year)continue;
+ const k=claveAutorFicha(v.title),prev=obras.get(k);if(!prev||year<prev.year)obras.set(k,{titulo:v.title,year,imagen:v.imageLinks?.thumbnail?.replace(/^http:/,'https:')});}
+ if(!obras.size)return;
+ const h=document.createElement('h4');h.textContent='Bibliografía en español';const nota=document.createElement('p');nota.className='small';nota.textContent='Año de la edición encontrada en Google Books; puede diferir del de la primera publicación. Selección no exhaustiva.';
+ const lista=document.createElement('div');lista.className='obras-autor-nueva';
+ for(const obra of [...obras.values()].sort((a,b)=>a.year.localeCompare(b.year)||a.titulo.localeCompare(b.titulo,'es'))){
+ const local=visibles().find(x=>claveAutorFicha(repararTexto(x.data.autor||''))===claveAutorFicha(nombre)&&claveAutorFicha(repararTexto(x.data.titulo||''))===claveAutorFicha(obra.titulo));
+ const el=document.createElement(local?'button':'div');el.className=local?'secondary':'obra-externa';if(local)el.type='button';
+ const imagen=local?.data.portada||obra.imagen;if(/^https:\/\//i.test(imagen||'')){const img=document.createElement('img');img.src=imagen;img.alt='';img.loading='lazy';img.onerror=()=>img.remove();el.append(img)}
+ const titulo=document.createElement('span');titulo.textContent=obra.titulo;const fecha=document.createElement('small');fecha.textContent=obra.year;el.append(titulo,fecha);
+ if(local){const marca=document.createElement('small');marca.textContent='En nuestra biblioteca';el.append(marca);el.onclick=()=>{$('buscar').value=repararTexto(local.data.titulo);$('buscar').dispatchEvent(new Event('input',{bubbles:true}));$('libros').scrollIntoView({behavior:'smooth'})}}lista.append(el);}
+ bloque.hidden=false;bloque.append(h,nota,lista);
+ }catch(e){console.warn('Bibliografía no disponible',e)}
+}
+
 function agregarFichaAutor(contenedor,data){
  const nombre=repararTexto(data.autor||'');if(!nombre.trim())return;
  const bloque=document.createElement('section');bloque.className='ficha-autor-nueva';contenedor.append(bloque);
@@ -128,7 +150,7 @@ function agregarFichaAutor(contenedor,data){
  if(/^https:\/\//i.test(ficha.url||'')){const a=document.createElement('a');a.href=ficha.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Fuente: Wikipedia en español';bloque.append(a)}}
  const otros=visibles().filter(x=>claveAutorFicha(repararTexto(x.data.autor||''))===claveAutorFicha(nombre)&&claveAutorFicha(x.data.titulo)!==claveAutorFicha(data.titulo));
  if(otros.length){const h=document.createElement('h4');h.textContent='Otros libros en nuestra biblioteca';bloque.append(h);const lista=document.createElement('div');lista.className='obras-autor-nueva';const vistos=new Set();for(const x of otros){const t=repararTexto(x.data.titulo||'');if(vistos.has(claveAutorFicha(t)))continue;vistos.add(claveAutorFicha(t));const b=document.createElement('button');b.type='button';b.className='secondary';if(/^https:\/\//i.test(x.data.portada||'')){const img=document.createElement('img');img.src=x.data.portada;img.alt='';img.loading='lazy';img.onerror=()=>img.remove();b.append(img)}const label=document.createElement('span');label.textContent=t;b.append(label);b.onclick=()=>{$('buscar').value=t;$('buscar').dispatchEvent(new Event('input',{bubbles:true}));$('libros').scrollIntoView({behavior:'smooth'})};lista.append(b)}bloque.append(lista)}
- if(!bloque.childNodes.length)bloque.hidden=true;
+ if(!bloque.childNodes.length)bloque.hidden=true;await obrasPublicadasAutor(nombre,bloque);
  }catch(e){estado.textContent='No se pudo consultar la fuente biográfica.';const b=document.createElement('button');b.type='button';b.textContent='Reintentar';b.onclick=cargar;bloque.append(b)}};
  contenedor.addEventListener('toggle',()=>{if(contenedor.open)cargar()},{once:true});
 }
