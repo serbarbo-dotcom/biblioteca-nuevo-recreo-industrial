@@ -100,7 +100,7 @@ body{background:#f7f7f7}header{background:#980065!important;border-bottom:0;text
 <div class="actions" style="margin-top:12px"><button type="button" id="registro-verificar" class="secondary" hidden>Reenviar verificación</button><button type="button" id="socio-ya-verificado" class="secondary" hidden>Ya he verificado mi correo</button><button type="button" id="socio-salir" class="secondary" hidden>Cerrar sesión</button></div>
 <p id="socio-cuenta" class="muted" role="status"></p><p id="registro-estado" role="status" aria-live="polite"></p>
 </div><p id="socio-estado" role="status"></p><form id="socio-form" hidden><label>Nombre y apellidos <input id="socio-nombre" required minlength="3" maxlength="120" autocomplete="name"></label><label>Número de socio <input id="socio-numero" required minlength="1" maxlength="30" pattern="[A-Za-z0-9/-]{1,30}" placeholder="Tu número de socio"></label><button type="submit">Solicitar alta</button></form>
-<div id="socio-admin" hidden><h3>Solicitudes de alta pendientes</h3><p>Comprueba el número con el censo oficial de socios antes de aprobar. Comprueba también que el número no esté asignado a otra cuenta aprobada.</p><div id="socio-solicitudes"></div></div></div></section>
+<div id="socio-admin" hidden><h3>Solicitudes de alta pendientes</h3><p>Comprobación automática de correo, número de socio y nombre completo frente a las altas de la biblioteca. Las coincidencias de correo o número bloquean la aprobación. Los nombres iguales se señalan. La pertenencia al censo oficial requiere un censo conectado.</p><div id="socio-solicitudes"></div></div></div></section>
 <section id="tab-chat" class="panel-tab" hidden><h2>Chat de lectores</h2><div class="chat-box"><h3>Normas del chat</h3><p>Este chat está destinado exclusivamente a conversaciones sobre libros, autores, lecturas y literatura. Se eliminarán mensajes ajenos a esta temática, ofensivos, publicitarios o irrespetuosos.</p><p class="small">Cualquier visitante puede leer. Para escribir hay que ser socio aprobado y elegir un apodo permanente. Tu correo no se muestra públicamente.</p></div><div class="chat-box"><p id="chat-estado" role="status">Cargando mensajes...</p><div id="chat-mensajes" class="chat-messages" aria-live="polite"></div><div id="chat-identidad"><p>Para participar, inicia sesión, solicita el alta en Socios y espera la aprobación.</p></div><form id="chat-apodo-form" hidden><label>Elige tu apodo permanente (3 a 24 caracteres) <input id="chat-apodo" required minlength="3" maxlength="24" pattern="[A-Za-zÀ-ÿ0-9_ -]{3,24}" autocomplete="nickname"></label><p class="small">No podrás cambiarlo después. Evita usar datos personales.</p><button type="submit">Guardar apodo</button></form><form id="chat-enviar-form" class="chat-compose" hidden><label for="chat-texto">Tu mensaje</label><textarea id="chat-texto" maxlength="500" required placeholder="Habla sobre libros y literatura..."></textarea><button id="chat-enviar" type="submit">Enviar mensaje</button></form><p id="chat-error" role="alert"></p></div></section>
 <section id="tab-noticias" class="panel-tab" hidden>
 <div class="noticias-hero"><span class="noticias-kicker">ACTUALIDAD LITERARIA</span><h2>Noticias y novedades del mundo de los libros</h2><p>Presentaciones, premios, autores, novedades editoriales y noticias de nuestra biblioteca.</p></div>
@@ -234,6 +234,15 @@ function aplicarPermisosSocio(){
   $('socio-admin').hidden=!isAdmin;
   chatControls();
 }
+function detectarDuplicadosSocio(d,uid,docs){
+ const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/\s+/g,' ');
+ const num=v=>norm(v).replace(/^0+(?=\d)/,'');
+ const campos=new Set();for(const item of docs){if(item.id===uid)continue;const x=item.data();if(x.estado==='rechazado')continue;
+ if(norm(d.email)&&norm(d.email)===norm(x.email))campos.add('correo electrónico');
+ if(num(d.numero)&&num(d.numero)===num(x.numero))campos.add('número de socio');
+ if(norm(d.nombre)&&norm(d.nombre)===norm(x.nombre))campos.add('nombre y apellidos');
+ }return [...campos]
+}
 function iniciarSocios(user){
   if(unsubscribeSocio){unsubscribeSocio();unsubscribeSocio=null}
   if(unsubscribeSolicitudes){unsubscribeSolicitudes();unsubscribeSolicitudes=null}
@@ -245,20 +254,22 @@ function iniciarSocios(user){
     socioEstado(isAdmin?'Acceso de administrador.':!user.emailVerified?'Verifica primero tu correo electrónico.':!socioActual?'Introduce tus datos para solicitar el alta.':socioActual.estado==='aprobado'?'Tu cuenta está aprobada. Ya puedes participar en el chat.':socioActual.estado==='rechazado'?'Solicitud rechazada. Contacta con la biblioteca.':'Solicitud pendiente de revisión por el administrador.');
     aplicarPermisosSocio();
   },e=>socioEstado('No se pudo consultar tu solicitud: '+e.message));
-  if(isAdmin)unsubscribeSolicitudes=onSnapshot(query(sociosRef,where('estado','==','pendiente')),snap=>{
+  if(isAdmin)unsubscribeSolicitudes=onSnapshot(sociosRef,snap=>{
     const list=$('socio-solicitudes');list.replaceChildren();
-    if(snap.empty)list.textContent='No hay solicitudes pendientes.';
-    for(const item of snap.docs){const d=item.data(),row=document.createElement('div');row.className='import-panel';
-      const p=document.createElement('p');p.textContent=`${d.nombre} · Socio nº ${d.numero} · ${d.email} · UID ${item.id}`;row.append(p);
+    const pendientes=snap.docs.filter(x=>x.data().estado==='pendiente');if(!pendientes.length)list.textContent='No hay solicitudes pendientes.';
+    for(const item of pendientes){const d=item.data(),row=document.createElement('div');row.className='import-panel';
+      const p=document.createElement('p');p.textContent=`${d.nombre} · Socio nº ${d.numero} · ${d.email} · UID ${item.id}`;row.append(p);const aviso=document.createElement('p');const duplicados=detectarDuplicadosSocio(d,item.id,snap.docs);aviso.textContent=duplicados.length?'⚠ Coincidencias: '+duplicados.join(', '):'✓ Sin duplicados en las altas registradas';row.append(aviso);
       for(const [estado,etiqueta] of [['aprobado','Aprobar'],['rechazado','Rechazar']]){
         const b=document.createElement('button');b.type='button';b.textContent=etiqueta;b.className=estado==='rechazado'?'danger':'secondary';
+        if(estado==='aprobado'&&duplicados.some(x=>x!=='nombre y apellidos'))b.disabled=true;
         b.onclick=async()=>{
-          if(!isAdmin||!confirm(`¿${etiqueta} a ${d.nombre}, socio ${d.numero}? Comprueba previamente el censo oficial.`))return;
+          if(!isAdmin||!confirm(`¿${etiqueta} a ${d.nombre}, socio ${d.numero}? `))return;
           b.disabled=true;
           try{
             const solicitud=doc(sociosRef,item.id);
             if(estado==='aprobado'){
               // Transacción atómica: un número de socio no puede asociarse a dos UID.
+              const actuales=await getDocs(sociosRef);const conflictos=detectarDuplicadosSocio(d,item.id,actuales.docs);if(conflictos.some(x=>x!=='nombre y apellidos'))throw Error('Alta duplicada: '+conflictos.join(', '));if(conflictos.length&&!confirm('Coincide el nombre con otra persona. ¿Confirmas que son socios distintos?'))return;
               const reserva=doc(db,'socios_numeros',d.numero);
               await runTransaction(db,async tx=>{
                 const actual=await tx.get(solicitud),ocupado=await tx.get(reserva);
