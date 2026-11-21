@@ -1,65 +1,11 @@
 {
-  "actualizado": "2026-11-21T15:18+00:00",
+  "actualizado": "2026-11-21T22:10+00:00",
   "noticias": [
-    {
-      "titulo": "Isabel Plantinet publica su primera novela juvenil tras alcanzar el éxito con 'Carolina Purpurina' - El Día de Valladolid",
-      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPZU85MHJya1pzd0t1SGl5UmlraERTN2laOVM0d2pyNHlIRy16MTZJWloyYU1YTVFrTkx5ZUhQeGFDdjBXYVhFdXl6RUxETjNfZmhrMHRTcHRfakdvSkZnenYyYkRMa3Bham4zQ1FzdXNUVm9kWWM5VWp2ZVdZWVF5ZktYOTNpbHQ4ejVFNzJwMzJvSjJYdV9sNTJOdm9CYTYydmxjLW04eFJBVTQxbkNyU0dlVWkyeWJRd3g0azkzakpiNEl4NmJWaHFsRHRqc0tGaFE?oc=5",
-      "fuente": "El Día de Valladolid",
-      "fecha": "2026-11-21"
-    },
-    {
-      "titulo": "Vicente Luis Mora, primer español en lograr el National Book Award, el premio literario más importante de EEUU - El Mundo",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPc0VkN2x6QjdubGxiSW94MEdWMWtDazd0ZTB2X1RjRUg5akstOS1IN0E1dXhfN2NsRnEzblBVeHZnZmZfdkR2bmx0NUtKd1JoemttUm9KdUlmaWlSZDlXMnV6WEhuMEFaMUZZbEJqTDZtR2V4SWVfcG93RWdtWExLS205a2pQcU9YdkHSAYoBQVVfeXFMTzkwWXdPZk94dC0ydDlURVpoNklXZjRrcUF4TzA5S25DSm1Oc2gtV0tpbFJuRGlXSWhTMjFaanlXcG9Hd2xrNHA0YldkaHRiNmxxZ2pJX3dWWG05RjhNN0VyQk93bWtfWmJTNlVaLW5VSURLMzRxc0FhZWh3RUJOU29kVjVGVTBzUm9n?oc=5",
-      "fuente": "El Mundo",
-      "fecha": "2026-11-19"
-    },
-    {
-      "titulo": "El español Vicente Luis Mora gana el National Book Award: “Es el respaldo a un trabajo literario lento” - EL PAÍS",
-      "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxQRENFaFdBa3NKM3ZCR3FRZ2hWS1dNSlAtaHhETHZoX205cnhycXFpZjN5aF9XZXUtSmZ2QzhuNktlZlBUb2VDTlBfVVJJdU9TRTU5VlR4WllPWG9iX3RpdUIwSUQ0SktyY1hTM04tTndXUnNVNFRxY0JqZlcwRGhxRXFyVjRDeUNmZnBBVHJnbE9ZVl9ObXhHWXMyQXN4Z2RqaV9sMlBQVVdyOVZJRmxqRXdhSnFXbHpVdEduR0o5QkY1dEF1WGc0dVZuUG9OTWpRbC04czd4RERCek5vQXpQRXdTY3ZSbE1XbmhERm9R0gGCAkFVX3lxTE5raTg5RVRVVDcxSjFfbFBsSzNDZGNzdHRhMkRHYTVmQ3pOMWc4UkF6T1JuMjJqR0haOEZFZ19WNnFKNnBsbkhBa1VEOGJNZjN0dG81VjdFLXpGNnVzbHQ1TlloS0pwRHVEQ3N1RWFFOFBfTXdTU3kyemNaSkV3a3NaSXlnc2Z3Zkt2aXNzZEhkTWU1YUdUbnNOOElpTjJFN2xqZUFoV3Zrak1XZUNMUHVvM3RDTXV6cGFYOWxDS2Z2a0Vsa2RTQ04xeFVlSEJKMi1raGdsaFlFWWZybzZCLVJ4M29Rd0N3YzhvWDBPWWVpOXhqb3RBcE9hdE15OU55WXFlQQ?oc=5",
-      "fuente": "EL PAÍS",
-      "fecha": "2026-11-19"
-    },
-    {
-      "titulo": "Vicente Luis Mora, primer español en ganar el National Book Award de EE.UU. con su novela 'Centroeuropa' - RTVE.es",
-      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOUUlVaXpmbkxEd2xJNTRGN0w3cFh0N1dicmhKelhYV2Nrb1JzUjJkamUyMkY2aHF1RS0zTzVPVEowUEZ4X1M2UE5WS3hMOGx5NVd6dm01VXh5a3gxczAzSTZwYlluQ1JJeXE0a09rLUprMjBzMk8zc1NrYktiY3NaYnpRRGo3dUN3WUFOSTVfX0EwNFRIeTVKOVJaYVFrWEhnMkdmZTBvQ3FXNlRycWdIUTlDYWdEektrMmtMR0hxQUVjSlQzeWdqOQ?oc=5",
-      "fuente": "RTVE.es",
-      "fecha": "2026-11-19"
-    },
-    {
-      "titulo": "Vicente Luis Mora, primer español en ganar el National Book Award - ABC",
-      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOVVpaSjRib2FvdWRDM082QVBPdTllYklJVS1KMHBfZm9sUDFINFg3ZzRvb0NKTFdIMFdMNkFIUF9OZDd1eVI4MWJySHgyX2tzUDBpRHR5RU01c09taXc2WnZpUDYxa0VnRDh1Q01IbkJ3VER0OU5XWkdVWlF0RktDaDRVZjVjWFdSbXBpcFBVdlJPbDQ1MjJzSGoxQVdiQzI5YVQ4RnJoNNIBrAFBVV95cUxQNC1oNVZEaUhUS3EyUk00b0tmRDBGV0NrLTRSaXZKbmFlTDlPMHphQlZ5LU9jWXJ1ZjY4N0IyNFBVNElUN19oampwREhQU01WSHBBLUFhcml2TVg4RllIbXN4QlpvOWtxSEFTQjA5d3MwOXRCYnpUOHlOSC1Uc0xGWFRWUFRpQW51MzlfQkpzTGxRTGlldXdpUXppWWhKOGdZRkh6WElTNDlDNVdh?oc=5",
-      "fuente": "ABC",
-      "fecha": "2026-11-19"
-    },
-    {
-      "titulo": "Vicente Luis Mora hace historia y se convierte en el primer español en ganar el National Book Award, uno de los grandes premios literarios de Estados Unidos - Elplural.com",
-      "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxNYXZuQ29lalJTWFNuOFk0d1dDbkdmY1pvQms4QmNNVXhWcFN4Wk5OTXhXaHdvVkZBaUxsRkVabTNLVFVvbHRpWE1ZYlBJUmE1bzBrcko5end3Qm5WUjJyS1hFWFhjWkVoc0UxQnFyVmRiTzk3VEZmOUl0SUYyYmE0QzdmQzQ5a3VwQ3lYeVZ6UmNIa252UUhrdGlFLUtmY0E0aUIyTFFINGZlWFFITVMzaHhoa2RNQ2piY2xLU2dXQk1yYUtBTGVFbkVCOHVYbHRIMkJuYlhXcC1VeUtOYmlvUFk5Nm94cWlFcWlLa0t3djlCX0ZteEVBQUtTeHFWZFR6c21mMkdSYnBqVmdE0gGSAkFVX3lxTE01WmVqSVlnZ2RkdDY3UDJBSi1yYnpTYk1IOFd4QlpGU2RYaHphbUkzSmRjWFNna3pHNTltdFpqUTMzQk5vcWdwYzVxd2lSMkZ2SVNhS0lldE1NRGJJRERBZkFBbU13NUhrc0pLTmJ6cmJ2NDRCZ0RzVXJ2NVhNUUI0RUdWd1o4Rm5nRWJFV2lHaTAzczFOMU93REpEZmRScjR6V1BjU2s2dEtlWHJmaXA0V1BQNmFwSERsY1ZFUUZkSGc1Mm1uR2U2YTh0TzJPUjV2UDIyekNqVU1LbjJDTXo3enIyX1gxeDNZMlp2WW9ZbnpfU3J1R0thd0l2eXd2Z0NaeWhjbHkzbVdHMnphRDVIU1E?oc=5",
-      "fuente": "Elplural.com",
-      "fecha": "2026-11-19"
-    },
-    {
-      "titulo": "Poeta chileno Mario Meléndez gana el Premio Antonio Bouza en España - TVN",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQLXQtVzdJMmxQd0JjVGM3U2lEM3NBNGREbm8xREtXLWp1bWtLaVVpRl9lX2tNekFOSVM4TFRlLWtPaXZqZDFNWndQWHpwcjI4SlVTSTJycFBVTkNjSTlrM0NUNlJpTTYzSHkxVmhHakwxaFpjNDN6bWczU0J5a2YwamVlbS1kYWJQX05UbXhLVl91MnJicm1rTmVIcVZyY2h5Z0puNUdwVm9vZ9IBrwFBVV95cUxPU3dycnV2bkhIb1VKQWk2bFFROTk4b0JoWkFVbHY4LUxnSHVqV3BYVzJCRURPaG0tQzRfUDM4MFVUYlhSdzZySHBVNUQ3TjZvaGZkR09FTEtKR21RTXcxWndtUEgtZUpyTWNUOTRVRmpLTlU3cV9uY0FmaUVlMHpxa0JyZVhoZ3dzSjFGWTRjU0NRQUR0a1BEUW80Q3R6TDV1QWZHS29ESHJkdWs0d0FN?oc=5",
-      "fuente": "TVN",
-      "fecha": "2026-11-19"
-    },
-    {
-      "titulo": "La decisión del Gobierno de Kast de anular un fallo que premiaba un libro de poesía sobre el estallido social provoca una revuelta cultural - EL PAÍS",
-      "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxQMG1rU3gySmZ3RHRYaW5mM3FXVWtHbVNXcmJGaGlyRjdTS21FSDJpMERjUF9Ka2NvZi1WcHIwVk81Ml9PQTNTVXhYZ1BSdk0zT1h0Q3dpQnFHdVdFNE9rMlRWWmxOT2EzbDdHSXhBc1h3WndyLUw2NFJlSW9uREtQTEJGemFDTmkxTTVZdjJkZTJmWXhjaTFlSFBvanIyalVPMGRWc3puUFFZNXpPTEV3T2JEUHAyVUxUV09ReWhGOV8yTDhmZjB6Z1ZXSlBpQVpWUVBQZFFmYVQybjduRl9xdlBKbm9nTXk5QkYzOUZPTVpKZEZjckpOUzItM0o2MGNlN04ycEwxOE5RcnA20gGgAkFVX3lxTE1mN3E3c1p6b3NyUjc0aWNxM3FXTm9yN01Qal9rTmtXUXh6MEpCSmhPWEhKSGRBMXJhTElDT0NOT210SXVwXzZlNi1tckY2dnRsdGJiNlltNnJYNC1SVzlKa1poRGxPeDNLMWVTYi10d3M4TUlZNFAwc3ZBRmJ6ZFAzVkNaMW1fbmx4UlRYTXhiZ2N6MmlsV01OSG9uOHR5RzBkeVMxMUpFMkw2WENrbVl1RGlObTBJbmp3YjZCY3NYX1RiZjZDNm95Nm5FMkhJVDAxU3VuS2JkVGVCa0llT08wM3RPbjV4UUZwUlVEdkZreW1DZHV6MVJDekFHbTY5UjY3MDBuRmpTRlpFT3UxU043Rm8zVktUQ1cxT0tlaVZmOQ?oc=5",
-      "fuente": "EL PAÍS",
-      "fecha": "2026-11-16"
-    },
     {
       "titulo": "Los mejores libros de 2026: las nuevas novelas de Anna Starobinets, Daphne Du Maurier, Isabel Allende... - Esquire",
       "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNQVJHbHFhVjJCZzI3X3o3VkdrS0dkTXExbGxNRUJpZmFOejZDc1Q2dHNINDNmY3lFZzlGS0gtMk13NGlhV0ZNUWlmRFBidlFqMnlDeTBNamh2R25XWDBXSzJZek9OUTFZU0ViZTNnRmJiOFdtRTJBbmhpRno2bGUwdA?oc=5",
       "fuente": "Esquire",
       "fecha": "2026-11-08"
-    },
-    {
-      "titulo": "Los mejores libros de novela negra de 2026: los nuevos libros de Jo Nesbø, Laura Dave, Élmer Mendoza... - Esquire",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPbUZGcUs2ZDhhQWE4bU0zRldVMFM1QVU1N0JYQ2ZLOVhUNEpOWG1XX0tUdWlNWHlEVlZOdEg2eDh6RElKbHdCZHRnMzQxRWJqZnZOMmZ0b1JyalNNYUpLdEpDNjh4X1JUb201UmFYQ1ZmTzFfY3I5cVBqTDA4WXoydXlOTUp4dk80Slpn?oc=5",
-      "fuente": "Esquire",
-      "fecha": "2026-11-05"
     },
     {
       "titulo": "Ferias del Libro de Andalucía - Junta de Andalucía",
@@ -68,28 +14,40 @@
       "fecha": "2026-11-03"
     },
     {
-      "titulo": "El Ministerio de Cultura concede el Premio Nacional de las Letras Españolas 2026 a Enrique Vila-Matas - web del Ministerio de Cultura",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNaEkzNzFidWhCcFFTdm9Xa0plWXlUYTVaUHBGVGtpRkxaZGRIODFLVkNaYWxYUmdLSmNLbm41MHNobGRSa1ljYnNFX084OE5rWWpoSEU1ZWtUYXZQVnZnaUwwU2RYczE4Mk1JbG96Rk9sUUNGU3owUFlHNjk5QjhoRWcyS3JYcm1ldjRSME5PXzNBVllwRDdzSGowZw?oc=5",
-      "fuente": "web del Ministerio de Cultura",
-      "fecha": "2026-10-27"
-    },
-    {
-      "titulo": "Nace en Francia un premio literario para libros coescritos con IA - EL PAÍS",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQenpUR2p5eXNBNHdYZ2JzRW5ydGxJX0xmd3pEbXJqTklzVDFTSnFNbEVJemNoZll5ZGIwenMxN2JreVVFLTVqX3o4MjhSTU1KZHpFSVdRTzlMTXdiTkdPejNaY0RremZkaS1YYlp6YU9ZanZxdTdvMnc2X3NlaXVzcEtpU0lQc0Y1bkpuUlRKcDhsSkdBaGoySEhVdWZONzBseFdTS3BhR1haek5q0gHAAUFVX3lxTFA0QWZyM0RjS3BLTkd0SXU1cWlXMEpfSVhqMGJwYXJlTmp0azBYdWhNeE9QQ1E5dERCM0pZU1REOF9ILVlwdGU1TXBSNk81eUI2ajF5WlJlMS1UVEtwOFVWT2N3enpIeEJmeHlCZllqcW9rakhqNzMtbjdQdUpOMVdWZUFiUm05TXo1QWNpdVFDOW1ZN2F6VGdhTWxPSW5iZjBLUDdyd2p5Ymp5V2hxakgwb3pyZGNfblpOLWZLOXpUbw?oc=5",
-      "fuente": "EL PAÍS",
-      "fecha": "2026-10-25"
-    },
-    {
       "titulo": "El caso de la novela galardonada y presuntamente escrita por IA abre el debate sobre los filtros ante obras inéditas - EL PAÍS",
       "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOekNUdWc0bUVlNkkwcGJla2QxUDU3anZqbWhaeVd6YjkzVDVJam44Um02MzdCaExJaXMtS3VzRUJJZUhERWk3ak00bndWdm9PUWVaRE5TMjRMVEdQMTg4NkQ5QlU2bEVPWjI4VDdjZ1VURFBCa2ppbnVBRTI4Q2I4UWQ2NXk1aHpSbkYyVGwyVi1Cb3V6UDBnU2dXeGJ6S2hBQzMyZUJOeWJPaG9yUS1iTS0xcXp6dXpIZ1VrelJzN2U3R21Ec1dnVkhJMmxMRnR3Tl9lTDJHNnRMOGo2R2ZhcVpDSTZlb3o2NGtSYUdReUvSAYQCQVVfeXFMUDRXb2JKTDJ6MkxwVzl0MnFRcE4weFYzMXR3SXhCYTk4MHNQRDg4UHo2TTFRT2piUkJzVi1LYmZlLUN5RnMtcFpiY0xNSWJGa2V0cDk2Tlo2UWhmTFFTMFhXSjhjZG5LODFTVzJRTktIdEFxY20wZHZvSzJ0emU2TGVRa2RCRi1OWVhRdnVibzZ3YkNmMk1vZlN1OWhWQVk0RmgzODZtSTY5Z1Fmb3Vubjc5YnhmMndJbEdIdXh6MWZTSXNmYzRNM3oySF9YdGV2Qi1zSGNtUXhwQmlCT3N4TmFmZWxURjJ4aElQck5WSl94WXVMQmdRWWlVZDZTSUJkOVJEM2c?oc=5",
       "fuente": "EL PAÍS",
       "fecha": "2026-10-24"
     },
     {
+      "titulo": "La novela premiada ‘Donde el agua trabaja’ está escrita por IA al 99%, según el detector Pangram - EL PAÍS",
+      "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQeTV4UmVkTEVfVWctd0dYdmxJR0FOTDBRZFEzTjZaOWM5bE5CbzZPT1dHZWVmN2FjWE1oNFhlcVl0SVBVaXFOSG9kaU51Z2VVVVdCYm1BX1hINE9yeFNtMm1lUm5STkRSeG8xTjFScWxNcFdiTmVRV09mdTFIZkppQzdSNm55OVdOTjV0djFYSjNTTU5HR3FoaGFRVTFHd0ZDYnRIR2xzZVhZcG03RUYtbzVadWxmRDlPeFlveEFZdFh0Mm1xNXhhUTdkZURYTktCaVFlNnlOMDRqNEwyQzFXdE9vT1ZpYlRVRWdYdWdYd1PSAYQCQVVfeXFMUG52MTM2WS1oNEpzRFdZUnl1cld0WVdFRDVDRk9oclhUWjVjbTg0eHJYQ3ljT1dKYU5OZnRaazV6ZlBBWlJPN1B3RmRsM2RsMW5Gc21SVllFNFd5cDZLNDNPamhfbmk5eUxxRi1GSDVfeVZ0MFZROTZienUyV09COVFRckdIMnIxYi1WaFJLYW53UFc2Z2lxbXJJVGpDcDJ2OHJ5WEVpNWgzbzB2aVJOU1RXdmk4eXg0NTFzZG9RUXNDdFBDc1ZvQXVrODVialNLS0o5MlVfeTVUbk9rV2w3Xzk1QmtQSDQ4SEFGWEVZYzYzYUZ4Umw4RlRnanllazl3ZHlMVzY?oc=5",
+      "fuente": "EL PAÍS",
+      "fecha": "2026-10-23"
+    },
+    {
+      "titulo": "Las 5 novelas finalistas del Premio Literario Kindle Storyteller 2026 - Grazia",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPWW1PX0JVcFJGQ3pBb3pZZ1UzeWc2VE9zQmczZVo3dzdISGpMeEt6dG04clV0WUh3TC1pM2djbUtONUhQTTVUR0pwZ1JjSTVzTVFiUV9Qazg4Qk9CdkRSRU9kQWU1cGp6OGVETnJfZ0dXSXVnUDR3U2d2UE9nRWFDZDBHWXlpOWd3QTEwMVBBd1Y2dE90UGRMMFpvT0dPbHZmOHlqLVpTYlFQV2xUY1E?oc=5",
+      "fuente": "Grazia",
+      "fecha": "2026-10-22"
+    },
+    {
       "titulo": "Feria del Libro de Huelva 2026: programa, autores y fechas - Agenda de Huelva",
       "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5zZWlaMlgwdnc0TWNwNEZRXzZPSlFVT21FUDE0MHRTNG9MMGMxWjU4d2NvRmRYcU1JajFrZUdydlVBMmR2OThabGJwRzJLam5DSlRndkN5WXFRNTZBMHdadnBoaWw?oc=5",
       "fuente": "Agenda de Huelva",
       "fecha": "2026-10-19"
+    },
+    {
+      "titulo": "¿Cuánto dinero se lleva el ganador del Premio Planeta y cuánto le quita Hacienda? - Diario AS",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOS2V2azEwZzFNeU5SSlFlbUpuNDA2dFh4Um91OUtXTzZpRm1vTnVPZzVsSDNDd1BPWDVrUnZEc0lCSDNPZzg5ZGpLb3BhVjA3X0JCZDdKQzktNUlnZHJ1Nm8yM0V3VThUMWZPLWM1NnNuRHNhb0xxVkdtd0VoanpPY29CZXl2QmxmblpRdzhDbERJdnA1ZHJpM0xFQnNmdnZCZ1p1T3g5SXo4dUVXTjBfSnlMaHQwMTV0Q3pCVWhSMVJTZ9IB1gFBVV95cUxPN2tqcnNGMU1lM05rQ1FKRExUdktseWNDcUluSmpjQ1FvbFhRZ1k3d3ZpQTRHX1plM3BWdVFWVUJEU1FRNTV0Vi0teDNOLVd5ZENMSWI4T1BzV2NBMTJQdWFQVVc0MWNEU3JfWXZnZDlhUWdqbVY3NE43U0dlZkFqLUhBUnRHQlZ2SDZrc1F2a1JzNVVFRHVyUHlOMnVUY2NxU1RkRzJoZi1meFdRaXdDQlp1S3RPVlhNZlhuNWNvSF9pNnpqRjIxMDE2OVZJMDdLU0FZMUdB?oc=5",
+      "fuente": "Diario AS",
+      "fecha": "2026-10-15"
+    },
+    {
+      "titulo": "¿“El principio del fin de la literatura”?: uno de cada tres libros autopublicados en España incluye IA - Infobae",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOUTU5Tnp3N3IzNDU2WllTNmFITGh2d1JScDY1X2ZPajFWb2ZhMDdUWUYzUDZtSkxtQUNITGxld2Mya2FMYWdOc1BlcTNJZnVYY2kwNkdvdXR1b3lJQUthblpZNFlZbjdkbGdDZFlhd2ZLNWZUUWQ3VVJmWFYtZ0o4QlVEaXk5d1ZfcHRsREpCWGZjSy1IVnZtcXVyTy1Vc05tMXpPTGtnTmZjX0d5elFpTEI1dklZS3Q3VGZWZzJMNWdha0Y4QWVoeHN1NklIX2JkbVIxRGJfQ1PSAfMBQVVfeXFMTnBjWXl1Q3dTVnBMWXp0SHZIbTl2NkhOaTV5SlNVVVZQWXVlZWt1M215Q2pUbnBqQXlZVUZfeTZXNFpsZVpXeVpaM2ZwLWthV3gyc1VtalJncnJlVlFHcVlHTWRHcUpEUnZZOGh5WF9aNEl0a3N6SW5oWDIxMnBzR29mQlZ1aHZiOEMyTzNMTGV2eGFpU0U3cHNNU0JXaEJiVWt6enhQMWhUbnh6V3hCX0lxU05UYlIyREFQRXU1a1hGLXZvNDdQRE01N3lvY1oyZnAxOHFQZlZJSFJiSUl4aVBndER6Qklja0FpTXhrQkk2R1Jn?oc=5",
+      "fuente": "Infobae",
+      "fecha": "2026-10-14"
     },
     {
       "titulo": "Feria del Libro de Toledo 2026: programa, horarios, autores y actividades del 14 al 18 de octubre - Leyendas de Toledo",
@@ -108,6 +66,48 @@
       "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5TYzhFZmxpc3FHZHZwcWxMUXFva1JsT2tUdUlzU01DZ3JERTVCZFRURDA4eVZCUWNjUkktXy1QY0FZTlJENk9HMU5Fdy1ha2pVSlkxVW9qWVFMSGdnUE1z?oc=5",
       "fuente": "Ayuntamiento de Cartagena",
       "fecha": "2026-10-06"
+    },
+    {
+      "titulo": "Estas son las novedades literarias que llegan en otoño de 2026 - 65 y más",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPaGhuRTkwbWE4VmFaY1JVRUxFUW9GRXE3MUxVMVl1WHNMT3BzZ2puYVktMkR5eFZSX2ZwT3hGOTc1d0ZmNG16OFVxQ1dJRXR5WEs3NzBJb1dvQUNTbHB0TTA2UzEyVDM1T3hTT0FYN2tqTkhjRTJtZjFwM2t4YWoyLUtKNUc2MTZvY0hINGdST3JRTEdTNjYzYk1sZDJVN21Sb3kw?oc=5",
+      "fuente": "65 y más",
+      "fecha": "2026-08-30"
+    },
+    {
+      "titulo": "Los mejores libros de escritores españoles que llegan en septiembre: de Julia Navarro y Rosa Montero al debut Nerea Pérez de las Heras o lo nuevo de Rodrigo Cortés - Infobae",
+      "url": "https://news.google.com/rss/articles/CBMiuAJBVV95cUxNOHFyVTVjbzdWaFlIemRFMWpZYlZZMHllTU9HSVMwMTZrdi1BRWVqN21hdXhVb2ZQVVN0MVEzeks4U182MXJzV2tSZDlERUdHQVZodEVhd0VqX0w4YmlJc19kMk5xLUZhdVQ4ZldrRUxYMVhiOHNKb2tuLUx6cmxzeDU3Q3lKTkxVY09SWFJfbTVacEpLMmhOMWtqenBST213aW9hN0lTdktyVnpFNmFTUGJuV2ZGR1lrdzZ0cUZ0MVd3emU5VXNrNS1UVmo2aFV6bnhWQ0pwZGRBM0Z3QlJ5Zm54Y0pWUTd0clUzMUNYbl9xRzJ4eTRicjFSRV9RR3dsTGljU3NXbEVmQ2VzRUtxRmlobmdMNWlvblE3bFZVemRoOWIwdHRVb3FUNG9qVThvVzQwZl8tSFnSAdMCQVVfeXFMTmZVNHlDMFFTUXlGS2p0REhNTUg5UWx2X2xDWGlQOVVQckdGeUh3ZWludUhFNVNycWhZNkFGTzBEQ0hISTBid0ltQ3F0X1dyXzRmX1FSZ0Y4cFpNWHk4SVZVUEJYZGRyRlp6WERxM2NxZ1pmb3V1UEx4eHdJblB5MHpPam5xaF9KdWhEUFA2aVkzdXh2MjIwcUVRU3p4alJKNHY5OVRuanRNTnllRVJzalVOSHNxQW9SOW1qdG00elNwdW1wUUxyOWp6NGdsSmUxZmk3aE9yWllWdHBmcG9ZQm9jODFlV2pRUVFROExLaFAycGM4bGFncGJCT2VIUWZqbkJRWjhzcTIza2VoeDNrMzNmbnlMdkdBcXhQNkRuZzg1aGRrQnQwVE5jYWNKZFRLOHAzT2NMLW9ab00wQW05MjBxT3YtT2dhM2RNM2h3eGt6aGxN?oc=5",
+      "fuente": "Infobae",
+      "fecha": "2026-08-30"
+    },
+    {
+      "titulo": "De Freida McFadden a Carmen Mola: los 25 libros más esperados de un otoño repleto de novedades editoriales - Mujerhoy",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPdXJVM0RKWnhyNGhFcDBEZ2U2SWNDbW1aZ09VTm03dnhqOU95WnI3RTBaekx2TXFIRDMwVnFlUFlXWkNPeF80Q3hHOUNhMlFiZV9jdXBFajQtMllGTWd6NFN0Wjc5aGJFU0xQZ0VNTENwLW90b1lYMlBjMzlIb1JRR0wtNjN3SXZCSDVMeDM4OU9DN3M0ZzZCbTlkRjdoZHZwcE5vUlI3TmNLaERBc1d2WmsyNktZdElKbHNPQl9wRmlkaWluWS1OR9IBzgFBVV95cUxQRm05dVFkNzdEenJyNXhWUFRnMElpWTRBZXlIZHBLaGtHYndlZ0xiOUhYVVhNaGZEMDFzcnJ0aUM3MmF5QVV6TnNaTE05QktfMTEwd2tmNTdSTW1rOHE1Tk1mM2M4bEhBWm0zcVNRdUpGb2hFaTdjNkN2eFFGa2VxaVYzVzdkY1VXSTJtZGJDcHo4X2dDV1BwMFFOTkRuNVR1cmt2eTl4MFBNTjVSck1sZU1RZWxTVW1jWHdZSFNyT29NOUtCNlBmTHVwd2dadw?oc=5",
+      "fuente": "Mujerhoy",
+      "fecha": "2026-08-24"
+    },
+    {
+      "titulo": "Feria del Libro de A Coruña 2026: programa, autores, fechas… - Blog Mundo R",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9iSi1DY1gwM1p5aEhlVWFjaXl1dTQ5eTYyMjNtN0JJX3ItUFBfWU9Cd0s4cmZqaXhySFRsYTkwQ0lBV0xUSjRqbUM5U1BsOVpJTlpuam9LNWhPamM?oc=5",
+      "fuente": "Blog Mundo R",
+      "fecha": "2026-07-28"
+    },
+    {
+      "titulo": "'Vidas que Inspiran': un Premio Literario para dar visibilidad a los mayores - 65 y más",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOWFl1b1lib0UtS1NtdlQteTg3eUpwRjVvYURoNGxlR01MNUVYQXl2NFdGdUU5R3d5aGNpQl8yX1FfX1FzNHhRbWJBbUVZYlFwSnBDdW42QzVkZ1JUR3k4M3U5bUQ5YkFnbjAtSFhFRUZ6bFh0eHdmYWhHTDM2bEtCZ2VBS1NqS1YzdTFuMExraFdRVXBKODBWOC1BbkkyNXdyVy14emZBOW0xbTJuTEJJ?oc=5",
+      "fuente": "65 y más",
+      "fecha": "2026-07-25"
+    },
+    {
+      "titulo": "Un repartidor de comida 'viral' gana el premio literario de más prestigio en China tras escribir 6.000 poemas - ABC",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQRFo3Q1NSZHlWNkRRRWFKS1BPY3dnMGFoRjdsMDhwR1BXT1JvMmRzeGptTkJXcm5EV3dpLVJ3dXFGVGtONE9mV3lEVjB4SkRFblljOFh5WHZvMXlZSjRjLWs0S0gtMmtFUXpwMkRQeVJTeWNxYjNHaVlHZ2RmODlrcHk2b01ZVGFodzU5bWN1blZvQk0xMHN2MWhlcDJqaXh3MzRoUXNTeDJFeldYSXcwQnJB0gG3AUFVX3lxTFA1TXRFa29id1dzYW9uU1JoeW1UWXN0Uk9vbkxZMlQ5SUtRQ3RwekZKeEg4anpyRkotYmo3ZFBfWm1wQ3hycU5oa3JDakhmZGtXZnE5TXltN0c1SFFVbEd6cTFIMUpEVVp4bGZfelAxNXhDZElfdHdrQVRrXzFOdXVRX3JtN1FtNlJ3U3hKejBNOVBENG5BN3VXd0gwMGtnTUJGX2NpMTE5eWwxVUcwUmdRMkFuTkJuMA?oc=5",
+      "fuente": "ABC",
+      "fecha": "2026-07-20"
+    },
+    {
+      "titulo": "España celebra sus ‘Confluencias’ con Brasil como País Invitado de Honor en la Bienal Internacional do Livro de São Paulo 2026 - web del Ministerio de Cultura",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPVXBZSVRNWHNjeThVU3pWejZrbW9KZWVkMG9WNlB1MHRQOUtrMTJDT0hlRkx3X1dkbEVYejE4UmI4Ym5UV0RVMDdwR0lrQ090b3ZMRGRhMzNMdkpLMldqUnhhcDJzYmlpbmc3enQ3V0x1TGtZV2ZGSFJIRVFsU2dpbjk4ZWtTNXpwMmxpbGpWbzMtTFIwOGlhRVFFOWRCM1puc1k0?oc=5",
+      "fuente": "web del Ministerio de Cultura",
+      "fecha": "2026-07-17"
     }
   ]
 }
