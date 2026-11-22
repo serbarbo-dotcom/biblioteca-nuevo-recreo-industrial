@@ -1,0 +1,19 @@
+# Credenciales privadas y configuración local
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.pem
+*.key
+*service-account*.json
+*serviceAccount*.json
+*firebase-adminsdk*.json
+local.properties
+node_modules/
+.gradle/
+**/build/
+.firebase/
+.netlify/
