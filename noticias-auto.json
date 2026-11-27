@@ -1,22 +1,10 @@
 {
-  "actualizado": "2026-11-26T17:41+00:00",
+  "actualizado": "2026-11-27T17:25+00:00",
   "noticias": [
-    {
-      "titulo": "Los mejores libros de novela negra de 2026: los nuevos libros de Javier Castillo, John Grisham, Jo Nesbø... - Esquire",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPbUZGcUs2ZDhhQWE4bU0zRldVMFM1QVU1N0JYQ2ZLOVhUNEpOWG1XX0tUdWlNWHlEVlZOdEg2eDh6RElKbHdCZHRnMzQxRWJqZnZOMmZ0b1JyalNNYUpLdEpDNjh4X1JUb201UmFYQ1ZmTzFfY3I5cVBqTDA4WXoydXlOTUp4dk80Slpn?oc=5",
-      "fuente": "Esquire",
-      "fecha": "2026-11-24"
-    },
     {
       "titulo": "Miami se cuenta a sí misma en su Feria del Libro, del 15 al 22 de noviembre - El Nuevo Herald",
       "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNcHhsZVNSRm9lMjY4SGVaaWhqYzdVb202eDV0QnlGTUt4cloxNWlnSVhtZWZMSlJlLXhmM0VLNmZ3RGRkWTNiMDVxTVdVbVA0WklQcFY5SkhLTENiRzRxY0dRNUk1Z29saUxfbVkxLVFZN1ZTZUYzXzdJWmVXTVR4MkpB0gGCAUFVX3lxTE5Jc1Z3ZHhvSm83SWYxdmVPeFZZUDZfTHU4VldPVVdsa0xIWWUyZnhFT1l3aktIWEoxci1Wa1ZEYW5OZU9JWlVRX2tQMnpSbXJQRS11RHljeVJtNkFkWDVRZExpU3lSTWNtUzdpUDZSS0VnemVJTy1ZeFdIckpRT1hCOVE?oc=5",
       "fuente": "El Nuevo Herald",
-      "fecha": "2026-11-13"
-    },
-    {
-      "titulo": "La Feria del Libro de Miami reúne a voces iberoamericanas del 15 al 22 de noviembre - Diario Las Américas",
-      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOalI2dXh5eTAxOEUxQjY3N1RCdUV3UXZfVjh3ZlE4V1lQc0pMQmlpWGtOTzlJeFJWMGlFX2dTMjZMb2Q4WFBXcHBJbWxnbzRrRVhPZEp3RGd3ZDhQai04aDItc00yT1VxY3J0Y1pRdXJ3bEpwTUlpdDBsWFhzblZXdjJ5N25FakFPVEtkV0U4c2lMVGpIWlpHOVg5TF9yNjFHdHVseFZ2TGtEcmhLQ0R1VzlZM29uRkxsOUxVN2Q4TVY5WFNn0gHKAUFVX3lxTE11ZUJ2UjdwNVhkdEV3VHZtZUlFRkNPS0xIS2ZEWjE2MTR4UDhjZGVFTkZId3RnSzNKQUFkaGNTTUtvMjZFazJaY1NXLU95Z0hIaDJrTl9oWGdhQXdWOXFEMG5kZHdNZ29aWVdtdWNhV2FsTUNBMzF1SlpvaWd0R2cwelM2Qk81ek56N3lrcTVmQTZSdzZrQUw2VnZiQnJyYVE3UW42MjYxeUhMTjBZWUxmQ2d5ZUNTbFpsbmZmcWxqNFlpeVEtLVgzOXc?oc=5",
-      "fuente": "Diario Las Américas",
       "fecha": "2026-11-13"
     },
     {
@@ -80,12 +68,6 @@
       "fecha": "2026-10-13"
     },
     {
-      "titulo": "¡Novedades editoriales de octubre para estrenar otoño! - Educación 3.0",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQYUh4RUtLby1ub0t5eHFJZzJmVURSdm5NS0N2cWhaWnIyZkNlN3RUS2Qwa1VuLXZqSGhqdnQwNFdtZTlOVHBGUTVBOEVEaHFCc0J4Y0NoNVFoLXdPR1dHajJPVHJzc1NKbWNWcG9iMzNrVnNRUXYxYTBXMmVMNnZfU09R?oc=5",
-      "fuente": "Educación 3.0",
-      "fecha": "2026-10-09"
-    },
-    {
       "titulo": "Sergio del Molino, Marta Jiménez Serrano, Rayden y Alejandro Palomas, entre los escritores que se darán cita en la Feria del Libro de Cartagena - Murcia Plaza",
       "url": "https://news.google.com/rss/articles/CBMimwJBVV95cUxOYk1fX2VrVFBqcWFXTW9uMnFGUWN2ZHNkUTh1d0w3Z1NxZ3NKTGtvT0Zhb1pNSk5RRU81Z0JBakZYUU9tZmUzT1pDb1R2TkRnT3dyNDZwM082Umd5LXkwakc0VnJJRVRKa3duUEJEYzJrM0JLWE9DdkhHQW12TktZRFlZVnBVNG5rcTNzQnRrakxVNENwZEo2TTRTNF9rN0l4OVdrR2pkUV9wVWhROXJadmsyN1NqUENxWENzenZibHIxVUVEWkFUR0VnVVBNMUdQV3pBZWxTODhUZEZRdTdiMkVQcU5Zby13ZHU0QWJnS3NVSmUxQTczS2hiVmhXZEk4Q3BrYi1YOXRUbXhSdDhwNXlFdmhqdndOZGVB?oc=5",
       "fuente": "Murcia Plaza",
@@ -104,10 +86,28 @@
       "fecha": "2026-10-02"
     },
     {
-      "titulo": "Novedades literarias de Octubre: de Borges a Lady Di, pasando por Claudia Piñeiro, Han Kang y Camila Fabbri - Diario Río Negro",
-      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPNWd0WXExUVJQUXFWZEo0ZXZkblBSNTE5cUs3ck5xS1lwaTNKczJ3U3RMM1VYbTMwZVQ1SVY3VHQtMHBBNWN3Y0MzVU5qQVdmcXJaTklXM09GMVMzN3FNbEhHSWJCNzY5cHk1M1FmQTY3OUk1M1BUS2ZYM2lGV2l4bVZpa1BuZVl3dVh1NU0xZjRIMmpvdmhfNmZJS2ZkdUR2dk5UU3hYWnUyWXV3WjFaVkMwd1liZVl4eDBvTndseGRVVG13eDA4OUJHWDRpMW5RczZvYjJZMNIB3wFBVV95cUxQdjhESjdVMFRnM1UwbldUVTZ1dlZ0cXJCeUNoVlc2ZHNrUnYzX3ZzLXdyRllCdlFTWWZhTXJaT0d4WW9kS1NYWElLYmVFSl9QeVpNdFNHaHlDTU5sOHVpaTZIaklISmxWV1JwdXFNQVhtV1JoOUROYWJCT2psa2ZhbDlwY1F0bVAybXpkNGU3cmpFLXF3RTZLNkc2TllBR1BDN0V0X3lOVlU3MVNIYlZPX3l1NEZmeGNWQ18wb3RUZzVYNHFKbGVtZmltNUFwVnF4VldzNENzZUZmbENFSW1N?oc=5",
-      "fuente": "Diario Río Negro",
-      "fecha": "2026-10-01"
+      "titulo": "Almoradí: Presentaciones y firma de libros por una treintena de autores en la X Feria de Autores y Autoras de Almoradí y Vega Baja de las fiestas del Cristo de las Campanas - Todo ",
+      "url": "https://news.google.com/rss/articles/CBMi1wJBVV95cUxQWlpYZ3U0TWNCVk9pOVZrOVhwX0NMSkZlNFBkZ1R3akYtREY3RU05MkU5dzllSXlYVWUtWUZDOWlVSVdTR1pPNUQybjlCMGV1dVRCNHA0Z1BsaDB4T3ZjZXhxTS02SGJDeWFsS1hNQ0V0R3hyTEJwUURESVdoa2oxc3ZDMlVCV0ZBdTlkZUZONEY0am9yTmpKOGRpMVYzRm9kbXFTN0lOVENpQWw4UHRWbjFUNER2WnpFVGg3TmpzcGY4TklKZUwxYlNKZ2hQNlpQcnJVZkNrZXZfSDdQclVKekk2R2RqbC1VdHpKcWhPZHMxd05CYVgxbWNzb1BDSGZQdFVjclFOVEN4cHc2d25JT0VueC1PNDMxd0FIcTBaNHBqMmtncTFSMUo2TktweE14NnJwZFFFWUZlWmVGTS1DVWVmZjBWSE5uZk9neHBtU3QwWXNHTTRF?oc=5",
+      "fuente": "Todo Cultura Vega Baja",
+      "fecha": "2026-09-26"
+    },
+    {
+      "titulo": "Martín Caparrós abre la Feria del Libro: \"Es un espacio donde, pese a todo, todavía se dicen cosas\" - Infobae",
+      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQWEVVSEdUcDd0QXFzVmtYMnhNWUlwekdUUm1DaTJ2bVpDVkZrRVRFMnJzSTkwQVRibU5NZjlaSUpGMTM2OXVmU2VDTWNDWWxZbzc0VkxNYWdPZS1ObFVnSDhLQmYyN0dOcXJkcTBUN29WOUVPQnF6UlMxZXdnYTBWMldmOUdNVE0wZzlFRGtxYTg5Szhvc3JqZGxNR1lydTlHYmxOdzc2amdrS2M1amxCMzNlOVctVE54MEJxclVzRW84Q1lRSTcxYXdjdU5DU0dib2p1cdIB7wFBVV95cUxNVXhnSEEyZnFWT3NZM0JDRzhEcmNNWmhKcUE0M3NqZHJVbFd6OWx1VGhRY3lMVzVRMGxOQ0ZGOEFORzFoZVd3VE9mLTItTGIzUU9Ob3FnNHdsQmotMG85czl1NEg0bk92QURLSlZSQnhJSlRmVU5BLW1pdzhNY2dhQkh2eFlxTVJ5RU9yODlVN1hCbE9nRmtSQUV0QUt4NXdpcWUwelJfMVZ3b0Y0dkVCQ2Y0SjFGdTdUX2h4VWVZY3c0ak1CRVdDeU52dEQyX1JZZ0FYU3JYdmY0Ri1WU2lDUVBjSHBIYWtIb0J0YzNsZw?oc=5",
+      "fuente": "Infobae",
+      "fecha": "2026-09-24"
+    },
+    {
+      "titulo": "El escritor Máximo Huerta inaugura este viernes la Feria del Libro de Albatera - Todo Cultura Vega Baja",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxONjhSQTNIcGVZRWw1dzhHRE9rd01KbGtGQkxaN2tyeVNjOTUxcXFaYW5IOTVMN281bVY4UndhQTZTWG5kYWZwY3hMeWM4Q3Q0dkJTYy1tSmQxSjZRNnNmQ2ZGREJJbk1KYXFKV2VvNEpjekExcUI5OFQyeENJY1hEMmsyNDhRQkh2cnJScGtoVGM0akZXcFNsdjhleXdRaHdVMDF6NmJEeGxOaE91UEQ4?oc=5",
+      "fuente": "Todo Cultura Vega Baja",
+      "fecha": "2026-09-17"
+    },
+    {
+      "titulo": "Albatera, evento cultural: Sorteo de libros - Todo Cultura Vega Baja",
+      "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPaVhUbDFEU0pEdTFJN0NaVng3SzRSZmhUYkRjTFA2S1AwY3BPSlpkaGJiOTZBejg2SnhqTURKdEtuZ2tJRk5JaU1NbVM5RU9yMUxXM3JYUUgyaVJKclJZX2JjSWlpZlZiVXZvbmJQcTl2Y2VWVWJjMjlEYjJ3a1hjZWE2bGlDckZFX0xKNmhTcmtSTmxzTzZ2aE9WOGtncnowTTVZalB6LUV0WkFaNk1KbU9tbjhHQmdpRjIxT3dxUkdkdDB0R2ZvRjd3YzZfeTVmampxdnJZdE9fVjlMb0dOcXZQclJjNGdvTVNYNTE4WDRZYnEwc3gxSFdB?oc=5",
+      "fuente": "Todo Cultura Vega Baja",
+      "fecha": "2026-09-15"
     }
   ]
 }
